@@ -52,3 +52,23 @@ export const handleErrorApi = ({
     });
   }
 };
+
+const isBrowser = typeof window !== "undefined";
+
+/**
+ * Retrieves the access token from local storage.
+ *
+ * @returns The access token if it exists, otherwise null.
+ */
+export const getAccessTokenFromLocalStorage = () => {
+  return isBrowser ? localStorage.getItem("accessToken") : null;
+};
+
+/**
+ * Retrieves the refresh token from local storage.
+ *
+ * @returns The refresh token if it exists, otherwise null.
+ */
+export const getRefreshTokenFromLocalStorage = () => {
+  return isBrowser ? localStorage.getItem("refreshToken") : null;
+};

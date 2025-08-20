@@ -1,4 +1,4 @@
-import LoginForm from "@/app/(public)/(auth)/login/login-form";
+import LoginForm from "@/app/(public)/(auth)/login/LoginForm";
 
 export default function Login() {
   return (

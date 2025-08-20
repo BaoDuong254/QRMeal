@@ -15,8 +15,8 @@ const eslintConfig = [
   },
   ...compat.extends("next/core-web-vitals", "next/typescript"),
   ...compat.config({
-    extends: ["next", "prettier"],
-    plugins: ["prettier"],
+    extends: ["next", "prettier", "plugin:@tanstack/query/recommended"],
+    plugins: ["prettier", "@tanstack/query"],
     rules: {
       "prettier/prettier": [
         "warn",

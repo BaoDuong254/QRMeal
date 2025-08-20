@@ -6,3 +6,9 @@ export const useLoginMutation = () => {
     mutationFn: authApiRequest.Login,
   });
 };
+
+export const useLogoutMutation = () => {
+  return useMutation({
+    mutationFn: authApiRequest.Logout,
+  });
+};

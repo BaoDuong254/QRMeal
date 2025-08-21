@@ -14,16 +14,16 @@ import { useLogoutMutation } from "@/queries/useAuth";
 import { handleErrorApi } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
-
-const account = {
-  name: "Nguyễn Văn A",
-  avatar: "https://i.pravatar.cc/150",
-};
+import { useAccountProfile } from "@/queries/useAccount";
 
 export default function DropdownAvatar() {
   const logoutMutation = useLogoutMutation();
 
   const router = useRouter();
+
+  const { data } = useAccountProfile();
+
+  const account = data?.payload.data;
 
   const handleLogout = async () => {
     if (logoutMutation.isPending) return;
@@ -41,13 +41,13 @@ export default function DropdownAvatar() {
       <DropdownMenuTrigger asChild>
         <Button variant='outline' size='icon' className='overflow-hidden rounded-full'>
           <Avatar>
-            <AvatarImage src={account.avatar ?? undefined} alt={account.name} />
-            <AvatarFallback>{account.name.slice(0, 2).toUpperCase()}</AvatarFallback>
+            <AvatarImage src={account?.avatar ?? undefined} alt={account?.name} />
+            <AvatarFallback>{account?.name.slice(0, 2).toUpperCase()}</AvatarFallback>
           </Avatar>
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align='end'>
-        <DropdownMenuLabel>{account.name}</DropdownMenuLabel>
+        <DropdownMenuLabel>{account?.name}</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuItem asChild>
           <Link href={"/manage/setting"} className='cursor-pointer'>

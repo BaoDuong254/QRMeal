@@ -9,16 +9,31 @@ import { UpdateMeBody, UpdateMeBodyType } from "@/schemaValidations/account.sche
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormField, FormItem, FormMessage } from "@/components/ui/form";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { useEffect, useRef, useState } from "react";
+import { useAccountProfile } from "@/queries/useAccount";
 
 export default function UpdateProfileForm() {
+  const [file, setFile] = useState<File | null>(null);
+  const avatarInputRef = useRef<HTMLInputElement>(null);
+  const { data } = useAccountProfile();
   const form = useForm<UpdateMeBodyType>({
     resolver: zodResolver(UpdateMeBody),
     defaultValues: {
       name: "",
-      avatar: "",
+      avatar: undefined,
     },
   });
-
+  const avatar = form.watch("avatar");
+  const name = form.watch("name");
+  const previewAvatar = file ? URL.createObjectURL(file) : avatar;
+  useEffect(() => {
+    if (!data) return;
+    const { name, avatar } = data.payload.data;
+    form.reset({
+      name: name ?? "",
+      avatar: avatar ?? undefined,
+    });
+  }, [data, form]);
   return (
     <Form {...form}>
       <form noValidate className='grid auto-rows-max items-start gap-4 md:gap-8'>
@@ -35,13 +50,26 @@ export default function UpdateProfileForm() {
                   <FormItem>
                     <div className='flex items-start justify-start gap-2'>
                       <Avatar className='aspect-square h-[100px] w-[100px] rounded-md object-cover'>
-                        <AvatarImage src={"Duoc"} />
-                        <AvatarFallback className='rounded-none'>{"duoc"}</AvatarFallback>
+                        <AvatarImage src={previewAvatar} />
+                        <AvatarFallback className='rounded-none'>{name}</AvatarFallback>
                       </Avatar>
-                      <input type='file' accept='image/*' className='hidden' aria-label='Upload avatar image' />
+                      <input
+                        type='file'
+                        accept='image/*'
+                        className='hidden'
+                        aria-label='Upload avatar image'
+                        ref={avatarInputRef}
+                        onChange={(e) => {
+                          const selectedFile = e.target.files?.[0];
+                          if (selectedFile) {
+                            setFile(selectedFile);
+                          }
+                        }}
+                      />
                       <button
                         className='flex aspect-square w-[100px] items-center justify-center rounded-md border border-dashed'
                         type='button'
+                        onClick={() => avatarInputRef.current?.click()}
                       >
                         <Upload className='text-muted-foreground h-4 w-4' />
                         <span className='sr-only'>Upload</span>

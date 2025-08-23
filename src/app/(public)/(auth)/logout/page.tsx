@@ -4,7 +4,7 @@ import { useLogoutMutation } from "@/queries/useAuth";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useRef } from "react";
 
-export const LogoutPage = () => {
+export default function LogoutPage() {
   const { mutateAsync } = useLogoutMutation();
   const router = useRouter();
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -22,4 +22,4 @@ export const LogoutPage = () => {
     });
   }, [mutateAsync, router, refreshTokenFromURL]);
   return <div>Logging out...</div>;
-};
+}

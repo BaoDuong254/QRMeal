@@ -144,6 +144,7 @@ const request = async <Response>(
       localStorage.removeItem("refreshToken");
     }
   }
+
   return data;
 };
 

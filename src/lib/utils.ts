@@ -117,7 +117,7 @@ export const checkAndRefreshToken = async (param?: { onError?: () => void; onSuc
   if (!accessToken || !refreshToken) return;
   const decodedAccessToken = jwt.decode(accessToken) as { exp: number; iat: number };
   const decodedRefreshToken = jwt.decode(refreshToken) as { exp: number; iat: number };
-  const now = Math.round(new Date().getTime() / 1000);
+  const now = new Date().getTime() / 1000 - 1;
 
   // If the refresh token is expired, do nothing (user needs to log in again)
   if (decodedRefreshToken.exp <= now) {

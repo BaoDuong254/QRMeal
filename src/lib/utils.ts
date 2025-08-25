@@ -94,6 +94,18 @@ export const setRefreshTokenToLocalStorage = (token: string) => {
 };
 
 /**
+ * Removes both access and refresh tokens from local storage.
+ *
+ * @returns void
+ */
+export const removeTokensFromLocalStorage = () => {
+  if (isBrowser) {
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("refreshToken");
+  }
+};
+
+/**
  * Checks the validity of the access token and refreshes it if necessary.
  *
  * @param param Optional callbacks for success and error handling.
@@ -108,7 +120,10 @@ export const checkAndRefreshToken = async (param?: { onError?: () => void; onSuc
   const now = Math.round(new Date().getTime() / 1000);
 
   // If the refresh token is expired, do nothing (user needs to log in again)
-  if (decodedRefreshToken.exp <= now) return;
+  if (decodedRefreshToken.exp <= now) {
+    removeTokensFromLocalStorage();
+    return param?.onError?.();
+  }
 
   if (decodedAccessToken.exp - now < (decodedAccessToken.exp - decodedAccessToken.iat) / 3) {
     try {

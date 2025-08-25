@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
+import { useAppContext } from "@/components/AppProvider";
 import { getAccessTokenFromLocalStorage, getRefreshTokenFromLocalStorage } from "@/lib/utils";
 import { useLogoutMutation } from "@/queries/useAuth";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -12,6 +13,7 @@ export default function LogoutPage() {
   const searchParams = useSearchParams();
   const refreshTokenFromURL = searchParams.get("refreshToken");
   const accessTokenFromURL = searchParams.get("accessToken");
+  const { setIsAuth } = useAppContext();
   useEffect(() => {
     if (
       !ref.current &&
@@ -23,11 +25,12 @@ export default function LogoutPage() {
         setTimeout(() => {
           ref.current = null;
         }, 1000);
+        setIsAuth(false);
         router.push("/login");
       });
     } else {
       router.push("/");
     }
-  }, [mutateAsync, router, refreshTokenFromURL, accessTokenFromURL]);
+  }, [mutateAsync, router, refreshTokenFromURL, accessTokenFromURL, setIsAuth]);
   return <div>Logging out...</div>;
 }

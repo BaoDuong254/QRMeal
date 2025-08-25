@@ -15,9 +15,12 @@ import { handleErrorApi } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { useAccountMe } from "@/queries/useAccount";
+import { useAppContext } from "@/components/AppProvider";
 
 export default function DropdownAvatar() {
   const logoutMutation = useLogoutMutation();
+
+  const { setIsAuth } = useAppContext();
 
   const router = useRouter();
 
@@ -30,6 +33,7 @@ export default function DropdownAvatar() {
     try {
       await logoutMutation.mutateAsync();
       toast.success("Đăng xuất thành công");
+      setIsAuth(false);
       router.push("/");
     } catch (error) {
       console.error("Logout failed:", error);

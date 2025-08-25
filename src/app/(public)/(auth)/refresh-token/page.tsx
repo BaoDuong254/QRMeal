@@ -9,7 +9,7 @@ export default function RefreshTokenPage() {
   const refreshTokenFromURL = searchParams.get("refreshToken");
   const redirectPathname = searchParams.get("redirect") || "/";
   useEffect(() => {
-    if (refreshTokenFromURL && refreshTokenFromURL !== getRefreshTokenFromLocalStorage()) {
+    if (refreshTokenFromURL && refreshTokenFromURL === getRefreshTokenFromLocalStorage()) {
       checkAndRefreshToken({
         onSuccess: () => {
           router.push(redirectPathname);

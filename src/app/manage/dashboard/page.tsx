@@ -1,3 +1,18 @@
-export default function page() {
-  return <div>Dashboard</div>;
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import accountApiRequest from "@/apiRequests/account";
+import { cookies } from "next/headers";
+
+export default async function page() {
+  const cookieStore = await cookies();
+  const accessToken = cookieStore.get("accessToken")?.value as string;
+  let name = "";
+  try {
+    const result = await accountApiRequest.serverMe(accessToken);
+    name = result.payload.data.name;
+  } catch (error: any) {
+    if (error.digest?.includes("NEXT_REDIRECT")) {
+      throw error;
+    }
+  }
+  return <div>Dashboard {name}</div>;
 }

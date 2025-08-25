@@ -1,9 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import authApiRequest from "@/apiRequests/auth";
 import { EntityError } from "@/lib/http";
 import { clsx, type ClassValue } from "clsx";
 import { UseFormSetError } from "react-hook-form";
 import { toast } from "sonner";
 import { twMerge } from "tailwind-merge";
+import jwt from "jsonwebtoken";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -89,4 +91,33 @@ export const setAccessTokenToLocalStorage = (token: string) => {
  */
 export const setRefreshTokenToLocalStorage = (token: string) => {
   if (isBrowser) localStorage.setItem("refreshToken", token);
+};
+
+/**
+ * Checks the validity of the access token and refreshes it if necessary.
+ *
+ * @param param Optional callbacks for success and error handling.
+ * @returns A promise that resolves when the token check and refresh process is complete.
+ */
+export const checkAndRefreshToken = async (param?: { onError?: () => void; onSuccess?: () => void }) => {
+  const accessToken = getAccessTokenFromLocalStorage();
+  const refreshToken = getRefreshTokenFromLocalStorage();
+  if (!accessToken || !refreshToken) return;
+  const decodedAccessToken = jwt.decode(accessToken) as { exp: number; iat: number };
+  const decodedRefreshToken = jwt.decode(refreshToken) as { exp: number; iat: number };
+  const now = Math.round(new Date().getTime() / 1000);
+
+  // If the refresh token is expired, do nothing (user needs to log in again)
+  if (decodedRefreshToken.exp <= now) return;
+
+  if (decodedAccessToken.exp - now < (decodedAccessToken.exp - decodedAccessToken.iat) / 3) {
+    try {
+      const res = await authApiRequest.refreshToken();
+      setAccessTokenToLocalStorage(res.payload.data.accessToken);
+      setRefreshTokenToLocalStorage(res.payload.data.refreshToken);
+      param?.onSuccess?.();
+    } catch (_error) {
+      param?.onError?.();
+    }
+  }
 };

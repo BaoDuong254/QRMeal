@@ -1,16 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import {
-  getAccessTokenFromLocalStorage,
-  getRefreshTokenFromLocalStorage,
-  setAccessTokenToLocalStorage,
-  setRefreshTokenToLocalStorage,
-} from "@/lib/utils";
+import { checkAndRefreshToken } from "@/lib/utils";
 import { usePathname } from "next/navigation";
 import { useEffect } from "react";
-import jwt from "jsonwebtoken";
-import authApiRequest from "@/apiRequests/auth";
 
 const UNAUTHENTICATED_PATHS = ["/login", "/logout", "/refresh-token"];
 
@@ -19,29 +12,11 @@ export default function RefreshToken() {
   useEffect(() => {
     if (UNAUTHENTICATED_PATHS.includes(pathname)) return;
     let interval: any = null;
-    const checkAndRefreshToken = async () => {
-      const accessToken = getAccessTokenFromLocalStorage();
-      const refreshToken = getRefreshTokenFromLocalStorage();
-      if (!accessToken || !refreshToken) return;
-      const decodedAccessToken = jwt.decode(accessToken) as { exp: number; iat: number };
-      const decodedRefreshToken = jwt.decode(refreshToken) as { exp: number; iat: number };
-      const now = Math.round(new Date().getTime() / 1000);
-
-      // If the refresh token is expired, do nothing (user needs to log in again)
-      if (decodedRefreshToken.exp <= now) return;
-
-      if (decodedAccessToken.exp - now < (decodedAccessToken.exp - decodedAccessToken.iat) / 3) {
-        try {
-          const res = await authApiRequest.refreshToken();
-          setAccessTokenToLocalStorage(res.payload.data.accessToken);
-          setRefreshTokenToLocalStorage(res.payload.data.refreshToken);
-        } catch (error: any) {
-          console.error("Failed to refresh token when update access token", error);
-          clearInterval(interval);
-        }
-      }
-    };
-    checkAndRefreshToken();
+    checkAndRefreshToken({
+      onError: () => {
+        clearInterval(interval);
+      },
+    });
     const TIME_OUT = 10 * 60 * 1000; // 10 minutes
     interval = setInterval(checkAndRefreshToken, TIME_OUT);
     return () => clearInterval(interval);

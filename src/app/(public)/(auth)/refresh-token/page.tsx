@@ -15,6 +15,8 @@ export default function RefreshTokenPage() {
           router.push(redirectPathname);
         },
       });
+    } else {
+      router.push("/");
     }
   }, [router, refreshTokenFromURL, redirectPathname]);
   return <div>Logging out...</div>;

@@ -9,6 +9,8 @@ export function middleware(request: NextRequest) {
   const refreshToken = request.cookies.get("refreshToken")?.value;
   // Redirect to login if accessing private path without login
   if (privatePaths.some((path) => pathname.startsWith(path)) && !refreshToken) {
+    const url = new URL("/login", request.url);
+    url.searchParams.set("clearTokens", "true");
     return NextResponse.redirect(new URL("/login", request.url));
   }
   // Redirect to home if accessing unAuth path while logged in

@@ -72,3 +72,21 @@ export const getAccessTokenFromLocalStorage = () => {
 export const getRefreshTokenFromLocalStorage = () => {
   return isBrowser ? localStorage.getItem("refreshToken") : null;
 };
+
+/**
+ * Stores the access token in local storage.
+ *
+ * @param token The access token to be stored.
+ */
+export const setAccessTokenToLocalStorage = (token: string) => {
+  if (isBrowser) localStorage.setItem("accessToken", token);
+};
+
+/**
+ * Stores the refresh token in local storage.
+ *
+ * @param token The refresh token to be stored.
+ */
+export const setRefreshTokenToLocalStorage = (token: string) => {
+  if (isBrowser) localStorage.setItem("refreshToken", token);
+};

@@ -91,7 +91,7 @@ export default function EditEmployee({
       }
       const result = await updateAccountMutation.mutateAsync(body);
       toast(result.payload.message);
-      setId(undefined);
+      reset();
       if (onSubmitSuccess) {
         onSubmitSuccess();
       }
@@ -103,12 +103,17 @@ export default function EditEmployee({
     }
   };
 
+  const reset = () => {
+    setFile(null);
+    setId(undefined);
+  };
+
   return (
     <Dialog
       open={Boolean(id)}
       onOpenChange={(value) => {
         if (!value) {
-          setId(undefined);
+          reset();
         }
       }}
     >

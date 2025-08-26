@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { UpdateEmployeeAccountBody, UpdateEmployeeAccountBodyType } from "@/schemaValidations/account.schema";
+import { UpdateEmployeeAccountBody } from "@/schemaValidations/account.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Upload } from "lucide-react";
 import { useMemo, useRef, useState } from "react";
@@ -30,7 +30,7 @@ export default function EditEmployee({
 }) {
   const [file, setFile] = useState<File | null>(null);
   const avatarInputRef = useRef<HTMLInputElement | null>(null);
-  const form = useForm<UpdateEmployeeAccountBodyType>({
+  const form = useForm({
     resolver: zodResolver(UpdateEmployeeAccountBody),
     defaultValues: {
       name: "",
@@ -40,7 +40,7 @@ export default function EditEmployee({
       confirmPassword: undefined,
       changePassword: false,
     },
-  });
+  } as const);
   const avatar = form.watch("avatar");
   const name = form.watch("name");
   const changePassword = form.watch("changePassword");

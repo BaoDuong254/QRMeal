@@ -1,9 +1,12 @@
 import LoginForm from "@/app/(public)/(auth)/login/LoginForm";
+import { Suspense } from "react";
 
 export default function Login() {
   return (
     <div className='flex min-h-screen items-center justify-center'>
-      <LoginForm />
+      <Suspense fallback={<div>Loading...</div>}>
+        <LoginForm />
+      </Suspense>
     </div>
   );
 }

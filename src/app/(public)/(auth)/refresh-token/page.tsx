@@ -1,9 +1,9 @@
 "use client";
 import { checkAndRefreshToken, getRefreshTokenFromLocalStorage } from "@/lib/utils";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect } from "react";
+import { Suspense, useEffect } from "react";
 
-export default function RefreshTokenPage() {
+function RefreshToken() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const refreshTokenFromURL = searchParams.get("refreshToken");
@@ -20,4 +20,12 @@ export default function RefreshTokenPage() {
     }
   }, [router, refreshTokenFromURL, redirectPathname]);
   return <div>Logging out...</div>;
+}
+
+export default function RefreshTokenPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <RefreshToken />
+    </Suspense>
+  );
 }

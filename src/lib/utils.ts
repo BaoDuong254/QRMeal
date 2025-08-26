@@ -6,6 +6,8 @@ import { UseFormSetError } from "react-hook-form";
 import { toast } from "sonner";
 import { twMerge } from "tailwind-merge";
 import jwt from "jsonwebtoken";
+import { DishStatus, OrderStatus, TableStatus } from "@/constants/type";
+import envConfig from "@/config";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -131,8 +133,87 @@ export const checkAndRefreshToken = async (param?: { onError?: () => void; onSuc
       setAccessTokenToLocalStorage(res.payload.data.accessToken);
       setRefreshTokenToLocalStorage(res.payload.data.refreshToken);
       param?.onSuccess?.();
-    } catch (_error) {
+    } catch (error) {
       param?.onError?.();
+      console.error("Error refreshing token:", error);
     }
   }
+};
+
+/**
+ * Formats a number as currency in Vietnamese Dong (VND).
+ *
+ * @param number The number to be formatted as currency.
+ * @returns The formatted currency string in Vietnamese Dong (VND).
+ */
+export const formatCurrency = (number: number) => {
+  return new Intl.NumberFormat("vi-VN", {
+    style: "currency",
+    currency: "VND",
+  }).format(number);
+};
+
+/**
+ * Gets the Vietnamese translation of a dish status.
+ *
+ * @param status The status of the dish.
+ * @returns The Vietnamese translation of the dish status.
+ */
+export const getVietnameseDishStatus = (status: (typeof DishStatus)[keyof typeof DishStatus]) => {
+  switch (status) {
+    case DishStatus.Available:
+      return "Có sẵn";
+    case DishStatus.Unavailable:
+      return "Không có sẵn";
+    default:
+      return "Ẩn";
+  }
+};
+
+/**
+ * Gets the Vietnamese translation of an order status.
+ *
+ * @param status The status of the order.
+ * @returns The Vietnamese translation of the order status.
+ */
+export const getVietnameseOrderStatus = (status: (typeof OrderStatus)[keyof typeof OrderStatus]) => {
+  switch (status) {
+    case OrderStatus.Delivered:
+      return "Đã phục vụ";
+    case OrderStatus.Paid:
+      return "Đã thanh toán";
+    case OrderStatus.Pending:
+      return "Chờ xử lý";
+    case OrderStatus.Processing:
+      return "Đang nấu";
+    default:
+      return "Từ chối";
+  }
+};
+
+/**
+ * Gets the Vietnamese translation of a table status.
+ *
+ * @param status The status of the table.
+ * @returns The Vietnamese translation of the table status.
+ */
+export const getVietnameseTableStatus = (status: (typeof TableStatus)[keyof typeof TableStatus]) => {
+  switch (status) {
+    case TableStatus.Available:
+      return "Có sẵn";
+    case TableStatus.Reserved:
+      return "Đã đặt";
+    default:
+      return "Ẩn";
+  }
+};
+
+/**
+ * Generates a table link with the provided token and table number.
+ *
+ * @param param An object containing the token and table number.
+ * @returns The generated table link as a string.
+ */
+export const getTableLink = ({ token, tableNumber }: { token: string; tableNumber: number }) => {
+  return envConfig.NEXT_PUBLIC_URL + "/tables/" + tableNumber + "?token=" + token;
 };

@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { DotsHorizontalIcon } from "@radix-ui/react-icons";
@@ -44,6 +43,7 @@ import { DishListResType } from "@/schemaValidations/dish.schema";
 import EditDish from "@/app/manage/dishes/EditDish";
 import AddDish from "@/app/manage/dishes/AddDish";
 import AutoPagination from "@/components/AutoPagination";
+import { useDishListQuery } from "@/queries/useDish";
 
 type DishItem = DishListResType["data"][0];
 
@@ -170,7 +170,8 @@ export default function DishTable() {
   const pageIndex = page - 1;
   const [dishIdEdit, setDishIdEdit] = useState<number | undefined>();
   const [dishDelete, setDishDelete] = useState<DishItem | null>(null);
-  const data: any[] = [];
+  const dishListQuery = useDishListQuery();
+  const data = dishListQuery.data?.payload.data ?? [];
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});

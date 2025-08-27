@@ -39,7 +39,7 @@ export default async function Home() {
             <div className='w flex gap-4' key={dish.id}>
               <div className='flex-shrink-0'>
                 <Image
-                  src={dish.image || "/placeholder.png"}
+                  src={dish.image || "/150x150.svg"}
                   className='h-[150px] w-[150px] rounded-md object-cover'
                   alt={dish.name}
                   width={150}

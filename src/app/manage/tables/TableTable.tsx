@@ -36,14 +36,15 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import { getTableLink, getVietnameseTableStatus } from "@/lib/utils";
+import { getVietnameseTableStatus, handleErrorApi } from "@/lib/utils";
 import { useSearchParams } from "next/navigation";
 import AutoPagination from "@/components/AutoPagination";
 import { TableListResType } from "@/schemaValidations/table.schema";
 import EditTable from "@/app/manage/tables/EditTable";
 import AddTable from "@/app/manage/tables/AddTable";
-import { useTableListQuery } from "@/queries/useTable";
+import { useDeleteTableMutation, useTableListQuery } from "@/queries/useTable";
 import QRCodeTable from "@/components/QRCodeTable";
+import { toast } from "sonner";
 
 type TableItem = TableListResType["data"][0];
 
@@ -127,6 +128,20 @@ function AlertDialogDeleteTable({
   tableDelete: TableItem | null;
   setTableDelete: (value: TableItem | null) => void;
 }) {
+  const { mutateAsync } = useDeleteTableMutation();
+  const deleteTable = async () => {
+    if (tableDelete) {
+      try {
+        const result = await mutateAsync(tableDelete.number);
+        setTableDelete(null);
+        toast(result.payload.message);
+      } catch (error) {
+        handleErrorApi({
+          error,
+        });
+      }
+    }
+  };
   return (
     <AlertDialog
       open={Boolean(tableDelete)}
@@ -146,7 +161,7 @@ function AlertDialogDeleteTable({
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction>Continue</AlertDialogAction>
+          <AlertDialogAction onClick={deleteTable}>Continue</AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

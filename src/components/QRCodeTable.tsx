@@ -15,19 +15,34 @@ export default function QRCodeTable({
 }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   useEffect(() => {
-    const canvas = canvasRef.current;
-
+    const canvas = canvasRef.current!;
+    canvas.height = width + 70;
+    canvas.width = width;
+    const canvasContext = canvas.getContext("2d")!;
+    canvasContext.fillStyle = "white";
+    canvasContext.fillRect(0, 0, canvas.width, canvas.height);
+    canvasContext.font = "20px Arial";
+    canvasContext.textAlign = "center";
+    canvasContext.fillStyle = "black";
+    canvasContext.fillText(`Bàn số ${tableNumber}`, width / 2, canvas.width + 20);
+    canvasContext.fillText(`Quét mã QR để gọi món`, width / 2, canvas.width + 50);
+    const virtualCanvas = document.createElement("canvas");
     QRCode.toCanvas(
-      canvas,
+      virtualCanvas,
       getTableLink({
         token,
         tableNumber,
       }),
+      {
+        width,
+        margin: 4,
+      },
       function (error) {
         if (error) console.error(error);
         console.log("success!");
+        canvasContext.drawImage(virtualCanvas, 0, 0, width, width);
       }
     );
-  }, [token, tableNumber]);
+  }, [token, tableNumber, width]);
   return <canvas ref={canvasRef} />;
 }

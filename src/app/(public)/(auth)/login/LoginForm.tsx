@@ -17,7 +17,7 @@ import { useAppContext } from "@/components/AppProvider";
 export default function LoginForm() {
   const loginMutation = useLoginMutation();
   const searchParams = useSearchParams();
-  const { setIsAuth } = useAppContext();
+  const { setRole } = useAppContext();
   const clearTokens = searchParams.get("clearTokens");
   const form = useForm<LoginBodyType>({
     resolver: zodResolver(LoginBody),
@@ -34,7 +34,7 @@ export default function LoginForm() {
     try {
       const result = await loginMutation.mutateAsync(data);
       toast.success(result.payload.message || "Đăng nhập thành công");
-      setIsAuth(true);
+      setRole(result.payload.data.account.role);
       router.push("/manage/dashboard");
     } catch (error) {
       handleErrorApi({
@@ -46,9 +46,9 @@ export default function LoginForm() {
 
   useEffect(() => {
     if (clearTokens) {
-      setIsAuth(false);
+      setRole();
     }
-  }, [clearTokens, setIsAuth]);
+  }, [clearTokens, setRole]);
 
   return (
     <Card className='mx-auto max-w-sm'>

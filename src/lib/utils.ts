@@ -8,6 +8,7 @@ import { twMerge } from "tailwind-merge";
 import jwt from "jsonwebtoken";
 import { DishStatus, OrderStatus, TableStatus } from "@/constants/type";
 import envConfig from "@/config";
+import { TokenPayload } from "@/types/jwt.types";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -117,8 +118,8 @@ export const checkAndRefreshToken = async (param?: { onError?: () => void; onSuc
   const accessToken = getAccessTokenFromLocalStorage();
   const refreshToken = getRefreshTokenFromLocalStorage();
   if (!accessToken || !refreshToken) return;
-  const decodedAccessToken = jwt.decode(accessToken) as { exp: number; iat: number };
-  const decodedRefreshToken = jwt.decode(refreshToken) as { exp: number; iat: number };
+  const decodedAccessToken = decodeToken(accessToken);
+  const decodedRefreshToken = decodeToken(refreshToken);
   const now = new Date().getTime() / 1000 - 1;
 
   // If the refresh token is expired, do nothing (user needs to log in again)
@@ -216,4 +217,14 @@ export const getVietnameseTableStatus = (status: (typeof TableStatus)[keyof type
  */
 export const getTableLink = ({ token, tableNumber }: { token: string; tableNumber: number }) => {
   return envConfig.NEXT_PUBLIC_URL + "/tables/" + tableNumber + "?token=" + token;
+};
+
+/**
+ * Decodes a JWT token and returns its payload.
+ *
+ * @param token The JWT token to be decoded.
+ * @returns The decoded token payload or null if decoding fails.
+ */
+export const decodeToken = (token: string) => {
+  return jwt.decode(token) as TokenPayload;
 };

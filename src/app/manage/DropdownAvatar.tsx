@@ -20,7 +20,7 @@ import { useAppContext } from "@/components/AppProvider";
 export default function DropdownAvatar() {
   const logoutMutation = useLogoutMutation();
 
-  const { setIsAuth } = useAppContext();
+  const { setRole } = useAppContext();
 
   const router = useRouter();
 
@@ -33,7 +33,7 @@ export default function DropdownAvatar() {
     try {
       await logoutMutation.mutateAsync();
       toast.success("Đăng xuất thành công");
-      setIsAuth(false);
+      setRole();
       router.push("/");
     } catch (error) {
       console.error("Logout failed:", error);

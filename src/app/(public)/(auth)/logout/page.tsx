@@ -13,7 +13,7 @@ function Logout() {
   const searchParams = useSearchParams();
   const refreshTokenFromURL = searchParams.get("refreshToken");
   const accessTokenFromURL = searchParams.get("accessToken");
-  const { setIsAuth } = useAppContext();
+  const { setRole } = useAppContext();
   useEffect(() => {
     if (
       !ref.current &&
@@ -25,13 +25,13 @@ function Logout() {
         setTimeout(() => {
           ref.current = null;
         }, 1000);
-        setIsAuth(false);
+        setRole();
         router.push("/login");
       });
     } else {
       router.push("/");
     }
-  }, [mutateAsync, router, refreshTokenFromURL, accessTokenFromURL, setIsAuth]);
+  }, [mutateAsync, router, refreshTokenFromURL, accessTokenFromURL, setRole]);
   return <div>Logging out...</div>;
 }
 

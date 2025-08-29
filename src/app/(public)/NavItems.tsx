@@ -1,40 +1,76 @@
 "use client";
 
 import { useAppContext } from "@/components/AppProvider";
+import { Role } from "@/constants/type";
+import { cn, handleErrorApi } from "@/lib/utils";
+import { useLogoutMutation } from "@/queries/useAuth";
+import { RoleType } from "@/types/jwt.types";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
-const menuItems = [
+const menuItems: {
+  title: string;
+  href: string;
+  role?: RoleType[];
+  hideWhenLogin?: boolean;
+}[] = [
   {
-    title: "Món ăn",
-    href: "/menu",
+    title: "Trang chủ",
+    href: "/",
   },
   {
-    title: "Đơn hàng",
-    href: "/orders",
-    authRequired: true,
+    title: "Menu",
+    href: "/guest/menu",
+    role: [Role.Guest],
   },
   {
     title: "Đăng nhập",
     href: "/login",
-    authRequired: false,
+    hideWhenLogin: true,
   },
   {
     title: "Quản lý",
     href: "/manage/dashboard",
-    authRequired: true,
+    role: [Role.Owner, Role.Employee],
   },
 ];
 
 export default function NavItems({ className }: { className?: string }) {
-  const { isAuth } = useAppContext();
-  return menuItems.map((item) => {
-    if ((item.authRequired === false && isAuth) || (item.authRequired === true && !isAuth)) {
-      return null;
+  const { role, setRole } = useAppContext();
+  const logoutMutation = useLogoutMutation();
+  const router = useRouter();
+  const handleLogout = async () => {
+    if (logoutMutation.isPending) return;
+    try {
+      await logoutMutation.mutateAsync();
+      toast.success("Đăng xuất thành công");
+      setRole();
+      router.push("/");
+    } catch (error) {
+      console.error("Logout failed:", error);
+      handleErrorApi({ error });
     }
-    return (
-      <Link href={item.href} key={item.href} className={className}>
-        {item.title}
-      </Link>
-    );
-  });
+  };
+  return (
+    <>
+      {menuItems.map((item) => {
+        const isAuth = item.role && role && item.role.includes(role);
+        const canShow = (item.role === undefined && !item.hideWhenLogin) || (item.hideWhenLogin && !role);
+        if (isAuth || canShow) {
+          return (
+            <Link href={item.href} key={item.href} className={className}>
+              {item.title}
+            </Link>
+          );
+        }
+        return null;
+      })}
+      {role && (
+        <div className={cn(className, "cursor-pointer")} onClick={handleLogout}>
+          Đăng xuất
+        </div>
+      )}
+    </>
+  );
 }

@@ -10,7 +10,18 @@ import { DishStatus, OrderStatus, Role, TableStatus } from "@/constants/type";
 import envConfig from "@/config";
 import { TokenPayload } from "@/types/jwt.types";
 import guestApiRequest from "@/apiRequests/guest";
+import { format } from "date-fns";
+import { BookX, CookingPot, HandCoins, Loader, Truck } from "lucide-react";
 
+/**
+ * Combines multiple class names into a single string, intelligently merging Tailwind CSS classes.
+ *
+ * @param inputs ClassValue[]
+ * @returns string
+ *
+ * @example
+ * cn('btn', 'btn-primary', { 'btn-disabled': isDisabled }) // returns 'btn btn-primary btn-disabled' if isDisabled is true
+ */
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
@@ -229,4 +240,60 @@ export const getTableLink = ({ token, tableNumber }: { token: string; tableNumbe
  */
 export const decodeToken = (token: string) => {
   return jwt.decode(token) as TokenPayload;
+};
+
+/**
+ * Removes accents from a given string.
+ *
+ * @param str The string to be processed.
+ * @returns The processed string with accents removed.
+ */
+export function removeAccents(str: string) {
+  return str
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/đ/g, "d")
+    .replace(/Đ/g, "D");
+}
+
+/**
+ * Performs a simple text match by checking if matchText is found within fullText.
+ *
+ * @param fullText  The full text to be searched.
+ * @param matchText The text to match within the full text.
+ * @returns True if matchText is found within fullText (case-insensitive and accent-insensitive), otherwise false.
+ */
+export const simpleMatchText = (fullText: string, matchText: string) => {
+  return removeAccents(fullText.toLowerCase()).includes(removeAccents(matchText.trim().toLowerCase()));
+};
+
+/**
+ * Formats a date to a locale string in the format "HH:mm:ss dd/MM/yyyy".
+ *
+ * @param date The date to be formatted, either as a string or a Date object.
+ * @returns The formatted date string in the format "HH:mm:ss dd/MM/yyyy".
+ */
+export const formatDateTimeToLocaleString = (date: string | Date) => {
+  return format(date instanceof Date ? date : new Date(date), "HH:mm:ss dd/MM/yyyy");
+};
+
+/**
+ * Formats a date to a time string in the format "HH:mm:ss".
+ *
+ * @param date The date to be formatted, either as a string or a Date object.
+ * @returns The formatted time string in the format "HH:mm:ss".
+ */
+export const formatDateTimeToTimeString = (date: string | Date) => {
+  return format(date instanceof Date ? date : new Date(date), "HH:mm:ss");
+};
+
+/**
+ * Icons representing different order statuses.
+ */
+export const OrderStatusIcon = {
+  [OrderStatus.Pending]: Loader,
+  [OrderStatus.Processing]: CookingPot,
+  [OrderStatus.Rejected]: BookX,
+  [OrderStatus.Delivered]: Truck,
+  [OrderStatus.Paid]: HandCoins,
 };

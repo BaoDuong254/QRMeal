@@ -109,7 +109,7 @@ export function DishesDialog({ onChoose }: { onChoose: (dish: DishItem) => void 
       <DialogTrigger asChild>
         <Button variant='outline'>Thay đổi</Button>
       </DialogTrigger>
-      <DialogContent className='sm:max-w-[600px]'>
+      <DialogContent className='max-h-full overflow-auto sm:max-w-[600px]'>
         <DialogHeader>
           <DialogTitle>Chọn món ăn</DialogTitle>
         </DialogHeader>

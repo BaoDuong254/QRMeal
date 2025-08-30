@@ -12,13 +12,13 @@ import {
 } from "@tanstack/react-table";
 import { Input } from "@/components/ui/input";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { GetOrdersResType } from "@/schemaValidations/order.schema";
+import { GetOrdersResType, UpdateOrderResType } from "@/schemaValidations/order.schema";
 import AddOrder from "@/app/manage/orders/AddOrder";
 import EditOrder from "@/app/manage/orders/EditOrder";
 import { createContext, useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import AutoPagination from "@/components/AutoPagination";
-import { getVietnameseOrderStatus } from "@/lib/utils";
+import { getVietnameseOrderStatus, handleErrorApi } from "@/lib/utils";
 import { OrderStatusValues } from "@/constants/type";
 import OrderStatics from "@/app/manage/orders/OrderStatics";
 import orderTableColumns from "@/app/manage/orders/orderTableColumns";
@@ -30,9 +30,12 @@ import { Button } from "@/components/ui/button";
 import { Command, CommandGroup, CommandItem, CommandList } from "@/components/ui/command";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { endOfDay, format, startOfDay } from "date-fns";
-import { useGetOrderListQuery } from "@/queries/useOrder";
+import { useGetOrderListQuery, useUpdateOrderMutation } from "@/queries/useOrder";
 import { useTableListQuery } from "@/queries/useTable";
 import TableSkeleton from "@/app/manage/orders/TableSkeleton";
+import socket from "@/lib/socket";
+import { toast } from "sonner";
+import { GuestCreateOrdersResType } from "@/schemaValidations/guest.schema";
 
 export const OrderTableContext = createContext({
   setOrderIdEdit: (value: number | undefined) => {},
@@ -69,6 +72,7 @@ export default function OrderTable() {
     fromDate,
     toDate,
   });
+  const refetchOrderList = oderListQuery.refetch;
   const orderList = oderListQuery.data?.payload.data ?? [];
   const tableListQuery = useTableListQuery();
   const tableList = tableListQuery.data?.payload.data ?? [];
@@ -81,6 +85,7 @@ export default function OrderTable() {
     pageIndex,
     pageSize: PAGE_SIZE,
   });
+  const updateOrderMutation = useUpdateOrderMutation();
 
   const { statics, orderObjectByGuestId, servingGuestByTableNumber } = useOrderService(orderList);
 
@@ -89,7 +94,13 @@ export default function OrderTable() {
     dishId: number;
     status: (typeof OrderStatusValues)[number];
     quantity: number;
-  }) => {};
+  }) => {
+    try {
+      await updateOrderMutation.mutateAsync(body);
+    } catch (error) {
+      handleErrorApi({ error });
+    }
+  };
 
   const table = useReactTable({
     data: orderList,
@@ -124,6 +135,56 @@ export default function OrderTable() {
     setFromDate(initFromDate);
     setToDate(initToDate);
   };
+
+  useEffect(() => {
+    if (socket.connected) {
+      onConnect();
+    }
+
+    function onConnect() {
+      console.log("Connected to server with ID:", socket.id);
+    }
+
+    function onDisconnect() {
+      console.log("Disconnected from server");
+    }
+
+    function refetch() {
+      const now = new Date();
+      if (now >= fromDate && now <= toDate) {
+        refetchOrderList();
+      }
+    }
+
+    function onUpdateOrder(data: UpdateOrderResType["data"]) {
+      console.log("Order updated:", data);
+      const {
+        dishSnapshot: { name },
+        quantity,
+      } = data;
+      toast(`Món ${name} (SL: ${quantity}) vừa được cập nhật sang trạng thái ${getVietnameseOrderStatus(data.status)}`);
+      refetch();
+    }
+
+    function onNewOrder(data: GuestCreateOrdersResType["data"]) {
+      const { guest } = data[0];
+      toast(`${guest?.name} tại bàn ${guest?.tableNumber} vừa đặt ${data.length} đơn`);
+      refetch();
+    }
+
+    socket.on("update-order", onUpdateOrder);
+    socket.on("new-order", onNewOrder);
+
+    socket.on("connect", onConnect);
+    socket.on("disconnect", onDisconnect);
+
+    return () => {
+      socket.off("connect", onConnect);
+      socket.off("disconnect", onDisconnect);
+      socket.off("update-order", onUpdateOrder);
+      socket.off("new-order", onNewOrder);
+    };
+  }, [refetchOrderList, fromDate, toDate]);
 
   return (
     <OrderTableContext.Provider

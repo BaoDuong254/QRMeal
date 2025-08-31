@@ -126,7 +126,11 @@ export const removeTokensFromLocalStorage = () => {
  * @param param Optional callbacks for success and error handling.
  * @returns A promise that resolves when the token check and refresh process is complete.
  */
-export const checkAndRefreshToken = async (param?: { onError?: () => void; onSuccess?: () => void }) => {
+export const checkAndRefreshToken = async (param?: {
+  onError?: () => void;
+  onSuccess?: () => void;
+  force?: boolean;
+}) => {
   const accessToken = getAccessTokenFromLocalStorage();
   const refreshToken = getRefreshTokenFromLocalStorage();
   if (!accessToken || !refreshToken) return;
@@ -140,7 +144,7 @@ export const checkAndRefreshToken = async (param?: { onError?: () => void; onSuc
     return param?.onError?.();
   }
 
-  if (decodedAccessToken.exp - now < (decodedAccessToken.exp - decodedAccessToken.iat) / 3) {
+  if (param?.force || decodedAccessToken.exp - now < (decodedAccessToken.exp - decodedAccessToken.iat) / 3) {
     try {
       const role = decodedRefreshToken.role;
       const res = role === Role.Guest ? await guestApiRequest.refreshToken() : await authApiRequest.refreshToken();

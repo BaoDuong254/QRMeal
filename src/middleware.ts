@@ -30,7 +30,7 @@ export function middleware(request: NextRequest) {
       url.searchParams.set("redirect", pathname);
       return NextResponse.redirect(url);
     }
-    // Redirect to home if accessing path not allowed for the role
+    // Role-based access control
     const role = decodeToken(refreshToken).role;
     const isGuestGoToManagePath = role === Role.Guest && managePaths.some((path) => pathname.startsWith(path));
     const isNotGuestGoToGuestPath = role !== Role.Guest && guestPaths.some((path) => pathname.startsWith(path));

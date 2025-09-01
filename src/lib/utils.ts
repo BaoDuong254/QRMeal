@@ -303,10 +303,34 @@ export const OrderStatusIcon = {
   [OrderStatus.Paid]: HandCoins,
 };
 
+/**
+ * Generates a Socket.IO client instance connected to the server with the provided access token.
+ *
+ * @param accessToken The access token used for authentication.
+ * @returns A Socket.IO client instance connected to the server with the provided access token.
+ */
 export const generateSocketInstance = (accessToken: string) => {
   return io(envConfig.NEXT_PUBLIC_API_ENDPOINT, {
     auth: {
       Authorization: `Bearer ${accessToken}`,
     },
   });
+};
+
+/**
+ * Wraps a server API function call, handling specific redirect errors.
+ *
+ * @param fn A function that returns a promise.
+ * @returns The result of the promise if it resolves successfully, otherwise null.
+ */
+export const wrapServerApi = async <T>(fn: () => Promise<T>) => {
+  let result = null;
+  try {
+    result = await fn();
+  } catch (error: any) {
+    if (error.digest?.includes("NEXT_REDIRECT")) {
+      throw error;
+    }
+  }
+  return result;
 };

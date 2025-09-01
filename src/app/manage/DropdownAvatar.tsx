@@ -19,7 +19,7 @@ import { useAppContext } from "@/components/AppProvider";
 
 export default function DropdownAvatar() {
   const logoutMutation = useLogoutMutation();
-  const { setRole } = useAppContext();
+  const { setRole, disconnectSocket } = useAppContext();
   const router = useRouter();
   const { data } = useAccountMe();
   const account = data?.payload.data;
@@ -29,6 +29,7 @@ export default function DropdownAvatar() {
       await logoutMutation.mutateAsync();
       toast.success("Đăng xuất thành công");
       setRole();
+      disconnectSocket();
       router.push("/");
     } catch (error) {
       console.error("Logout failed:", error);

@@ -13,7 +13,7 @@ function Logout() {
   const searchParams = useSearchParams();
   const refreshTokenFromURL = searchParams.get("refreshToken");
   const accessTokenFromURL = searchParams.get("accessToken");
-  const { setRole } = useAppContext();
+  const { setRole, disconnectSocket } = useAppContext();
   useEffect(() => {
     if (
       !ref.current &&
@@ -26,12 +26,13 @@ function Logout() {
           ref.current = null;
         }, 1000);
         setRole();
+        disconnectSocket();
         router.push("/login");
       });
     } else {
       router.push("/");
     }
-  }, [mutateAsync, router, refreshTokenFromURL, accessTokenFromURL, setRole]);
+  }, [mutateAsync, router, refreshTokenFromURL, accessTokenFromURL, setRole, disconnectSocket]);
   return <div>Logging out...</div>;
 }
 

@@ -53,7 +53,7 @@ const menuItems: {
 ];
 
 export default function NavItems({ className }: { className?: string }) {
-  const { role, setRole } = useAppContext();
+  const { role, setRole, disconnectSocket } = useAppContext();
   const logoutMutation = useLogoutMutation();
   const router = useRouter();
   const handleLogout = async () => {
@@ -62,6 +62,7 @@ export default function NavItems({ className }: { className?: string }) {
       await logoutMutation.mutateAsync();
       toast.success("Đăng xuất thành công");
       setRole();
+      disconnectSocket();
       router.push("/");
     } catch (error) {
       console.error("Logout failed:", error);

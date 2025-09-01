@@ -9,7 +9,7 @@ import { LoginBody, LoginBodyType } from "@/schemaValidations/auth.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useLoginMutation } from "@/queries/useAuth";
 import { toast } from "sonner";
-import { handleErrorApi } from "@/lib/utils";
+import { generateSocketInstance, handleErrorApi } from "@/lib/utils";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 import { useAppContext } from "@/components/AppProvider";
@@ -17,7 +17,7 @@ import { useAppContext } from "@/components/AppProvider";
 export default function LoginForm() {
   const loginMutation = useLoginMutation();
   const searchParams = useSearchParams();
-  const { setRole } = useAppContext();
+  const { setRole, setSocket } = useAppContext();
   const clearTokens = searchParams.get("clearTokens");
   const form = useForm<LoginBodyType>({
     resolver: zodResolver(LoginBody),
@@ -36,6 +36,7 @@ export default function LoginForm() {
       toast.success(result.payload.message || "Đăng nhập thành công");
       setRole(result.payload.data.account.role);
       router.push("/manage/dashboard");
+      setSocket(generateSocketInstance(result.payload.data.accessToken));
     } catch (error) {
       handleErrorApi({
         error,

@@ -35,8 +35,8 @@ export default function LoginForm() {
       const result = await loginMutation.mutateAsync(data);
       toast.success(result.payload.message || "Đăng nhập thành công");
       setRole(result.payload.data.account.role);
-      router.push("/manage/dashboard");
       setSocket(generateSocketInstance(result.payload.data.accessToken));
+      router.push("/manage/dashboard");
     } catch (error) {
       handleErrorApi({
         error,

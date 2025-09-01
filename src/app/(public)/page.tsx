@@ -2,6 +2,7 @@ import dishApiRequest from "@/apiRequests/dish";
 import { formatCurrency } from "@/lib/utils";
 import { DishListResType } from "@/schemaValidations/dish.schema";
 import Image from "next/image";
+import Link from "next/link";
 
 export default async function Home() {
   let dishList: DishListResType["data"] = [];
@@ -36,7 +37,7 @@ export default async function Home() {
         <h2 className='text-center text-2xl font-bold'>Đa dạng các món ăn</h2>
         <div className='grid grid-cols-1 gap-10 sm:grid-cols-2'>
           {dishList.map((dish) => (
-            <div className='w flex gap-4' key={dish.id}>
+            <Link className='w flex gap-4' key={dish.id} href={`/dishes/${dish.id}`}>
               <div className='flex-shrink-0'>
                 <Image
                   src={dish.image || "/150x150.svg"}
@@ -52,7 +53,7 @@ export default async function Home() {
                 <p className=''>{dish.description}</p>
                 <p className='font-semibold'>{formatCurrency(dish.price)}</p>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       </section>

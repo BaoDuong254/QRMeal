@@ -34,7 +34,14 @@ export default function OAuthPage() {
           count.current += 1;
         });
     } else {
-      toast(message || "Đăng nhập thất bại, vui lòng thử lại");
+      if (count.current === 0) {
+        console.log(message);
+        setTimeout(() => {
+          toast(message || "Đăng nhập thất bại, vui lòng thử lại");
+        });
+        count.current += 1;
+        router.push("/login");
+      }
     }
   }, [accessToken, refreshToken, setRole, setSocket, router, message, mutateAsync]);
   return null;

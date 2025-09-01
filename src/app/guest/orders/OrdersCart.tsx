@@ -1,6 +1,6 @@
 "use client";
 
-import { useAppContext } from "@/components/AppProvider";
+import { useAppStore } from "@/components/AppProvider";
 import { Badge } from "@/components/ui/badge";
 import { OrderStatus } from "@/constants/type";
 import { formatCurrency, getVietnameseOrderStatus } from "@/lib/utils";
@@ -11,7 +11,7 @@ import { useEffect } from "react";
 import { toast } from "sonner";
 
 export default function OrdersCart() {
-  const { socket } = useAppContext();
+  const socket = useAppStore((state) => state.socket);
   const { data, refetch } = useGuestGetOrderListQuery();
   const orders = data?.payload.data ?? [];
   const { waitingForPaying, paid } = orders.reduce(

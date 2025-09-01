@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import menuItems from "@/app/manage/menuItems";
-import { useAppContext } from "@/components/AppProvider";
+import { useAppStore } from "@/components/AppProvider";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { cn } from "@/lib/utils";
@@ -11,7 +11,7 @@ import { usePathname } from "next/navigation";
 
 export default function MobileNavLinks() {
   const pathname = usePathname();
-  const { role } = useAppContext();
+  const role = useAppStore((state) => state.role);
   return (
     <Sheet>
       <SheetTrigger asChild>

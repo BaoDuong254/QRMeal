@@ -1,6 +1,6 @@
 "use client";
 
-import { useAppContext } from "@/components/AppProvider";
+import { useAppStore } from "@/components/AppProvider";
 import { decodeToken, generateSocketInstance } from "@/lib/utils";
 import { useSetTokenToCookieMutation } from "@/queries/useAuth";
 import { useSearchParams } from "next/navigation";
@@ -10,7 +10,8 @@ import { toast } from "sonner";
 
 export default function OAuthPage() {
   const { mutateAsync } = useSetTokenToCookieMutation();
-  const { setSocket, setRole } = useAppContext();
+  const setRole = useAppStore((state) => state.setRole);
+  const setSocket = useAppStore((state) => state.setSocket);
   const searchParams = useSearchParams();
   const accessToken = searchParams.get("accessToken");
   const refreshToken = searchParams.get("refreshToken");

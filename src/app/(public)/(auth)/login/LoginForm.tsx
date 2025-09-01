@@ -12,7 +12,7 @@ import { toast } from "sonner";
 import { generateSocketInstance, handleErrorApi } from "@/lib/utils";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
-import { useAppContext } from "@/components/AppProvider";
+import { useAppStore } from "@/components/AppProvider";
 import envConfig from "@/config";
 import Link from "next/link";
 
@@ -37,7 +37,8 @@ const googleOauthUrl = getOauthGoogleUrl();
 export default function LoginForm() {
   const loginMutation = useLoginMutation();
   const searchParams = useSearchParams();
-  const { setRole, setSocket } = useAppContext();
+  const setRole = useAppStore((state) => state.setRole);
+  const setSocket = useAppStore((state) => state.setSocket);
   const clearTokens = searchParams.get("clearTokens");
   const form = useForm<LoginBodyType>({
     resolver: zodResolver(LoginBody),

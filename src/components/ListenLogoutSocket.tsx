@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useAppContext } from "@/components/AppProvider";
+import { useAppStore } from "@/components/AppProvider";
 import { handleErrorApi } from "@/lib/utils";
 import { useLogoutMutation } from "@/queries/useAuth";
 import { usePathname, useRouter } from "next/navigation";
@@ -10,7 +10,9 @@ export default function ListenLogoutSocket() {
   const pathname = usePathname();
   const router = useRouter();
   const { isPending, mutateAsync } = useLogoutMutation();
-  const { setRole, disconnectSocket, socket } = useAppContext();
+  const socket = useAppStore((state) => state.socket);
+  const setRole = useAppStore((state) => state.setRole);
+  const disconnectSocket = useAppStore((state) => state.disconnectSocket);
   useEffect(() => {
     if (UNAUTHENTICATED_PATH.includes(pathname)) return;
     async function onLogout() {

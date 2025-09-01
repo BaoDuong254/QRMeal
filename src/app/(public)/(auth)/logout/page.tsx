@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
-import { useAppContext } from "@/components/AppProvider";
+import { useAppStore } from "@/components/AppProvider";
 import { getAccessTokenFromLocalStorage, getRefreshTokenFromLocalStorage } from "@/lib/utils";
 import { useLogoutMutation } from "@/queries/useAuth";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -13,7 +13,8 @@ function Logout() {
   const searchParams = useSearchParams();
   const refreshTokenFromURL = searchParams.get("refreshToken");
   const accessTokenFromURL = searchParams.get("accessToken");
-  const { setRole, disconnectSocket } = useAppContext();
+  const setRole = useAppStore((state) => state.setRole);
+  const disconnectSocket = useAppStore((state) => state.disconnectSocket);
   useEffect(() => {
     if (
       !ref.current &&

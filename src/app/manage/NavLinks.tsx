@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import menuItems from "@/app/manage/menuItems";
-import { useAppContext } from "@/components/AppProvider";
+import { useAppStore } from "@/components/AppProvider";
 import { Tooltip, TooltipContent, TooltipTrigger, TooltipProvider } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
 import { Package2, Settings } from "lucide-react";
@@ -10,7 +10,7 @@ import { usePathname } from "next/navigation";
 
 export default function NavLinks() {
   const pathname = usePathname();
-  const { role } = useAppContext();
+  const role = useAppStore((state) => state.role);
 
   return (
     <TooltipProvider>

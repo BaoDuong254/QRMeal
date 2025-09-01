@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import { useAppContext } from "@/components/AppProvider";
+import { useAppStore } from "@/components/AppProvider";
 import { checkAndRefreshToken } from "@/lib/utils";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect } from "react";
@@ -11,7 +11,8 @@ const UNAUTHENTICATED_PATHS = ["/login", "/logout", "/refresh-token"];
 export default function RefreshToken() {
   const pathname = usePathname();
   const router = useRouter();
-  const { socket, disconnectSocket } = useAppContext();
+  const socket = useAppStore((state) => state.socket);
+  const disconnectSocket = useAppStore((state) => state.disconnectSocket);
   useEffect(() => {
     if (UNAUTHENTICATED_PATHS.includes(pathname)) return;
     let interval: any = null;

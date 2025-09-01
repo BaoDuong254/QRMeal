@@ -15,11 +15,12 @@ import { handleErrorApi } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { useAccountMe } from "@/queries/useAccount";
-import { useAppContext } from "@/components/AppProvider";
+import { useAppStore } from "@/components/AppProvider";
 
 export default function DropdownAvatar() {
   const logoutMutation = useLogoutMutation();
-  const { setRole, disconnectSocket } = useAppContext();
+  const setRole = useAppStore((state) => state.setRole);
+  const disconnectSocket = useAppStore((state) => state.disconnectSocket);
   const router = useRouter();
   const { data } = useAccountMe();
   const account = data?.payload.data;

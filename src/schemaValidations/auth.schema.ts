@@ -3,8 +3,10 @@ import z from "zod";
 
 export const LoginBody = z
   .object({
-    email: z.string().email(),
-    password: z.string().min(6).max(100),
+    email: z.string().min(1, { message: "required" }).email({
+      message: "invalidEmail",
+    }),
+    password: z.string().min(6, "minmaxPassword").max(100, "minmaxPassword"),
   })
   .strict();
 
@@ -51,9 +53,3 @@ export const LogoutBody = z
   .strict();
 
 export type LogoutBodyType = z.TypeOf<typeof LogoutBody>;
-
-export const LoginGoogleQuery = z.object({
-  code: z.string(),
-});
-
-export type LoginGoogleQueryType = z.TypeOf<typeof LoginGoogleQuery>;

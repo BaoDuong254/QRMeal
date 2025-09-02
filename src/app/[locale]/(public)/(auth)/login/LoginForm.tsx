@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -37,6 +38,7 @@ const googleOauthUrl = getOauthGoogleUrl();
 
 export default function LoginForm() {
   const t = useTranslations("Login");
+  const errorMessageT = useTranslations("ErrorMessage");
   const { searchParams, setSearchParams } = useSearchParamsLoader();
   const loginMutation = useLoginMutation();
   const setRole = useAppStore((state) => state.setRole);
@@ -94,12 +96,14 @@ export default function LoginForm() {
               <FormField
                 control={form.control}
                 name='email'
-                render={({ field }) => (
+                render={({ field, formState: { errors } }) => (
                   <FormItem>
                     <div className='grid gap-2'>
                       <Label htmlFor='email'>Email</Label>
                       <Input id='email' type='email' placeholder='m@example.com' required {...field} />
-                      <FormMessage />
+                      <FormMessage>
+                        {Boolean(errors.password?.message) && errorMessageT(errors.password?.message as any)}
+                      </FormMessage>
                     </div>
                   </FormItem>
                 )}
@@ -107,14 +111,16 @@ export default function LoginForm() {
               <FormField
                 control={form.control}
                 name='password'
-                render={({ field }) => (
+                render={({ field, formState: { errors } }) => (
                   <FormItem>
                     <div className='grid gap-2'>
                       <div className='flex items-center'>
                         <Label htmlFor='password'>Password</Label>
                       </div>
                       <Input id='password' type='password' required {...field} />
-                      <FormMessage />
+                      <FormMessage>
+                        {Boolean(errors.password?.message) && errorMessageT(errors.password?.message as any)}
+                      </FormMessage>
                     </div>
                   </FormItem>
                 )}

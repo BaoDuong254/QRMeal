@@ -1,17 +1,22 @@
 "use client";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Locale, locales } from "@/config";
-import { setUserLocale } from "@/services/locale";
 import { useLocale, useTranslations } from "next-intl";
+import { usePathname, useRouter } from "next/navigation";
 
 export default function SwitchLanguage() {
   const t = useTranslations("SwitchLanguage");
   const locale = useLocale();
+  const pathname = usePathname();
+  const router = useRouter();
   return (
     <Select
       value={locale}
       onValueChange={(value) => {
-        setUserLocale(value as Locale);
+        router.replace(pathname, {
+          locale: value as Locale,
+        });
+        router.refresh();
       }}
     >
       <SelectTrigger className='w-[140px]'>

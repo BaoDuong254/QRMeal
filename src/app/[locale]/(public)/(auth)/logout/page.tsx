@@ -1,9 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import { useAppStore } from "@/components/AppProvider";
+import { useRouter } from "@/i18n/navigation";
 import { getAccessTokenFromLocalStorage, getRefreshTokenFromLocalStorage } from "@/lib/utils";
 import { useLogoutMutation } from "@/queries/useAuth";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useRef } from "react";
 
 function Logout() {

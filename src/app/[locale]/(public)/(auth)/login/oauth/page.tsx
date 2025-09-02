@@ -1,10 +1,10 @@
 "use client";
 
 import { useAppStore } from "@/components/AppProvider";
+import { useRouter } from "@/i18n/navigation";
 import { decodeToken, generateSocketInstance } from "@/lib/utils";
 import { useSetTokenToCookieMutation } from "@/queries/useAuth";
 import { useSearchParams } from "next/navigation";
-import { useRouter } from "next/navigation";
 import { useEffect, useRef } from "react";
 import { toast } from "sonner";
 

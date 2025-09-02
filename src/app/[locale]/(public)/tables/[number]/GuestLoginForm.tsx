@@ -7,11 +7,12 @@ import { useForm } from "react-hook-form";
 import { Form, FormField, FormItem, FormMessage } from "@/components/ui/form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { GuestLoginBody, GuestLoginBodyType } from "@/schemaValidations/guest.schema";
-import { useParams, useRouter, useSearchParams } from "next/navigation";
+import { useParams, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 import { useGuestLoginMutation } from "@/queries/useGuest";
 import { useAppStore } from "@/components/AppProvider";
 import { generateSocketInstance, handleErrorApi } from "@/lib/utils";
+import { useRouter } from "@/i18n/navigation";
 
 export default function GuestLoginForm() {
   const setRole = useAppStore((state) => state.setRole);

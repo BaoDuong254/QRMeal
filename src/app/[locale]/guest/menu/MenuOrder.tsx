@@ -6,9 +6,9 @@ import { cn, formatCurrency, handleErrorApi } from "@/lib/utils";
 import { useState } from "react";
 import { GuestCreateOrdersBodyType } from "@/schemaValidations/guest.schema";
 import { useGuestOrderMutation } from "@/queries/useGuest";
-import { useRouter } from "next/navigation";
 import { DishStatus } from "@/constants/type";
 import Quantity from "@/app/[locale]/guest/menu/Quantity";
+import { useRouter } from "@/i18n/navigation";
 
 export default function MenuOrder() {
   const { data } = useDishListQuery();

@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useAppStore } from "@/components/AppProvider";
+import { usePathname, useRouter } from "@/i18n/navigation";
 import { handleErrorApi } from "@/lib/utils";
 import { useLogoutMutation } from "@/queries/useAuth";
-import { usePathname, useRouter } from "next/navigation";
 import { useEffect } from "react";
 
 const UNAUTHENTICATED_PATH = ["/login", "/logout", "/refresh-token"];

@@ -13,6 +13,7 @@ import guestApiRequest from "@/apiRequests/guest";
 import { format } from "date-fns";
 import { BookX, CookingPot, HandCoins, Loader, Truck } from "lucide-react";
 import { io } from "socket.io-client";
+import slugify from "slugify";
 
 /**
  * Combines multiple class names into a single string, intelligently merging Tailwind CSS classes.
@@ -333,4 +334,24 @@ export const wrapServerApi = async <T>(fn: () => Promise<T>) => {
     }
   }
   return result;
+};
+
+/**
+ * Generates a slug URL from a name and ID.
+ *
+ * @param param0 An object containing the name and ID.
+ * @returns The generated slug URL in the format "{slugified-name}-i.{id}".
+ */
+export const generateSlugUrl = ({ name, id }: { name: string; id: number }) => {
+  return `${slugify(name)}-i.${id}`;
+};
+
+/**
+ * Extracts the ID from a slug URL.
+ *
+ * @param slug The slug URL in the format "{slugified-name}-i.{id}".
+ * @returns The extracted ID as a number.
+ */
+export const getIdFromSlugUrl = (slug: string) => {
+  return Number(slug.split("-i.")[1]);
 };

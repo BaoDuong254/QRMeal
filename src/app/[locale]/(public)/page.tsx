@@ -1,5 +1,5 @@
 import dishApiRequest from "@/apiRequests/dish";
-import { formatCurrency } from "@/lib/utils";
+import { formatCurrency, generateSlugUrl } from "@/lib/utils";
 import { DishListResType } from "@/schemaValidations/dish.schema";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import Image from "next/image";
@@ -41,7 +41,14 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
         <h2 className='text-center text-2xl font-bold'>Đa dạng các món ăn</h2>
         <div className='grid grid-cols-1 gap-10 sm:grid-cols-2'>
           {dishList.map((dish) => (
-            <Link className='w flex gap-4' key={dish.id} href={`/dishes/${dish.id}`}>
+            <Link
+              className='w flex gap-4'
+              key={dish.id}
+              href={`/dishes/${generateSlugUrl({
+                name: dish.name,
+                id: dish.id,
+              })}`}
+            >
               <div className='flex-shrink-0'>
                 <Image
                   src={dish.image || "/150x150.svg"}

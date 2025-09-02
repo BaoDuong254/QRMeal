@@ -10,12 +10,12 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useLoginMutation } from "@/queries/useAuth";
 import { toast } from "sonner";
 import { generateSocketInstance, handleErrorApi } from "@/lib/utils";
-import { useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 import { useAppStore } from "@/components/AppProvider";
 import envConfig from "@/config";
 import { Link, useRouter } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
+import SearchParamsLoader, { useSearchParamsLoader } from "@/components/SearchParamsLoader";
 
 const getOauthGoogleUrl = () => {
   const rootUrl = "https://accounts.google.com/o/oauth2/v2/auth";
@@ -37,11 +37,11 @@ const googleOauthUrl = getOauthGoogleUrl();
 
 export default function LoginForm() {
   const t = useTranslations("Login");
+  const { searchParams, setSearchParams } = useSearchParamsLoader();
   const loginMutation = useLoginMutation();
-  const searchParams = useSearchParams();
   const setRole = useAppStore((state) => state.setRole);
   const setSocket = useAppStore((state) => state.setSocket);
-  const clearTokens = searchParams.get("clearTokens");
+  const clearTokens = searchParams?.get("clearTokens");
   const form = useForm<LoginBodyType>({
     resolver: zodResolver(LoginBody),
     defaultValues: {
@@ -76,6 +76,7 @@ export default function LoginForm() {
 
   return (
     <Card className='mx-auto max-w-sm'>
+      <SearchParamsLoader onParamsReceived={setSearchParams} />
       <CardHeader>
         <CardTitle className='text-2xl'>{t("title")}</CardTitle>
         <CardDescription>Nhập email và mật khẩu của bạn để đăng nhập vào hệ thống</CardDescription>

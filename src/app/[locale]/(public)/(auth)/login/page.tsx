@@ -1,12 +1,13 @@
 import LoginForm from "@/app/[locale]/(public)/(auth)/login/LoginForm";
-import { Suspense } from "react";
+import { setRequestLocale } from "next-intl/server";
+import { use } from "react";
 
-export default function Login() {
+export default function Login({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = use(params);
+  setRequestLocale(locale);
   return (
     <div className='flex min-h-screen items-center justify-center'>
-      <Suspense fallback={<div>Loading...</div>}>
-        <LoginForm />
-      </Suspense>
+      <LoginForm />
     </div>
   );
 }

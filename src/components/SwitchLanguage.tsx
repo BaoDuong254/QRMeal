@@ -13,9 +13,8 @@ export default function SwitchLanguage() {
     <Select
       value={locale}
       onValueChange={(value) => {
-        router.replace(pathname, {
-          locale: value as Locale,
-        });
+        const newPathname = pathname.replace(/^\/[a-z]{2}/, `/${value}`);
+        router.replace(newPathname);
         router.refresh();
       }}
     >

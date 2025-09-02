@@ -8,6 +8,7 @@ import AppProvider from "@/components/AppProvider";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
 import { routing } from "@/i18n/routing";
 import { notFound } from "next/navigation";
+import { setRequestLocale } from "next-intl/server";
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -18,6 +19,10 @@ export const metadata: Metadata = {
   title: "Big Boy Restaurant",
   description: "The best restaurant in the world",
 };
+
+export function generateStaticParams() {
+  return routing.locales.map((locale) => ({ locale }));
+}
 
 export default async function RootLayout({
   children,
@@ -30,6 +35,7 @@ export default async function RootLayout({
   if (!hasLocale(routing.locales, locale)) {
     notFound();
   }
+  setRequestLocale(locale);
   return (
     <html lang={locale} suppressHydrationWarning>
       <body className={cn("bg-background min-h-screen font-sans antialiased", fontSans.variable)}>

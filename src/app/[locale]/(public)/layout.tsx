@@ -5,14 +5,27 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import DarkModeToggle from "@/components/DarkModeToggle";
 import SwitchLanguage from "@/components/SwitchLanguage";
 import NavItems from "@/app/[locale]/(public)/NavItems";
+import { hasLocale } from "next-intl";
+import { routing } from "@/i18n/routing";
+import { notFound } from "next/navigation";
+import { setRequestLocale } from "next-intl/server";
 
-export default function Layout({
+export default async function Layout({
   children,
   modal,
+  params,
 }: Readonly<{
   children: React.ReactNode;
   modal: React.ReactNode;
+  params: Promise<{ locale: string }>;
 }>) {
+  const { locale } = await params;
+  if (!hasLocale(routing.locales, locale)) {
+    notFound();
+  }
+
+  // Enable static rendering
+  setRequestLocale(locale);
   return (
     <div className='relative flex min-h-screen w-full flex-col'>
       <header className='bg-background sticky top-0 z-20 flex h-16 items-center gap-4 border-b px-4 md:px-6'>

@@ -26,4 +26,4 @@ const withBundleAnalyzer = NextBundleAnalyzer({
   enabled: process.env.ANALYZE === "true",
 });
 
-export default withNextIntl(withBundleAnalyzer(nextConfig));
+export default withBundleAnalyzer(withNextIntl(nextConfig));

@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import envConfig from "@/config";
+import envConfig, { defaultLocale } from "@/config";
 import { redirect } from "@/i18n/navigation";
 import {
   getAccessTokenFromLocalStorage,
@@ -132,8 +132,9 @@ const request = async <Response>(
           }
         }
       } else {
+        const locale = Cookies.get("NEXT_LOCALE");
         const accessToken = (options?.headers as any)?.Authorization.split("Bearer ")[1];
-        redirect({ href: `/logout?accessToken=${accessToken}`, locale: "en" });
+        redirect({ href: `/logout?accessToken=${accessToken}`, locale: locale ?? defaultLocale });
       }
     } else {
       throw new HttpError(data);

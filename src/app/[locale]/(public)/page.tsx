@@ -44,7 +44,8 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
           src='/banner.png'
           width={400}
           height={200}
-          quality={100}
+          quality={80}
+          loading='lazy'
           alt='Banner'
           className='absolute top-0 left-0 h-full w-full object-cover'
         />
@@ -72,7 +73,8 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
                   alt={dish.name}
                   width={150}
                   height={150}
-                  quality={100}
+                  quality={80}
+                  loading='lazy'
                 />
               </div>
               <div className='space-y-1'>

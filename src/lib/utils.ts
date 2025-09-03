@@ -5,7 +5,7 @@ import { clsx, type ClassValue } from "clsx";
 import { UseFormSetError } from "react-hook-form";
 import { toast } from "sonner";
 import { twMerge } from "tailwind-merge";
-import jwt from "jsonwebtoken";
+import { jwtDecode } from "jwt-decode";
 import { DishStatus, OrderStatus, Role, TableStatus } from "@/constants/type";
 import envConfig from "@/config";
 import { TokenPayload } from "@/types/jwt.types";
@@ -245,7 +245,7 @@ export const getTableLink = ({ token, tableNumber }: { token: string; tableNumbe
  * @returns The decoded token payload or null if decoding fails.
  */
 export const decodeToken = (token: string) => {
-  return jwt.decode(token) as TokenPayload;
+  return jwtDecode(token) as TokenPayload;
 };
 
 /**

@@ -29,6 +29,9 @@ export async function generateMetadata({ params: { locale } }: { params: { local
     openGraph: {
       ...baseOpenGraph,
     },
+    // other: {
+    //   'google-site-verification': 'KKr5Sgn6rrXntMUp1nDIoQR7mJQujE4BExrlgcFvGTg'
+    // }
   };
 }
 

@@ -7,7 +7,7 @@ import { toast } from "sonner";
 import { twMerge } from "tailwind-merge";
 import { jwtDecode } from "jwt-decode";
 import { DishStatus, OrderStatus, Role, TableStatus } from "@/constants/type";
-import envConfig from "@/config";
+import envConfig, { defaultLocale } from "@/config";
 import { TokenPayload } from "@/types/jwt.types";
 import guestApiRequest from "@/apiRequests/guest";
 import { format } from "date-fns";
@@ -235,7 +235,7 @@ export const getVietnameseTableStatus = (status: (typeof TableStatus)[keyof type
  * @returns The generated table link as a string.
  */
 export const getTableLink = ({ token, tableNumber }: { token: string; tableNumber: number }) => {
-  return envConfig.NEXT_PUBLIC_URL + "/tables/" + tableNumber + "?token=" + token;
+  return envConfig.NEXT_PUBLIC_URL + `/${defaultLocale}/tables/` + tableNumber + "?token=" + token;
 };
 
 /**

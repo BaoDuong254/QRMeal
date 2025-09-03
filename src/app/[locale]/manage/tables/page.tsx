@@ -6,17 +6,18 @@ import { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
 
 type Props = {
-  params: { locale: Locale };
-  searchParams: { [key: string]: string | string[] | undefined };
+  params: Promise<{ locale: Locale }>;
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 };
 
 export async function generateMetadata({ params, searchParams }: Props): Promise<Metadata> {
+  const resolvedParams = await params;
   const t = await getTranslations({
-    locale: params.locale,
+    locale: resolvedParams.locale,
     namespace: "Tables",
   });
 
-  const url = envConfig.NEXT_PUBLIC_URL + `/${params.locale}/manage/tables`;
+  const url = envConfig.NEXT_PUBLIC_URL + `/${resolvedParams.locale}/manage/tables`;
 
   return {
     title: t("title"),

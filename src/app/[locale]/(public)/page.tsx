@@ -7,7 +7,8 @@ import { Link } from "@/i18n/navigation";
 import envConfig, { Locale } from "@/config";
 import { htmlToTextForDescription } from "@/lib/server-utils";
 
-export async function generateMetadata({ params: { locale } }: { params: { locale: Locale } }) {
+export async function generateMetadata({ params }: { params: Promise<{ locale: Locale }> }) {
+  const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "HomePage" });
   const url = envConfig.NEXT_PUBLIC_URL + `/${locale}`;
 

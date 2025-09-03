@@ -11,16 +11,17 @@ import { cache } from "react";
 const getDetail = cache((id: number) => wrapServerApi(() => dishApiRequest.getDish(id)));
 
 type Props = {
-  params: { slug: string; locale: Locale };
-  searchParams: { [key: string]: string | string[] | undefined };
+  params: Promise<{ slug: string; locale: Locale }>;
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 };
 
 export async function generateMetadata({ params, searchParams }: Props): Promise<Metadata> {
+  const resolvedParams = await params;
   const t = await getTranslations({
-    locale: params.locale,
+    locale: resolvedParams.locale,
     namespace: "DishDetail",
   });
-  const id = getIdFromSlugUrl(params.slug);
+  const id = getIdFromSlugUrl(resolvedParams.slug);
   const data = await getDetail(id);
   const dish = data?.payload.data;
   if (!dish) {
@@ -31,7 +32,7 @@ export async function generateMetadata({ params, searchParams }: Props): Promise
   }
   const url =
     envConfig.NEXT_PUBLIC_URL +
-    `/${params.locale}/dishes/${generateSlugUrl({
+    `/${resolvedParams.locale}/dishes/${generateSlugUrl({
       name: dish.name,
       id: dish.id,
     })}`;
@@ -57,12 +58,13 @@ export async function generateMetadata({ params, searchParams }: Props): Promise
 }
 
 export default async function DishPage({
-  params: { slug },
+  params,
 }: {
-  params: {
+  params: Promise<{
     slug: string;
-  };
+  }>;
 }) {
+  const { slug } = await params;
   const id = getIdFromSlugUrl(slug);
   const data = await getDetail(id);
 

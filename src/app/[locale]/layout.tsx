@@ -20,7 +20,8 @@ const fontSans = FontSans({
   variable: "--font-sans",
 });
 
-export async function generateMetadata({ params: { locale } }: { params: { locale: Locale } }): Promise<Metadata> {
+export async function generateMetadata({ params }: { params: Promise<{ locale: Locale }> }): Promise<Metadata> {
+  const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "Brand" });
   return {
     title: {

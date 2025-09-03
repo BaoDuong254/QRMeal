@@ -5,24 +5,25 @@ import { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
 
 type Props = {
-  params: { number: string; locale: Locale };
-  searchParams: { [key: string]: string | string[] | undefined };
+  params: Promise<{ number: string; locale: Locale }>;
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 };
 
 export async function generateMetadata({ params, searchParams }: Props): Promise<Metadata> {
+  const resolvedParams = await params;
   const t = await getTranslations({
-    locale: params.locale,
+    locale: resolvedParams.locale,
     namespace: "LoginGuest",
   });
 
-  const url = envConfig.NEXT_PUBLIC_URL + `/${params.locale}/tables/${params.number}`;
+  const url = envConfig.NEXT_PUBLIC_URL + `/${resolvedParams.locale}/tables/${resolvedParams.number}`;
 
   return {
-    title: `No ${params.number} | ${t("title")}`,
+    title: `No ${resolvedParams.number} | ${t("title")}`,
     description: t("description"),
     openGraph: {
       ...baseOpenGraph,
-      title: `No ${params.number} | ${t("title")}`,
+      title: `No ${resolvedParams.number} | ${t("title")}`,
       description: t("description"),
       url,
     },

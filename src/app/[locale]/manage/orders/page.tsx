@@ -6,17 +6,18 @@ import { getTranslations } from "next-intl/server";
 import { Suspense } from "react";
 
 type Props = {
-  params: { locale: Locale };
-  searchParams: { [key: string]: string | string[] | undefined };
+  params: Promise<{ locale: Locale }>;
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 };
 
 export async function generateMetadata({ params, searchParams }: Props): Promise<Metadata> {
+  const resolvedParams = await params;
   const t = await getTranslations({
-    locale: params.locale,
+    locale: resolvedParams.locale,
     namespace: "Orders",
   });
 
-  const url = envConfig.NEXT_PUBLIC_URL + `/${params.locale}/manage/orders`;
+  const url = envConfig.NEXT_PUBLIC_URL + `/${resolvedParams.locale}/manage/orders`;
 
   return {
     title: t("title"),

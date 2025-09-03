@@ -6,17 +6,18 @@ import envConfig, { Locale } from "@/config";
 import { Metadata } from "next";
 
 type Props = {
-  params: { locale: Locale };
-  searchParams: { [key: string]: string | string[] | undefined };
+  params: Promise<{ locale: Locale }>;
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 };
 
 export async function generateMetadata({ params, searchParams }: Props): Promise<Metadata> {
+  const resolvedParams = await params;
   const t = await getTranslations({
-    locale: params.locale,
+    locale: resolvedParams.locale,
     namespace: "Dishes",
   });
 
-  const url = envConfig.NEXT_PUBLIC_URL + `/${params.locale}/manage/dishes`;
+  const url = envConfig.NEXT_PUBLIC_URL + `/${resolvedParams.locale}/manage/dishes`;
 
   return {
     title: t("title"),

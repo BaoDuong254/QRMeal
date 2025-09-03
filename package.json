@@ -14,6 +14,7 @@
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.1",
+    "@next/bundle-analyzer": "^15.5.2",
     "@radix-ui/react-alert-dialog": "^1.1.15",
     "@radix-ui/react-avatar": "^1.1.10",
     "@radix-ui/react-dialog": "^1.1.15",
@@ -38,6 +39,7 @@
     "html-to-text": "^9.0.5",
     "js-cookie": "^3.0.5",
     "jsonwebtoken": "^9.0.2",
+    "lodash": "^4.17.21",
     "lucide-react": "^0.540.0",
     "next": "15.4.7",
     "next-intl": "^4.3.5",

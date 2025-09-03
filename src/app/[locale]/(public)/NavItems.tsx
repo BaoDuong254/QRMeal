@@ -19,6 +19,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Link } from "@/i18n/navigation";
+import { useTranslations } from "next-intl";
 
 const menuItems: {
   title: string;
@@ -53,6 +54,7 @@ const menuItems: {
 ];
 
 export default function NavItems({ className }: { className?: string }) {
+  const t = useTranslations("NavItem");
   const role = useAppStore((state) => state.role);
   const setRole = useAppStore((state) => state.setRole);
   const disconnectSocket = useAppStore((state) => state.disconnectSocket);
@@ -88,15 +90,15 @@ export default function NavItems({ className }: { className?: string }) {
       {role && (
         <AlertDialog>
           <AlertDialogTrigger>
-            <div className={cn(className, "cursor-pointer")}>Đăng xuất</div>
+            <div className={cn(className, "cursor-pointer")}>{t("logout")}</div>
           </AlertDialogTrigger>
           <AlertDialogContent>
             <AlertDialogHeader>
-              <AlertDialogTitle>Bạn có muốn đăng xuất không?</AlertDialogTitle>
-              <AlertDialogDescription>Việc đăng xuất có thể mất dữ liệu chưa lưu.</AlertDialogDescription>
+              <AlertDialogTitle>{t("logoutDialog.logoutQuestion")}</AlertDialogTitle>
+              <AlertDialogDescription>{t("logoutDialog.logoutConfirm")}</AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter>
-              <AlertDialogCancel>Thoát</AlertDialogCancel>
+              <AlertDialogCancel>{t("logoutDialog.logoutCancel")}</AlertDialogCancel>
               <AlertDialogAction onClick={handleLogout}>OK</AlertDialogAction>
             </AlertDialogFooter>
           </AlertDialogContent>

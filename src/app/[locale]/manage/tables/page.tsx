@@ -1,6 +1,34 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import TableTable from "@/app/[locale]/manage/tables/TableTable";
 import { Suspense } from "react";
+import envConfig, { Locale } from "@/config";
+import { Metadata } from "next";
+import { getTranslations } from "next-intl/server";
+
+type Props = {
+  params: { locale: Locale };
+  searchParams: { [key: string]: string | string[] | undefined };
+};
+
+export async function generateMetadata({ params, searchParams }: Props): Promise<Metadata> {
+  const t = await getTranslations({
+    locale: params.locale,
+    namespace: "Tables",
+  });
+
+  const url = envConfig.NEXT_PUBLIC_URL + `/${params.locale}/manage/tables`;
+
+  return {
+    title: t("title"),
+    description: t("description"),
+    alternates: {
+      canonical: url,
+    },
+    robots: {
+      index: false,
+    },
+  };
+}
 
 export default function TablesPage() {
   return (

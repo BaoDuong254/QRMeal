@@ -1,6 +1,34 @@
 import ChangePasswordForm from "@/app/[locale]/manage/setting/ChangePasswordForm";
 import UpdateProfileForm from "@/app/[locale]/manage/setting/UpdateProfileForm";
 import { Badge } from "@/components/ui/badge";
+import envConfig, { Locale } from "@/config";
+import { Metadata } from "next";
+import { getTranslations } from "next-intl/server";
+
+type Props = {
+  params: { locale: Locale };
+  searchParams: { [key: string]: string | string[] | undefined };
+};
+
+export async function generateMetadata({ params, searchParams }: Props): Promise<Metadata> {
+  const t = await getTranslations({
+    locale: params.locale,
+    namespace: "Setting",
+  });
+
+  const url = envConfig.NEXT_PUBLIC_URL + `/${params.locale}/manage/setting`;
+
+  return {
+    title: t("title"),
+    description: t("description"),
+    alternates: {
+      canonical: url,
+    },
+    robots: {
+      index: false,
+    },
+  };
+}
 
 export default function Setting() {
   return (

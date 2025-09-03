@@ -12,6 +12,7 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Locale } from "@/config";
 import NextTopLoader from "nextjs-toploader";
 import Footer from "@/components/footer";
+import { baseOpenGraph } from "@/shared-metadata";
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -19,11 +20,15 @@ const fontSans = FontSans({
 });
 
 export async function generateMetadata({ params: { locale } }: { params: { locale: Locale } }): Promise<Metadata> {
-  const t = await getTranslations({ locale, namespace: "HomePage" });
-
+  const t = await getTranslations({ locale, namespace: "Brand" });
   return {
-    title: t("title"),
-    description: "The best restaurant in the world.",
+    title: {
+      template: `%s | ${t("title")}`,
+      default: t("defaultTitle"),
+    },
+    openGraph: {
+      ...baseOpenGraph,
+    },
   };
 }
 

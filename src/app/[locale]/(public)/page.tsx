@@ -4,6 +4,21 @@ import { DishListResType } from "@/schemaValidations/dish.schema";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import Image from "next/image";
 import { Link } from "@/i18n/navigation";
+import envConfig, { Locale } from "@/config";
+import { htmlToTextForDescription } from "@/lib/server-utils";
+
+export async function generateMetadata({ params: { locale } }: { params: { locale: Locale } }) {
+  const t = await getTranslations({ locale, namespace: "HomePage" });
+  const url = envConfig.NEXT_PUBLIC_URL + `/${locale}`;
+
+  return {
+    title: t("title"),
+    description: htmlToTextForDescription(t("description")),
+    alternates: {
+      canonical: url,
+    },
+  };
+}
 
 export default async function Home({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;

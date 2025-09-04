@@ -123,22 +123,24 @@ export default function AutoPagination({
       <PaginationContent>
         <PaginationItem>
           {isLink && (
-            <PaginationPrevious
-              href={{
-                pathname,
-                query: {
-                  page: page - 1,
-                },
-              }}
-              className={cn({
-                "cursor-not-allowed": page === 1,
-              })}
-              onClick={(e) => {
-                if (page === 1) {
-                  e.preventDefault();
-                }
-              }}
-            />
+            <div className={cn(page === 1 && "cursor-not-allowed")}>
+              <PaginationPrevious
+                href={{
+                  pathname,
+                  query: {
+                    page: page - 1,
+                  },
+                }}
+                className={cn({
+                  "pointer-events-none opacity-50": page === 1,
+                })}
+                onClick={(e) => {
+                  if (page === 1) {
+                    e.preventDefault();
+                  }
+                }}
+              />
+            </div>
           )}
           {!isLink && (
             <Button
@@ -157,22 +159,24 @@ export default function AutoPagination({
 
         <PaginationItem>
           {isLink && (
-            <PaginationNext
-              href={{
-                pathname,
-                query: {
-                  page: page + 1,
-                },
-              }}
-              className={cn({
-                "cursor-not-allowed": page === pageSize,
-              })}
-              onClick={(e) => {
-                if (page === pageSize) {
-                  e.preventDefault();
-                }
-              }}
-            />
+            <div className={cn(page === pageSize && "cursor-not-allowed")}>
+              <PaginationNext
+                href={{
+                  pathname,
+                  query: {
+                    page: page + 1,
+                  },
+                }}
+                className={cn({
+                  "pointer-events-none opacity-50": page === pageSize,
+                })}
+                onClick={(e) => {
+                  if (page === pageSize) {
+                    e.preventDefault();
+                  }
+                }}
+              />
+            </div>
           )}
           {!isLink && (
             <Button

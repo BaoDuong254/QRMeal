@@ -57,7 +57,11 @@ export default function DropdownAvatar() {
             {t("setting")}
           </Link>
         </DropdownMenuItem>
-        <DropdownMenuItem>{t("help")}</DropdownMenuItem>
+        <DropdownMenuItem>
+          <Link href={"/about"} className='cursor-pointer'>
+            {t("help")}
+          </Link>
+        </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem onClick={handleLogout}>{t("logout")}</DropdownMenuItem>
       </DropdownMenuContent>

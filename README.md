@@ -147,7 +147,7 @@ This frontend requires a backend API server. Make sure to:
 
 ## Live Demo
 
-🔗 **Demo Link**: [http://localhost:example](http://localhost:example)
+🔗 **Demo Link**: [qrmeal_demo.mp4](<[http://localhost:example](https://drive.google.com/file/d/12OPtU1yrKCkcswaL9aj47UcuUR1b93-I/view?usp=sharing)>)
 
 ## Contributing
 

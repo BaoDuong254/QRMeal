@@ -5,12 +5,13 @@
     "minmaxPassword": "Password must be between 6 and 100 characters"
   },
   "Brand": {
-    "title": "Big Boy Restaurant",
-    "defaultTitle": "Big Boy"
+    "title": "QR Meal",
+    "defaultTitle": "QR Meal"
   },
   "HomePage": {
     "title": "Home page",
-    "description": "Craving a classic American diner experience? Look no further than Big Boy! Savor our iconic Big Boy burger, juicy and flavorful, paired with creamy milkshakes and crispy fries. Perfect for families and friends!",
+    "hero-title": "Welcome to QR Meal",
+    "description": "Craving a classic American diner experience? Look no further than QR Meal! Savor our iconic QR burger, juicy and flavorful, paired with creamy milkshakes and crispy fries. Perfect for families and friends!",
     "slogan": "Taste good, every moment",
     "h2": "A variety of dishes"
   },
@@ -26,11 +27,20 @@
   },
   "LoginGuest": {
     "title": "Login to order",
-    "description": "Enter login information to place an order"
+    "description": "Enter login information to place an order",
+    "yourname": "Your name",
+    "login": "Login"
   },
   "GuestMenu": {
     "title": "Menu",
     "description": "Choose your favorite dishes"
+  },
+  "GuestOrders": {
+    "orders": "Orders",
+    "paidOrders": "Paid orders",
+    "unpaidOrders": "Unpaid orders",
+    "item": "Item",
+    "placeOrder": "Place order"
   },
   "ManageAccounts": {
     "title": "Manage accounts",
@@ -73,5 +83,20 @@
       "logoutCancel": "Cancel",
       "logoutConfirm": "Signing out may result in loss of your orders"
     }
+  },
+  "toast": {
+    "logoutSuccess": "Logout successful"
+  },
+  "settings": {
+    "setting": "Setting",
+    "help": "Help",
+    "logout": "Logout"
+  },
+  "Menu": {
+    "dashboard": "Dashboard",
+    "orders": "Orders",
+    "tables": "Tables",
+    "dishes": "Dishes",
+    "accounts": "Employees"
   }
 }

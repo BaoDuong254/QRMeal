@@ -6,11 +6,13 @@ import { OrderStatus } from "@/constants/type";
 import { formatCurrency, getVietnameseOrderStatus } from "@/lib/utils";
 import { useGuestGetOrderListQuery } from "@/queries/useGuest";
 import { PayGuestOrdersResType, UpdateOrderResType } from "@/schemaValidations/order.schema";
+import { useTranslations } from "next-intl";
 import Image from "next/image";
 import { useEffect } from "react";
 import { toast } from "sonner";
 
 export default function OrdersCart() {
+  const t = useTranslations("GuestOrders");
   const socket = useAppStore((state) => state.socket);
   const { data, refetch } = useGuestGetOrderListQuery();
   const orders = data?.payload.data ?? [];
@@ -121,14 +123,18 @@ export default function OrdersCart() {
       {paid.quantity !== 0 && (
         <div className='sticky bottom-0'>
           <div className='flex w-full justify-between space-x-4 text-xl font-semibold'>
-            <span>Đơn đã thanh toán · {paid.quantity} món</span>
+            <span>
+              {t("paidOrders")} · {paid.quantity} {t("item")}
+            </span>
             <span>{formatCurrency(paid.price)}</span>
           </div>
         </div>
       )}
       <div className='sticky bottom-0'>
         <div className='flex w-full justify-between space-x-4 text-xl font-semibold'>
-          <span>Đơn chưa thanh toán · {waitingForPaying.quantity} món</span>
+          <span>
+            {t("unpaidOrders")} · {waitingForPaying.quantity} {t("item")}
+          </span>
           <span>{formatCurrency(waitingForPaying.price)}</span>
         </div>
       </div>

@@ -9,8 +9,10 @@ import { useGuestOrderMutation } from "@/queries/useGuest";
 import { DishStatus } from "@/constants/type";
 import Quantity from "@/app/[locale]/guest/menu/Quantity";
 import { useRouter } from "@/i18n/navigation";
+import { useTranslations } from "next-intl";
 
 export default function MenuOrder() {
+  const t = useTranslations("GuestOrders");
   const { data } = useDishListQuery();
   const dishes = data?.payload.data ?? [];
   const [orders, setOrders] = useState<GuestCreateOrdersBodyType>([]);
@@ -86,7 +88,9 @@ export default function MenuOrder() {
         ))}
       <div className='sticky bottom-0'>
         <Button className='w-full justify-between' onClick={handleOrder} disabled={orders.length === 0}>
-          <span>Đặt hàng · {orders.length} món</span>
+          <span>
+            {t("placeOrder")} · {orders.length} {t("item")}
+          </span>
           <span>{formatCurrency(totalPrice)}</span>
         </Button>
       </div>

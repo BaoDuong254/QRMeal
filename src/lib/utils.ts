@@ -14,6 +14,7 @@ import { format } from "date-fns";
 import { BookX, CookingPot, HandCoins, Loader, Truck } from "lucide-react";
 import { io } from "socket.io-client";
 import slugify from "slugify";
+import Cookies from "js-cookie";
 
 /**
  * Combines multiple class names into a single string, intelligently merging Tailwind CSS classes.
@@ -235,7 +236,8 @@ export const getVietnameseTableStatus = (status: (typeof TableStatus)[keyof type
  * @returns The generated table link as a string.
  */
 export const getTableLink = ({ token, tableNumber }: { token: string; tableNumber: number }) => {
-  return envConfig.NEXT_PUBLIC_URL + `/${defaultLocale}/tables/` + tableNumber + "?token=" + token;
+  const locale = isBrowser ? Cookies.get("NEXT_LOCALE") : defaultLocale;
+  return envConfig.NEXT_PUBLIC_URL + `/${locale}/tables/` + tableNumber + "?token=" + token;
 };
 
 /**

@@ -5,12 +5,13 @@
     "minmaxPassword": "Mật khẩu phải từ 6 đến 100 ký tự"
   },
   "Brand": {
-    "title": "Nhà hàng Big Boy",
-    "defaultTitle": "Big Boy"
+    "title": "QR Meal",
+    "defaultTitle": "QR Meal"
   },
   "HomePage": {
     "title": "Trang chủ",
-    "description": "Khát khao một trải nghiệm ẩm thực Mỹ cổ điển? Big Boy là lựa chọn hoàn hảo! Thưởng thức chiếc Big Boy burger biểu tượng, thơm ngon và đậm đà, cùng với những ly milkshake béo ngậy và khoai tây chiên giòn tan. Hoàn hảo cho các buổi gặp mặt gia đình và bạn bè!",
+    "hero-title": "Chào mừng đến với QR Meal",
+    "description": "Khát khao một trải nghiệm ẩm thực Mỹ cổ điển? QR Meal là lựa chọn hoàn hảo! Thưởng thức chiếc QR burger biểu tượng, thơm ngon và đậm đà, cùng với những ly milkshake béo ngậy và khoai tây chiên giòn tan. Hoàn hảo cho các buổi gặp mặt gia đình và bạn bè!",
     "slogan": "Vị ngon, trọn khoảnh khắc",
     "h2": "Đa dạng các món ăn"
   },
@@ -19,7 +20,9 @@
   },
   "LoginGuest": {
     "title": "Đăng nhập để gọi món",
-    "description": "Nhập thông tin đăng nhập để thực hiện gọi món"
+    "description": "Nhập thông tin đăng nhập để thực hiện gọi món",
+    "yourname": "Tên của bạn",
+    "login": "Đăng nhập"
   },
   "Login": {
     "title": "Đăng nhập",
@@ -31,6 +34,13 @@
   "GuestMenu": {
     "title": "Thực đơn",
     "description": "Chọn món ăn yêu thích của bạn"
+  },
+  "GuestOrders": {
+    "orders": "Đơn hàng",
+    "paidOrders": "Đơn đã thanh toán",
+    "unpaidOrders": "Đơn chưa thanh toán",
+    "item": "Món",
+    "placeOrder": "Đặt món"
   },
   "ManageAccounts": {
     "title": "Quản lý tài khoản",
@@ -73,5 +83,20 @@
       "logoutCancel": "Hủy",
       "logoutConfirm": "Đăng xuất có thể dẫn đến mất dữ liệu đơn hàng của bạn"
     }
+  },
+  "toast": {
+    "logoutSuccess": "Đăng xuất thành công"
+  },
+  "settings": {
+    "setting": "Cài đặt",
+    "help": "Trợ giúp",
+    "logout": "Đăng xuất"
+  },
+  "Menu": {
+    "dashboard": "Bảng điều khiển",
+    "orders": "Đơn hàng",
+    "tables": "Bàn ăn",
+    "dishes": "Món ăn",
+    "accounts": "Nhân viên"
   }
 }

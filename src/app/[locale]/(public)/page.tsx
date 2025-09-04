@@ -50,12 +50,12 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
           className='absolute top-0 left-0 h-full w-full object-cover'
         />
         <div className='relative z-10 px-4 py-10 sm:px-10 md:px-20 md:py-20'>
-          <h1 className='text-center text-xl font-bold sm:text-2xl md:text-4xl lg:text-5xl'>{t("title")}</h1>
-          <p className='mt-4 text-center text-sm sm:text-base'>Vị ngon, trọn khoảnh khắc</p>
+          <h1 className='text-center text-xl font-bold sm:text-2xl md:text-4xl lg:text-5xl'>{t("hero-title")}</h1>
+          <p className='mt-4 text-center text-sm sm:text-base'>{t("slogan")}</p>
         </div>
       </section>
       <section className='space-y-10 py-16'>
-        <h2 className='text-center text-2xl font-bold'>Đa dạng các món ăn</h2>
+        <h2 className='text-center text-2xl font-bold'>{t("h2")}</h2>
         <div className='grid grid-cols-1 gap-10 sm:grid-cols-2'>
           {dishList.map((dish) => (
             <Link

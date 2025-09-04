@@ -6,8 +6,11 @@ import { Tooltip, TooltipContent, TooltipTrigger, TooltipProvider } from "@/comp
 import { cn } from "@/lib/utils";
 import { Package2, Settings } from "lucide-react";
 import { Link, usePathname } from "@/i18n/navigation";
+import { useTranslations } from "next-intl";
 
 export default function NavLinks() {
+  const t = useTranslations("settings");
+  const tMenu = useTranslations("Menu");
   const pathname = usePathname();
   const role = useAppStore((state) => state.role);
 
@@ -40,10 +43,10 @@ export default function NavLinks() {
                     )}
                   >
                     <Item.Icon className='h-5 w-5' />
-                    <span className='sr-only'>{Item.title}</span>
+                    <span className='sr-only'>{tMenu(Item.title)}</span>
                   </Link>
                 </TooltipTrigger>
-                <TooltipContent side='right'>{Item.title}</TooltipContent>
+                <TooltipContent side='right'>{tMenu(Item.title)}</TooltipContent>
               </Tooltip>
             );
           })}
@@ -65,7 +68,7 @@ export default function NavLinks() {
                 <span className='sr-only'>Cài đặt</span>
               </Link>
             </TooltipTrigger>
-            <TooltipContent side='right'>Cài đặt</TooltipContent>
+            <TooltipContent side='right'>{t("setting")}</TooltipContent>
           </Tooltip>
         </nav>
       </aside>

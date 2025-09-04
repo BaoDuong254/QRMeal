@@ -15,8 +15,10 @@ import { handleErrorApi } from "@/lib/utils";
 import { toast } from "sonner";
 import { useAccountMe } from "@/queries/useAccount";
 import { useAppStore } from "@/components/AppProvider";
+import { useTranslations } from "next-intl";
 
 export default function DropdownAvatar() {
+  const t = useTranslations("settings");
   const logoutMutation = useLogoutMutation();
   const setRole = useAppStore((state) => state.setRole);
   const disconnectSocket = useAppStore((state) => state.disconnectSocket);
@@ -51,12 +53,12 @@ export default function DropdownAvatar() {
         <DropdownMenuSeparator />
         <DropdownMenuItem asChild>
           <Link href={"/manage/setting"} className='cursor-pointer'>
-            Cài đặt
+            {t("setting")}
           </Link>
         </DropdownMenuItem>
-        <DropdownMenuItem>Hỗ trợ</DropdownMenuItem>
+        <DropdownMenuItem>{t("help")}</DropdownMenuItem>
         <DropdownMenuSeparator />
-        <DropdownMenuItem onClick={handleLogout}>Đăng xuất</DropdownMenuItem>
+        <DropdownMenuItem onClick={handleLogout}>{t("logout")}</DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );

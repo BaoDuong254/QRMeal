@@ -22,32 +22,32 @@ import { Link } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 
 const menuItems: {
-  title: string;
+  titleKey: "home" | "menu" | "orders" | "login" | "manage";
   href: string;
   role?: RoleType[];
   hideWhenLogin?: boolean;
 }[] = [
   {
-    title: "Trang chủ",
+    titleKey: "home",
     href: "/",
   },
   {
-    title: "Menu",
+    titleKey: "menu",
     href: "/guest/menu",
     role: [Role.Guest],
   },
   {
-    title: "Đơn hàng",
+    titleKey: "orders",
     href: "/guest/orders",
     role: [Role.Guest],
   },
   {
-    title: "Đăng nhập",
+    titleKey: "login",
     href: "/login",
     hideWhenLogin: true,
   },
   {
-    title: "Quản lý",
+    titleKey: "manage",
     href: "/manage/dashboard",
     role: [Role.Owner, Role.Employee],
   },
@@ -55,6 +55,7 @@ const menuItems: {
 
 export default function NavItems({ className }: { className?: string }) {
   const t = useTranslations("NavItem");
+  const t1 = useTranslations("toast");
   const role = useAppStore((state) => state.role);
   const setRole = useAppStore((state) => state.setRole);
   const disconnectSocket = useAppStore((state) => state.disconnectSocket);
@@ -64,7 +65,7 @@ export default function NavItems({ className }: { className?: string }) {
     if (logoutMutation.isPending) return;
     try {
       await logoutMutation.mutateAsync();
-      toast.success("Đăng xuất thành công");
+      toast.success(t1("logoutSuccess"));
       setRole();
       disconnectSocket();
       router.push("/");
@@ -81,7 +82,7 @@ export default function NavItems({ className }: { className?: string }) {
         if (isAuth || canShow) {
           return (
             <Link href={item.href} key={item.href} className={className}>
-              {item.title}
+              {t(item.titleKey)}
             </Link>
           );
         }

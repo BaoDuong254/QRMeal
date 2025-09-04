@@ -7,8 +7,10 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { cn } from "@/lib/utils";
 import { Package2, PanelLeft } from "lucide-react";
 import { Link, usePathname } from "@/i18n/navigation";
+import { useTranslations } from "next-intl";
 
 export default function MobileNavLinks() {
+  const tMenu = useTranslations("Menu");
   const pathname = usePathname();
   const role = useAppStore((state) => state.role);
   return (
@@ -41,7 +43,7 @@ export default function MobileNavLinks() {
                 })}
               >
                 <Item.Icon className='h-5 w-5' />
-                {Item.title}
+                {tMenu(Item.title)}
               </Link>
             );
           })}

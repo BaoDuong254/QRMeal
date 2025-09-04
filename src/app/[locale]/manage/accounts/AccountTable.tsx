@@ -46,6 +46,7 @@ import AutoPagination from "@/components/AutoPagination";
 import { useDeleteAccountMutation, useGetAccountList } from "@/queries/useAccount";
 import { toast } from "sonner";
 import { handleErrorApi } from "@/lib/utils";
+import { useTranslations } from "next-intl";
 
 type AccountItem = AccountListResType["data"][0];
 
@@ -61,71 +62,76 @@ const AccountTableContext = createContext<{
   setEmployeeDelete: (value: AccountItem | null) => {},
 });
 
-export const columns: ColumnDef<AccountType>[] = [
-  {
-    accessorKey: "id",
-    header: "ID",
-  },
-  {
-    accessorKey: "avatar",
-    header: "Avatar",
-    cell: ({ row }) => (
-      <div>
-        <Avatar className='aspect-square h-[100px] w-[100px] rounded-md object-cover'>
-          <AvatarImage src={row.getValue("avatar")} />
-          <AvatarFallback className='rounded-none'>{row.original.name}</AvatarFallback>
-        </Avatar>
-      </div>
-    ),
-  },
-  {
-    accessorKey: "name",
-    header: "Tên",
-    cell: ({ row }) => <div className='capitalize'>{row.getValue("name")}</div>,
-  },
-  {
-    accessorKey: "email",
-    header: ({ column }) => {
-      return (
-        <Button variant='ghost' onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
-          Email
-          <CaretSortIcon className='ml-2 h-4 w-4' />
-        </Button>
-      );
-    },
-  },
-  {
-    id: "actions",
-    enableHiding: false,
-    cell: function Actions({ row }) {
-      const { setEmployeeIdEdit, setEmployeeDelete } = useContext(AccountTableContext);
-      const openEditEmployee = () => {
-        setEmployeeIdEdit(row.original.id);
-      };
+function useAccountColumns() {
+  const t = useTranslations("AccountTable");
 
-      const openDeleteEmployee = () => {
-        setEmployeeDelete(row.original);
-      };
-      return (
-        <DropdownMenu modal={false}>
-          <DropdownMenuTrigger asChild>
-            <Button variant='ghost' className='h-8 w-8 p-0'>
-              <span className='sr-only'>Open menu</span>
-              <DotsHorizontalIcon className='h-4 w-4' />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align='end'>
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={openEditEmployee}>Sửa</DropdownMenuItem>
-            <DropdownMenuItem onClick={openDeleteEmployee}>Xóa</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      );
+  const columns: ColumnDef<AccountType>[] = [
+    {
+      accessorKey: "id",
+      header: "ID",
     },
-  },
-];
+    {
+      accessorKey: "avatar",
+      header: "Avatar",
+      cell: ({ row }) => (
+        <div>
+          <Avatar className='aspect-square h-[100px] w-[100px] rounded-md object-cover'>
+            <AvatarImage src={row.getValue("avatar")} />
+            <AvatarFallback className='rounded-none'>{row.original.name}</AvatarFallback>
+          </Avatar>
+        </div>
+      ),
+    },
+    {
+      accessorKey: "name",
+      header: t("columnName"),
+      cell: ({ row }) => <div className='capitalize'>{row.getValue("name")}</div>,
+    },
+    {
+      accessorKey: "email",
+      header: ({ column }) => {
+        return (
+          <Button variant='ghost' onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
+            Email
+            <CaretSortIcon className='ml-2 h-4 w-4' />
+          </Button>
+        );
+      },
+    },
+    {
+      id: "actions",
+      enableHiding: false,
+      cell: function Actions({ row }) {
+        const { setEmployeeIdEdit, setEmployeeDelete } = useContext(AccountTableContext);
+        const openEditEmployee = () => {
+          setEmployeeIdEdit(row.original.id);
+        };
 
+        const openDeleteEmployee = () => {
+          setEmployeeDelete(row.original);
+        };
+        return (
+          <DropdownMenu modal={false}>
+            <DropdownMenuTrigger asChild>
+              <Button variant='ghost' className='h-8 w-8 p-0'>
+                <span className='sr-only'>Open menu</span>
+                <DotsHorizontalIcon className='h-4 w-4' />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align='end'>
+              <DropdownMenuLabel>{t("actions")}</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem onClick={openEditEmployee}>{t("edit")}</DropdownMenuItem>
+              <DropdownMenuItem onClick={openDeleteEmployee}>{t("delete")}</DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        );
+      },
+    },
+  ];
+
+  return columns;
+}
 function AlertDialogDeleteAccount({
   employeeDelete,
   setEmployeeDelete,
@@ -133,6 +139,7 @@ function AlertDialogDeleteAccount({
   employeeDelete: AccountItem | null;
   setEmployeeDelete: (value: AccountItem | null) => void;
 }) {
+  const t = useTranslations("AccountTable");
   const { mutateAsync } = useDeleteAccountMutation();
   const deleteAccount = async () => {
     if (!employeeDelete) return;
@@ -157,15 +164,15 @@ function AlertDialogDeleteAccount({
     >
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Xóa nhân viên?</AlertDialogTitle>
+          <AlertDialogTitle>{t("deleteEmployeeTitle")}</AlertDialogTitle>
           <AlertDialogDescription>
             Tài khoản <span className='bg-foreground text-primary-foreground rounded px-1'>{employeeDelete?.name}</span>{" "}
-            sẽ bị xóa vĩnh viễn
+            {t("deleteEmployeeDescription")}
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction onClick={deleteAccount}>Continue</AlertDialogAction>
+          <AlertDialogCancel>{t("cancel")}</AlertDialogCancel>
+          <AlertDialogAction onClick={deleteAccount}>{t("continue")}</AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
@@ -175,6 +182,7 @@ function AlertDialogDeleteAccount({
 // Each page will have 10 rows
 const PAGE_SIZE = 10;
 export default function AccountTable() {
+  const t = useTranslations("AccountTable");
   const searchParam = useSearchParams();
   const page = searchParam.get("page") ? Number(searchParam.get("page")) : 1;
   const pageIndex = page - 1;
@@ -183,6 +191,7 @@ export default function AccountTable() {
   const [employeeDelete, setEmployeeDelete] = useState<AccountItem | null>(null);
   const accountListQuery = useGetAccountList();
   const data = accountListQuery.data?.payload.data ?? [];
+  const columns = useAccountColumns();
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
@@ -228,7 +237,7 @@ export default function AccountTable() {
         <AlertDialogDeleteAccount employeeDelete={employeeDelete} setEmployeeDelete={setEmployeeDelete} />
         <div className='flex items-center py-4'>
           <Input
-            placeholder='Filter emails...'
+            placeholder={t("filterEmails")}
             value={(table.getColumn("email")?.getFilterValue() as string) ?? ""}
             onChange={(event) => table.getColumn("email")?.setFilterValue(event.target.value)}
             className='max-w-sm'
@@ -264,7 +273,7 @@ export default function AccountTable() {
               ) : (
                 <TableRow>
                   <TableCell colSpan={columns.length} className='h-24 text-center'>
-                    No results.
+                    {t("noResults")}
                   </TableCell>
                 </TableRow>
               )}
@@ -273,8 +282,8 @@ export default function AccountTable() {
         </div>
         <div className='flex items-center justify-end space-x-2 py-4'>
           <div className='text-muted-foreground flex-1 py-4 text-xs'>
-            Hiển thị <strong>{table.getPaginationRowModel().rows.length}</strong> trong <strong>{data.length}</strong>{" "}
-            kết quả
+            {t("showing")} <strong>{table.getPaginationRowModel().rows.length}</strong> {t("of")}{" "}
+            <strong>{data.length}</strong> {t("results")}
           </div>
           <div>
             <AutoPagination

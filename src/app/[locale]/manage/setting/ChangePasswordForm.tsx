@@ -11,8 +11,10 @@ import { Form, FormField, FormItem, FormMessage } from "@/components/ui/form";
 import { useChangePasswordMutation } from "@/queries/useAccount";
 import { toast } from "sonner";
 import { handleErrorApi } from "@/lib/utils";
+import { useTranslations } from "next-intl";
 
 export default function ChangePasswordForm() {
+  const t = useTranslations("ChangePasswordForm");
   const changePasswordMutation = useChangePasswordMutation();
   const form = useForm<ChangePasswordBodyType>({
     resolver: zodResolver(ChangePasswordBody),
@@ -45,7 +47,7 @@ export default function ChangePasswordForm() {
       >
         <Card className='overflow-hidden' x-chunk='dashboard-07-chunk-4'>
           <CardHeader>
-            <CardTitle>Đổi mật khẩu</CardTitle>
+            <CardTitle>{t("changePassword")}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className='grid gap-6'>
@@ -55,7 +57,7 @@ export default function ChangePasswordForm() {
                 render={({ field }) => (
                   <FormItem>
                     <div className='grid gap-3'>
-                      <Label htmlFor='oldPassword'>Mật khẩu cũ</Label>
+                      <Label htmlFor='oldPassword'>{t("oldPassword")}</Label>
                       <Input
                         id='oldPassword'
                         type='password'
@@ -74,7 +76,7 @@ export default function ChangePasswordForm() {
                 render={({ field }) => (
                   <FormItem>
                     <div className='grid gap-3'>
-                      <Label htmlFor='password'>Mật khẩu mới</Label>
+                      <Label htmlFor='password'>{t("newPassword")}</Label>
                       <Input id='password' type='password' className='w-full' {...field} autoComplete='new-password' />
                       <FormMessage />
                     </div>
@@ -87,7 +89,7 @@ export default function ChangePasswordForm() {
                 render={({ field }) => (
                   <FormItem>
                     <div className='grid gap-3'>
-                      <Label htmlFor='confirmPassword'>Nhập lại mật khẩu mới</Label>
+                      <Label htmlFor='confirmPassword'>{t("confirmNewPassword")}</Label>
                       <Input
                         id='confirmPassword'
                         type='password'
@@ -102,10 +104,10 @@ export default function ChangePasswordForm() {
               />
               <div className='flex items-center gap-2 md:ml-auto'>
                 <Button variant='outline' size='sm' type='reset'>
-                  Hủy
+                  {t("cancel")}
                 </Button>
                 <Button size='sm' type='submit'>
-                  Lưu thông tin
+                  {t("save")}
                 </Button>
               </div>
             </div>

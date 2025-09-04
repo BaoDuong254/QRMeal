@@ -24,6 +24,7 @@ import { toast } from "sonner";
 import { handleErrorApi } from "@/lib/utils";
 import { Role, RoleValues } from "@/constants/type";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { useTranslations } from "next-intl";
 
 export default function EditEmployee({
   id,
@@ -34,6 +35,7 @@ export default function EditEmployee({
   setId: (value: number | undefined) => void;
   onSubmitSuccess?: () => void;
 }) {
+  const t = useTranslations("EditEmployee");
   const [file, setFile] = useState<File | null>(null);
   const avatarInputRef = useRef<HTMLInputElement | null>(null);
   const { data } = useGetAccount({
@@ -123,8 +125,8 @@ export default function EditEmployee({
     >
       <DialogContent className='max-h-screen overflow-auto sm:max-w-[600px]'>
         <DialogHeader>
-          <DialogTitle>Cập nhật tài khoản</DialogTitle>
-          <DialogDescription>Các trường tên, email, mật khẩu là bắt buộc</DialogDescription>
+          <DialogTitle>{t("title")}</DialogTitle>
+          <DialogDescription>{t("description")}</DialogDescription>
         </DialogHeader>
         <Form {...form}>
           <form
@@ -166,7 +168,7 @@ export default function EditEmployee({
                         onClick={() => avatarInputRef.current?.click()}
                       >
                         <Upload className='text-muted-foreground h-4 w-4' />
-                        <span className='sr-only'>Upload</span>
+                        <span className='sr-only'>{t("upload")}</span>
                       </button>
                     </div>
                   </FormItem>
@@ -179,7 +181,7 @@ export default function EditEmployee({
                 render={({ field }) => (
                   <FormItem>
                     <div className='grid grid-cols-4 items-center justify-items-start gap-4'>
-                      <Label htmlFor='name'>Tên</Label>
+                      <Label htmlFor='name'>{t("name")}</Label>
                       <div className='col-span-3 w-full space-y-2'>
                         <Input id='name' className='w-full' {...field} />
                         <FormMessage />
@@ -194,7 +196,7 @@ export default function EditEmployee({
                 render={({ field }) => (
                   <FormItem>
                     <div className='grid grid-cols-4 items-center justify-items-start gap-4'>
-                      <Label htmlFor='email'>Email</Label>
+                      <Label htmlFor='email'>{t("email")}</Label>
                       <div className='col-span-3 w-full space-y-2'>
                         <Input id='email' className='w-full' {...field} />
                         <FormMessage />
@@ -209,7 +211,7 @@ export default function EditEmployee({
                 render={({ field }) => (
                   <FormItem>
                     <div className='grid grid-cols-4 items-center justify-items-start gap-4'>
-                      <Label htmlFor='role'>Trạng thái</Label>
+                      <Label htmlFor='role'>{t("role")}</Label>
                       <div className='col-span-3 w-full space-y-2'>
                         <Select onValueChange={field.onChange} value={field.value}>
                           <FormControl>
@@ -240,7 +242,7 @@ export default function EditEmployee({
                 render={({ field }) => (
                   <FormItem>
                     <div className='grid grid-cols-4 items-center justify-items-start gap-4'>
-                      <Label htmlFor='email'>Đổi mật khẩu</Label>
+                      <Label htmlFor='email'>{t("changePassword")}</Label>
                       <div className='col-span-3 w-full space-y-2'>
                         <Switch checked={field.value} onCheckedChange={field.onChange} />
                         <FormMessage />
@@ -256,7 +258,7 @@ export default function EditEmployee({
                   render={({ field }) => (
                     <FormItem>
                       <div className='grid grid-cols-4 items-center justify-items-start gap-4'>
-                        <Label htmlFor='password'>Mật khẩu mới</Label>
+                        <Label htmlFor='password'>{t("password")}</Label>
                         <div className='col-span-3 w-full space-y-2'>
                           <Input id='password' className='w-full' type='password' {...field} />
                           <FormMessage />
@@ -273,7 +275,7 @@ export default function EditEmployee({
                   render={({ field }) => (
                     <FormItem>
                       <div className='grid grid-cols-4 items-center justify-items-start gap-4'>
-                        <Label htmlFor='confirmPassword'>Xác nhận mật khẩu mới</Label>
+                        <Label htmlFor='confirmPassword'>{t("confirmPassword")}</Label>
                         <div className='col-span-3 w-full space-y-2'>
                           <Input id='confirmPassword' className='w-full' type='password' {...field} />
                           <FormMessage />
@@ -288,7 +290,7 @@ export default function EditEmployee({
         </Form>
         <DialogFooter>
           <Button type='submit' form='edit-employee-form'>
-            Lưu
+            {t("update")}
           </Button>
         </DialogFooter>
       </DialogContent>

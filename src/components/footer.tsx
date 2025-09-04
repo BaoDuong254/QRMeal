@@ -8,7 +8,7 @@ export default function Footer() {
         <div className='flex flex-col items-center gap-2 md:flex-row md:gap-4'>
           <Link href='/' className='flex items-center gap-2' prefetch={false}>
             <Beef className='hover:text-foreground h-6 w-6' />
-            <span className='text-sm font-medium'>Big Boy Restaurant</span>
+            <span className='text-sm font-medium'>QR Meal</span>
           </Link>
           <div className='flex flex-col items-center gap-4 text-sm sm:flex-row'>
             <Link href='/term-of-service' className='hover:underline' prefetch={false}>

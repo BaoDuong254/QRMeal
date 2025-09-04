@@ -45,6 +45,7 @@ import QRCodeTable from "@/components/QRCodeTable";
 import { toast } from "sonner";
 import AddTable from "@/app/[locale]/manage/tables/AddTable";
 import EditTable from "@/app/[locale]/manage/tables/EditTable";
+import { useTranslations } from "next-intl";
 
 type TableItem = TableListResType["data"][0];
 
@@ -54,72 +55,78 @@ const TableTableContext = createContext<{
   tableDelete: TableItem | null;
   setTableDelete: (value: TableItem | null) => void;
 }>({
-  setTableIdEdit: (value: number | undefined) => {},
+  setTableIdEdit: (_value: number) => {},
   tableIdEdit: undefined,
   tableDelete: null,
-  setTableDelete: (value: TableItem | null) => {},
+  setTableDelete: (_value: TableItem | null) => {},
 });
 
-export const columns: ColumnDef<TableItem>[] = [
-  {
-    accessorKey: "number",
-    header: "Số bàn",
-    cell: ({ row }) => <div className='capitalize'>{row.getValue("number")}</div>,
-    filterFn: (row, id, filterValue) => {
-      if (!filterValue) return true;
-      return String(filterValue) === String(row.getValue(id));
-    },
-  },
-  {
-    accessorKey: "capacity",
-    header: "Sức chứa",
-    cell: ({ row }) => <div className='capitalize'>{row.getValue("capacity")}</div>,
-  },
-  {
-    accessorKey: "status",
-    header: "Trạng thái",
-    cell: ({ row }) => <div>{getVietnameseTableStatus(row.getValue("status"))}</div>,
-  },
-  {
-    accessorKey: "token",
-    header: "QR Code",
-    cell: ({ row }) => (
-      <div>
-        <QRCodeTable token={row.getValue("token")} tableNumber={row.getValue("number")} />
-      </div>
-    ),
-  },
-  {
-    id: "actions",
-    enableHiding: false,
-    cell: function Actions({ row }) {
-      const { setTableIdEdit, setTableDelete } = useContext(TableTableContext);
-      const openEditTable = () => {
-        setTableIdEdit(row.original.number);
-      };
+function useTableColumns() {
+  const t = useTranslations("TableTable");
 
-      const openDeleteTable = () => {
-        setTableDelete(row.original);
-      };
-      return (
-        <DropdownMenu modal={false}>
-          <DropdownMenuTrigger asChild>
-            <Button variant='ghost' className='h-8 w-8 p-0'>
-              <span className='sr-only'>Open menu</span>
-              <DotsHorizontalIcon className='h-4 w-4' />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align='end'>
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={openEditTable}>Sửa</DropdownMenuItem>
-            <DropdownMenuItem onClick={openDeleteTable}>Xóa</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      );
+  const columns: ColumnDef<TableItem>[] = [
+    {
+      accessorKey: "number",
+      header: t("tableNumber"),
+      cell: ({ row }) => <div className='capitalize'>{row.getValue("number")}</div>,
+      filterFn: (row, id, filterValue) => {
+        if (!filterValue) return true;
+        return String(filterValue) === String(row.getValue(id));
+      },
     },
-  },
-];
+    {
+      accessorKey: "capacity",
+      header: t("capacity"),
+      cell: ({ row }) => <div className='capitalize'>{row.getValue("capacity")}</div>,
+    },
+    {
+      accessorKey: "status",
+      header: t("status"),
+      cell: ({ row }) => <div>{getVietnameseTableStatus(row.getValue("status"))}</div>,
+    },
+    {
+      accessorKey: "token",
+      header: t("qrCode"),
+      cell: ({ row }) => (
+        <div>
+          <QRCodeTable token={row.getValue("token")} tableNumber={row.getValue("number")} />
+        </div>
+      ),
+    },
+    {
+      id: "actions",
+      enableHiding: false,
+      cell: function Actions({ row }) {
+        const { setTableIdEdit, setTableDelete } = useContext(TableTableContext);
+        const openEditTable = () => {
+          setTableIdEdit(row.original.number);
+        };
+
+        const openDeleteTable = () => {
+          setTableDelete(row.original);
+        };
+        return (
+          <DropdownMenu modal={false}>
+            <DropdownMenuTrigger asChild>
+              <Button variant='ghost' className='h-8 w-8 p-0'>
+                <span className='sr-only'>Open menu</span>
+                <DotsHorizontalIcon className='h-4 w-4' />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align='end'>
+              <DropdownMenuLabel>{t("actions")}</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem onClick={openEditTable}>{t("edit")}</DropdownMenuItem>
+              <DropdownMenuItem onClick={openDeleteTable}>{t("delete")}</DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        );
+      },
+    },
+  ];
+
+  return columns;
+}
 
 function AlertDialogDeleteTable({
   tableDelete,
@@ -128,6 +135,7 @@ function AlertDialogDeleteTable({
   tableDelete: TableItem | null;
   setTableDelete: (value: TableItem | null) => void;
 }) {
+  const t = useTranslations("TableTable");
   const { mutateAsync } = useDeleteTableMutation();
   const deleteTable = async () => {
     if (tableDelete) {
@@ -153,15 +161,16 @@ function AlertDialogDeleteTable({
     >
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Xóa bàn ăn?</AlertDialogTitle>
+          <AlertDialogTitle>{t("deleteTableTitle")}</AlertDialogTitle>
           <AlertDialogDescription>
-            Bàn <span className='bg-foreground text-primary-foreground rounded px-1'>{tableDelete?.number}</span> sẽ bị
-            xóa vĩnh viễn
+            {t("deleteTableDescription")}{" "}
+            <span className='bg-foreground text-primary-foreground rounded px-1'>{tableDelete?.number}</span>{" "}
+            {t("willBeDeletedPermanently")}
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction onClick={deleteTable}>Continue</AlertDialogAction>
+          <AlertDialogCancel>{t("cancel")}</AlertDialogCancel>
+          <AlertDialogAction onClick={deleteTable}>{t("continue")}</AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
@@ -170,6 +179,8 @@ function AlertDialogDeleteTable({
 
 const PAGE_SIZE = 10;
 export default function TableTable() {
+  const t = useTranslations("TableTable");
+  const columns = useTableColumns();
   const searchParam = useSearchParams();
   const page = searchParam.get("page") ? Number(searchParam.get("page")) : 1;
   const pageIndex = page - 1;
@@ -223,7 +234,7 @@ export default function TableTable() {
         <AlertDialogDeleteTable tableDelete={tableDelete} setTableDelete={setTableDelete} />
         <div className='flex items-center py-4'>
           <Input
-            placeholder='Lọc số bàn'
+            placeholder={t("filterTableNumber")}
             value={(table.getColumn("number")?.getFilterValue() as string) ?? ""}
             onChange={(event) => table.getColumn("number")?.setFilterValue(event.target.value)}
             className='max-w-sm'
@@ -268,8 +279,8 @@ export default function TableTable() {
         </div>
         <div className='flex items-center justify-end space-x-2 py-4'>
           <div className='text-muted-foreground flex-1 py-4 text-xs'>
-            Hiển thị <strong>{table.getPaginationRowModel().rows.length}</strong> trong <strong>{data.length}</strong>{" "}
-            kết quả
+            {t("showing")} <strong>{table.getPaginationRowModel().rows.length}</strong> {t("of")}{" "}
+            <strong>{data.length}</strong> {t("results")}
           </div>
           <div>
             <AutoPagination

@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
 import { format, parse } from "date-fns";
 import { DashboardIndicatorResType } from "@/schemaValidations/indicator.schema";
+import { useTranslations } from "next-intl";
 const chartConfig = {
   desktop: {
     label: "Desktop",
@@ -12,10 +13,11 @@ const chartConfig = {
 } satisfies ChartConfig;
 
 export function RevenueLineChart({ chartData }: { chartData: DashboardIndicatorResType["data"]["revenueByDate"] }) {
+  const t = useTranslations("RevenueLineChart");
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Doanh thu</CardTitle>
+        <CardTitle>{t("revenue")}</CardTitle>
       </CardHeader>
       <CardContent>
         <ChartContainer config={chartConfig}>
@@ -47,7 +49,7 @@ export function RevenueLineChart({ chartData }: { chartData: DashboardIndicatorR
             <ChartTooltip cursor={false} content={<ChartTooltipContent indicator='dashed' />} />
             <Line
               dataKey='revenue'
-              name='Doanh thu'
+              name={t("revenue")}
               type='linear'
               stroke='var(--color-desktop)'
               strokeWidth={2}

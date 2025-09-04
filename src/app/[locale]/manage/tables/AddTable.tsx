@@ -14,8 +14,10 @@ import { TableStatus, TableStatusValues } from "@/constants/type";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useAddTableMutation } from "@/queries/useTable";
 import { toast } from "sonner";
+import { useTranslations } from "next-intl";
 
 export default function AddTable() {
+  const t = useTranslations("AddTable");
   const [open, setOpen] = useState(false);
   const addTableMutation = useAddTableMutation();
   const form = useForm({
@@ -56,12 +58,12 @@ export default function AddTable() {
       <DialogTrigger asChild>
         <Button size='sm' className='h-7 gap-1'>
           <PlusCircle className='h-3.5 w-3.5' />
-          <span className='sr-only sm:not-sr-only sm:whitespace-nowrap'>Thêm bàn</span>
+          <span className='sr-only sm:not-sr-only sm:whitespace-nowrap'>{t("addTable")}</span>
         </Button>
       </DialogTrigger>
       <DialogContent className='max-h-screen overflow-auto sm:max-w-[600px]' onCloseAutoFocus={() => form.reset()}>
         <DialogHeader>
-          <DialogTitle>Thêm bàn</DialogTitle>
+          <DialogTitle>{t("addTableTitle")}</DialogTitle>
         </DialogHeader>
         <Form {...form}>
           <form
@@ -80,7 +82,7 @@ export default function AddTable() {
                 render={({ field }) => (
                   <FormItem>
                     <div className='grid grid-cols-4 items-center justify-items-start gap-4'>
-                      <Label htmlFor='name'>Số hiệu bàn</Label>
+                      <Label htmlFor='name'>{t("tableNumber")}</Label>
                       <div className='col-span-3 w-full space-y-2'>
                         <Input
                           id='number'
@@ -101,7 +103,7 @@ export default function AddTable() {
                 render={({ field }) => (
                   <FormItem>
                     <div className='grid grid-cols-4 items-center justify-items-start gap-4'>
-                      <Label htmlFor='price'>Lượng khách cho phép</Label>
+                      <Label htmlFor='price'>{t("capacity")}</Label>
                       <div className='col-span-3 w-full space-y-2'>
                         <Input
                           id='capacity'
@@ -122,12 +124,12 @@ export default function AddTable() {
                 render={({ field }) => (
                   <FormItem>
                     <div className='grid grid-cols-4 items-center justify-items-start gap-4'>
-                      <Label htmlFor='description'>Trạng thái</Label>
+                      <Label htmlFor='description'>{t("status")}</Label>
                       <div className='col-span-3 w-full space-y-2'>
                         <Select onValueChange={field.onChange} defaultValue={field.value}>
                           <FormControl>
                             <SelectTrigger>
-                              <SelectValue placeholder='Chọn trạng thái' />
+                              <SelectValue placeholder={t("selectStatus")} />
                             </SelectTrigger>
                           </FormControl>
                           <SelectContent>
@@ -150,7 +152,7 @@ export default function AddTable() {
         </Form>
         <DialogFooter>
           <Button type='submit' form='add-table-form'>
-            Thêm
+            {t("add")}
           </Button>
         </DialogFooter>
       </DialogContent>

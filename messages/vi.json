@@ -8,6 +8,71 @@
     "title": "QR Meal",
     "defaultTitle": "QR Meal"
   },
+  "OrderTable": {
+    "from": "Từ",
+    "to": "Đến",
+    "fromDate": "Từ ngày",
+    "toDate": "Đến ngày",
+    "reset": "Reset",
+    "guestName": "Tên khách",
+    "tableNumber": "Số bàn",
+    "status": "Trạng thái"
+  },
+  "ChangePasswordForm": {
+    "changePassword": "Đổi mật khẩu",
+    "oldPassword": "Mật khẩu cũ",
+    "newPassword": "Mật khẩu mới",
+    "confirmNewPassword": "Nhập lại mật khẩu mới",
+    "cancel": "Hủy",
+    "save": "Lưu thông tin"
+  },
+  "UpdateProfileForm": {
+    "personalInfo": "Thông tin cá nhân",
+    "upload": "Upload",
+    "name": "Tên",
+    "cancel": "Hủy",
+    "save": "Lưu thông tin"
+  },
+  "TableTable": {
+    "tableNumber": "Số bàn",
+    "capacity": "Sức chứa",
+    "status": "Trạng thái",
+    "qrCode": "QR Code",
+    "actions": "Actions",
+    "edit": "Sửa",
+    "delete": "Xóa",
+    "deleteTableTitle": "Xóa bàn ăn?",
+    "deleteTableDescription": "Bàn",
+    "willBeDeletedPermanently": "sẽ bị xóa vĩnh viễn",
+    "cancel": "Hủy",
+    "continue": "Tiếp tục",
+    "showing": "Hiển thị",
+    "of": "trong",
+    "results": "kết quả",
+    "filterTableNumber": "Lọc số bàn"
+  },
+  "AddTable": {
+    "addTable": "Thêm bàn",
+    "addTableTitle": "Thêm bàn",
+    "tableNumber": "Số hiệu bàn",
+    "capacity": "Lượng khách cho phép",
+    "status": "Trạng thái",
+    "selectStatus": "Chọn trạng thái",
+    "add": "Thêm"
+  },
+  "EditTable": {
+    "editTable": "Sửa bàn",
+    "editTableTitle": "Sửa bàn",
+    "tableNumber": "Số hiệu bàn",
+    "capacity": "Sức chứa (người)",
+    "status": "Trạng thái",
+    "selectStatus": "Chọn trạng thái",
+    "update": "Cập nhật bàn ăn",
+    "changeQRCode": "Đổi QR Code",
+    "qrCode": "QR Code",
+    "orderUrl": "URL gọi món",
+    "save": "Lưu"
+  },
   "HomePage": {
     "title": "Trang chủ",
     "hero-title": "Chào mừng đến với QR Meal",
@@ -134,5 +199,116 @@
     "description": "Quản lý bàn ăn",
     "cardTitle": "Bàn ăn",
     "cardDescription": "Quản lý bàn ăn"
+  },
+  "AccountTable": {
+    "columnName": "Tên",
+    "actions": "Actions",
+    "edit": "Sửa",
+    "delete": "Xóa",
+    "filterEmails": "Tìm email...",
+    "noResults": "Không có kết quả.",
+    "showing": "Hiển thị",
+    "of": "trong",
+    "results": "kết quả",
+    "deleteEmployeeTitle": "Xóa nhân viên?",
+    "deleteEmployeeDescription": "sẽ bị xóa vĩnh viễn",
+    "cancel": "Hủy",
+    "continue": "Tiếp tục",
+    "createAccount": "Tạo tài khoản"
+  },
+  "AddEmployee": {
+    "createAccount": "Tạo tài khoản",
+    "title": "Tạo tài khoản",
+    "description": "Các trường tên, email, mật khẩu là bắt buộc",
+    "name": "Tên",
+    "email": "Email",
+    "password": "Mật khẩu",
+    "confirmPassword": "Xác nhận mật khẩu",
+    "upload": "Upload",
+    "add": "Thêm"
+  },
+  "EditEmployee": {
+    "updateAccount": "Cập nhật tài khoản",
+    "title": "Cập nhật tài khoản",
+    "description": "Các trường tên, email, mật khẩu là bắt buộc",
+    "name": "Tên",
+    "email": "Email",
+    "password": "Mật khẩu",
+    "confirmPassword": "Xác nhận mật khẩu",
+    "changePassword": "Đổi mật khẩu",
+    "role": "Vai trò",
+    "upload": "Upload",
+    "update": "Cập nhật"
+  },
+  "DashboardMain": {
+    "from": "Từ",
+    "to": "Đến",
+    "fromDate": "Từ ngày",
+    "toDate": "Đến ngày",
+    "reset": "Reset",
+    "totalRevenue": "Tổng doanh thu",
+    "guests": "Khách",
+    "orderFood": "Gọi món",
+    "orders": "Đơn hàng",
+    "paid": "Đã thanh toán",
+    "servingTables": "Bàn đang phục vụ"
+  },
+  "DishBarChart": {
+    "dishRanking": "Xếp hạng món ăn",
+    "mostOrdered": "Được gọi nhiều nhất",
+    "paidOrders": "Đơn thanh toán: "
+  },
+  "RevenueLineChart": {
+    "revenue": "Doanh thu"
+  },
+  "DishTable": {
+    "image": "Ảnh",
+    "name": "Tên",
+    "price": "Giá cả",
+    "dishDescription": "Mô tả",
+    "status": "Trạng thái",
+    "actions": "Actions",
+    "edit": "Sửa",
+    "delete": "Xóa",
+    "filterName": "Lọc tên",
+    "noResults": "Không có kết quả.",
+    "showing": "Hiển thị",
+    "of": "trong",
+    "results": "kết quả",
+    "deleteDishTitle": "Xóa món ăn?",
+    "deleteDishDescription": "Món",
+    "willBeDeletedPermanently": "sẽ bị xóa vĩnh viễn",
+    "cancel": "Hủy",
+    "continue": "Tiếp tục"
+  },
+  "AddDish": {
+    "addDish": "Thêm món ăn",
+    "addDishTitle": "Thêm món ăn",
+    "createDish": "Tạo món ăn",
+    "title": "Tạo món ăn",
+    "dialogDescription": "Các trường tên, giá là bắt buộc",
+    "dishImage": "Ảnh món ăn",
+    "dishName": "Tên món ăn",
+    "name": "Tên",
+    "price": "Giá",
+    "description": "Mô tả sản phẩm",
+    "dishDescription": "Mô tả",
+    "status": "Trạng thái",
+    "selectStatus": "Chọn trạng thái",
+    "upload": "Upload",
+    "add": "Thêm"
+  },
+  "EditDish": {
+    "updateDish": "Cập nhật món ăn",
+    "title": "Cập nhật món ăn",
+    "dialogDescription": "Các trường tên, giá là bắt buộc",
+    "dishImage": "Ảnh món ăn",
+    "name": "Tên",
+    "price": "Giá",
+    "dishDescription": "Mô tả",
+    "status": "Trạng thái",
+    "selectStatus": "Chọn trạng thái",
+    "upload": "Upload",
+    "update": "Cập nhật"
   }
 }

@@ -16,6 +16,7 @@ import { useEffect } from "react";
 import { useGetTableQuery, useUpdateTableMutation } from "@/queries/useTable";
 import { toast } from "sonner";
 import QRCodeTable from "@/components/QRCodeTable";
+import { useTranslations } from "next-intl";
 
 export default function EditTable({
   id,
@@ -26,6 +27,7 @@ export default function EditTable({
   setId: (value: number | undefined) => void;
   onSubmitSuccess?: () => void;
 }) {
+  const t = useTranslations("EditTable");
   const updateTableMutation = useUpdateTableMutation();
   const form = useForm({
     resolver: zodResolver(UpdateTableBody),
@@ -91,7 +93,7 @@ export default function EditTable({
         }}
       >
         <DialogHeader>
-          <DialogTitle>Cập nhật bàn ăn</DialogTitle>
+          <DialogTitle>{t("update")}</DialogTitle>
         </DialogHeader>
         <Form {...form}>
           <form
@@ -105,7 +107,7 @@ export default function EditTable({
             <div className='grid gap-4 py-4'>
               <FormItem>
                 <div className='grid grid-cols-4 items-center justify-items-start gap-4'>
-                  <Label htmlFor='name'>Số hiệu bàn</Label>
+                  <Label htmlFor='name'>{t("tableNumber")}</Label>
                   <div className='col-span-3 w-full space-y-2'>
                     <Input
                       id='number'
@@ -124,7 +126,7 @@ export default function EditTable({
                 render={({ field }) => (
                   <FormItem>
                     <div className='grid grid-cols-4 items-center justify-items-start gap-4'>
-                      <Label htmlFor='price'>Sức chứa (người)</Label>
+                      <Label htmlFor='price'>{t("capacity")}</Label>
                       <div className='col-span-3 w-full space-y-2'>
                         <Input
                           id='capacity'
@@ -145,12 +147,12 @@ export default function EditTable({
                 render={({ field }) => (
                   <FormItem>
                     <div className='grid grid-cols-4 items-center justify-items-start gap-4'>
-                      <Label htmlFor='description'>Trạng thái</Label>
+                      <Label htmlFor='description'>{t("status")}</Label>
                       <div className='col-span-3 w-full space-y-2'>
                         <Select onValueChange={field.onChange} value={field.value}>
                           <FormControl>
                             <SelectTrigger>
-                              <SelectValue placeholder='Chọn trạng thái' />
+                              <SelectValue placeholder={t("selectStatus")} />
                             </SelectTrigger>
                           </FormControl>
                           <SelectContent>
@@ -174,7 +176,7 @@ export default function EditTable({
                 render={({ field }) => (
                   <FormItem>
                     <div className='grid grid-cols-4 items-center justify-items-start gap-4'>
-                      <Label htmlFor='price'>Đổi QR Code</Label>
+                      <Label htmlFor='price'>{t("changeQRCode")}</Label>
                       <div className='col-span-3 w-full space-y-2'>
                         <div className='flex items-center space-x-2'>
                           <Switch id='changeToken' checked={field.value} onCheckedChange={field.onChange} />
@@ -188,7 +190,7 @@ export default function EditTable({
               />
               <FormItem>
                 <div className='grid grid-cols-4 items-center justify-items-start gap-4'>
-                  <Label>QR Code</Label>
+                  <Label>{t("qrCode")}</Label>
                   <div className='col-span-3 w-full space-y-2'>
                     {data && <QRCodeTable token={data.payload.data.token} tableNumber={data.payload.data.number} />}
                   </div>
@@ -196,7 +198,7 @@ export default function EditTable({
               </FormItem>
               <FormItem>
                 <div className='grid grid-cols-4 items-center justify-items-start gap-4'>
-                  <Label>URL gọi món</Label>
+                  <Label>{t("orderUrl")}</Label>
                   <div className='col-span-3 w-full space-y-2'>
                     {data && (
                       <Link
@@ -221,7 +223,7 @@ export default function EditTable({
         </Form>
         <DialogFooter>
           <Button type='submit' form='edit-table-form'>
-            Lưu
+            {t("save")}
           </Button>
         </DialogFooter>
       </DialogContent>

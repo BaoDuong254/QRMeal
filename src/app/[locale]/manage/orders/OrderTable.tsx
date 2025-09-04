@@ -36,6 +36,7 @@ import TableSkeleton from "@/app/[locale]/manage/orders/TableSkeleton";
 import { toast } from "sonner";
 import { GuestCreateOrdersResType } from "@/schemaValidations/guest.schema";
 import { useAppStore } from "@/components/AppProvider";
+import { useTranslations } from "next-intl";
 
 export const OrderTableContext = createContext({
   setOrderIdEdit: (value: number | undefined) => {},
@@ -61,6 +62,7 @@ const PAGE_SIZE = 10;
 const initFromDate = startOfDay(new Date());
 const initToDate = endOfDay(new Date());
 export default function OrderTable() {
+  const t = useTranslations("OrderTable");
   const socket = useAppStore((state) => state.socket);
   const searchParam = useSearchParams();
   const [openStatusFilter, setOpenStatusFilter] = useState(false);
@@ -209,26 +211,26 @@ export default function OrderTable() {
         <div className='flex items-center'>
           <div className='flex flex-wrap gap-2'>
             <div className='flex items-center'>
-              <span className='mr-2'>Từ</span>
+              <span className='mr-2'>{t("from")}</span>
               <Input
                 type='datetime-local'
-                placeholder='Từ ngày'
+                placeholder={t("fromDate")}
                 className='text-sm'
                 value={format(fromDate, "yyyy-MM-dd HH:mm").replace(" ", "T")}
                 onChange={(event) => setFromDate(new Date(event.target.value))}
               />
             </div>
             <div className='flex items-center'>
-              <span className='mr-2'>Đến</span>
+              <span className='mr-2'>{t("to")}</span>
               <Input
                 type='datetime-local'
-                placeholder='Đến ngày'
+                placeholder={t("toDate")}
                 value={format(toDate, "yyyy-MM-dd HH:mm").replace(" ", "T")}
                 onChange={(event) => setToDate(new Date(event.target.value))}
               />
             </div>
             <Button className='' variant={"outline"} onClick={resetDateFilter}>
-              Reset
+              {t("reset")}
             </Button>
           </div>
           <div className='ml-auto'>
@@ -237,13 +239,13 @@ export default function OrderTable() {
         </div>
         <div className='flex flex-wrap items-center gap-4 py-4'>
           <Input
-            placeholder='Tên khách'
+            placeholder={t("guestName")}
             value={(table.getColumn("guestName")?.getFilterValue() as string) ?? ""}
             onChange={(event) => table.getColumn("guestName")?.setFilterValue(event.target.value)}
             className='max-w-[100px]'
           />
           <Input
-            placeholder='Số bàn'
+            placeholder={t("tableNumber")}
             value={(table.getColumn("tableNumber")?.getFilterValue() as string) ?? ""}
             onChange={(event) => table.getColumn("tableNumber")?.setFilterValue(event.target.value)}
             className='max-w-[80px]'
@@ -260,7 +262,7 @@ export default function OrderTable() {
                   ? getVietnameseOrderStatus(
                       table.getColumn("status")?.getFilterValue() as (typeof OrderStatusValues)[number]
                     )
-                  : "Trạng thái"}
+                  : t("status")}
                 <ChevronsUpDown className='ml-2 h-4 w-4 shrink-0 opacity-50' />
               </Button>
             </PopoverTrigger>

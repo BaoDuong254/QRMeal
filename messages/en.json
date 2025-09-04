@@ -4,9 +4,72 @@
     "required": "This field is required",
     "minmaxPassword": "Password must be between 6 and 100 characters"
   },
+  "TableTable": {
+    "tableNumber": "Table number",
+    "capacity": "Capacity",
+    "status": "Status",
+    "qrCode": "QR Code",
+    "actions": "Actions",
+    "edit": "Edit",
+    "delete": "Delete",
+    "deleteTableTitle": "Delete table?",
+    "deleteTableDescription": "Table",
+    "willBeDeletedPermanently": "will be permanently deleted",
+    "cancel": "Cancel",
+    "continue": "Continue",
+    "showing": "Showing",
+    "of": "of",
+    "results": "results",
+    "filterTableNumber": "Filter table number"
+  },
+  "AddTable": {
+    "addTable": "Add table",
+    "addTableTitle": "Add table",
+    "tableNumber": "Table number",
+    "capacity": "Guest capacity",
+    "status": "Status",
+    "selectStatus": "Select status",
+    "add": "Add"
+  },
+  "EditTable": {
+    "update": "Update Table",
+    "tableNumber": "Table Number",
+    "capacity": "Capacity (people)",
+    "status": "Status",
+    "selectStatus": "Select status",
+    "changeQRCode": "Change QR Code",
+    "qrCode": "QR Code",
+    "orderUrl": "Order URL",
+    "save": "Save"
+  },
   "Brand": {
     "title": "QR Meal",
     "defaultTitle": "QR Meal"
+  },
+  "OrderTable": {
+    "from": "From",
+    "to": "To",
+    "fromDate": "From date",
+    "toDate": "To date",
+    "reset": "Reset",
+    "guestName": "Guest name",
+    "tableNumber": "Table number",
+    "status": "Status"
+  },
+  "ChangePasswordForm": {
+    "changePassword": "Change password",
+    "oldPassword": "Old password",
+    "newPassword": "New password",
+    "confirmNewPassword": "Confirm new password",
+    "cancel": "Cancel",
+    "save": "Save information"
+  },
+  "UpdateProfileForm": {
+    "personalInfo": "Personal information",
+    "upload": "Upload",
+    "name": "Name",
+    "cancel": "Cancel",
+    "save": "Save information"
   },
   "HomePage": {
     "title": "Home page",
@@ -134,5 +197,116 @@
     "description": "Manage tables",
     "cardTitle": "Tables",
     "cardDescription": "Manage tables"
+  },
+  "AccountTable": {
+    "columnName": "Name",
+    "actions": "Actions",
+    "edit": "Edit",
+    "delete": "Delete",
+    "filterEmails": "Filter emails...",
+    "noResults": "No results.",
+    "showing": "Showing",
+    "of": "of",
+    "results": "results",
+    "deleteEmployeeTitle": "Delete employee?",
+    "deleteEmployeeDescription": "will be permanently deleted",
+    "cancel": "Cancel",
+    "continue": "Continue",
+    "createAccount": "Create account"
+  },
+  "AddEmployee": {
+    "createAccount": "Create account",
+    "title": "Create account",
+    "description": "Name, email, password fields are required",
+    "name": "Name",
+    "email": "Email",
+    "password": "Password",
+    "confirmPassword": "Confirm password",
+    "upload": "Upload",
+    "add": "Add"
+  },
+  "EditEmployee": {
+    "updateAccount": "Update account",
+    "title": "Update account",
+    "description": "Name, email, password fields are required",
+    "name": "Name",
+    "email": "Email",
+    "password": "Password",
+    "confirmPassword": "Confirm password",
+    "changePassword": "Change password",
+    "role": "Role",
+    "upload": "Upload",
+    "update": "Update"
+  },
+  "DashboardMain": {
+    "from": "From",
+    "to": "To",
+    "fromDate": "From date",
+    "toDate": "To date",
+    "reset": "Reset",
+    "totalRevenue": "Total Revenue",
+    "guests": "Guests",
+    "orderFood": "Order food",
+    "orders": "Orders",
+    "paid": "Paid",
+    "servingTables": "Serving Tables"
+  },
+  "DishBarChart": {
+    "dishRanking": "Dish Ranking",
+    "mostOrdered": "Most ordered",
+    "paidOrders": "Paid orders: "
+  },
+  "RevenueLineChart": {
+    "revenue": "Revenue"
+  },
+  "DishTable": {
+    "image": "Image",
+    "name": "Name",
+    "price": "Price",
+    "dishDescription": "Description",
+    "status": "Status",
+    "actions": "Actions",
+    "edit": "Edit",
+    "delete": "Delete",
+    "filterName": "Filter name",
+    "noResults": "No results.",
+    "showing": "Showing",
+    "of": "of",
+    "results": "results",
+    "deleteDishTitle": "Delete dish?",
+    "deleteDishDescription": "Dish",
+    "willBeDeletedPermanently": "will be permanently deleted",
+    "cancel": "Cancel",
+    "continue": "Continue"
+  },
+  "AddDish": {
+    "addDish": "Add dish",
+    "addDishTitle": "Add dish",
+    "createDish": "Create dish",
+    "title": "Create dish",
+    "dialogDescription": "Name, price fields are required",
+    "dishImage": "Dish image",
+    "dishName": "Dish name",
+    "name": "Name",
+    "price": "Price",
+    "description": "Product description",
+    "dishDescription": "Description",
+    "status": "Status",
+    "selectStatus": "Select status",
+    "upload": "Upload",
+    "add": "Add"
+  },
+  "EditDish": {
+    "updateDish": "Update dish",
+    "title": "Update dish",
+    "dialogDescription": "Name, price fields are required",
+    "dishImage": "Dish image",
+    "name": "Name",
+    "price": "Price",
+    "dishDescription": "Description",
+    "status": "Status",
+    "selectStatus": "Select status",
+    "upload": "Upload",
+    "update": "Update"
   }
 }

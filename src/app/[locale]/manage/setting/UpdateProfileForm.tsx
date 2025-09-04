@@ -14,8 +14,10 @@ import { useAccountMe, useUpdateMeMutation } from "@/queries/useAccount";
 import { useUploadMediaMutation } from "@/queries/useMedia";
 import { toast } from "sonner";
 import { handleErrorApi } from "@/lib/utils";
+import { useTranslations } from "next-intl";
 
 export default function UpdateProfileForm() {
+  const t = useTranslations("UpdateProfileForm");
   const [file, setFile] = useState<File | null>(null);
   const avatarInputRef = useRef<HTMLInputElement>(null);
   const { data, refetch } = useAccountMe();
@@ -82,7 +84,7 @@ export default function UpdateProfileForm() {
       >
         <Card x-chunk='dashboard-07-chunk-0'>
           <CardHeader>
-            <CardTitle>Thông tin cá nhân</CardTitle>
+            <CardTitle>{t("personalInfo")}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className='grid gap-6'>
@@ -116,7 +118,7 @@ export default function UpdateProfileForm() {
                         onClick={() => avatarInputRef.current?.click()}
                       >
                         <Upload className='text-muted-foreground h-4 w-4' />
-                        <span className='sr-only'>Upload</span>
+                        <span className='sr-only'>{t("upload")}</span>
                       </button>
                     </div>
                   </FormItem>
@@ -129,7 +131,7 @@ export default function UpdateProfileForm() {
                 render={({ field }) => (
                   <FormItem>
                     <div className='grid gap-3'>
-                      <Label htmlFor='name'>Tên</Label>
+                      <Label htmlFor='name'>{t("name")}</Label>
                       <Input id='name' type='text' className='w-full' {...field} />
                       <FormMessage />
                     </div>
@@ -139,10 +141,10 @@ export default function UpdateProfileForm() {
 
               <div className='flex items-center gap-2 md:ml-auto'>
                 <Button variant='outline' size='sm' type='reset'>
-                  Hủy
+                  {t("cancel")}
                 </Button>
                 <Button size='sm' type='submit'>
-                  Lưu thông tin
+                  {t("save")}
                 </Button>
               </div>
             </div>

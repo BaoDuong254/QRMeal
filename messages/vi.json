@@ -98,5 +98,41 @@
     "tables": "Bàn ăn",
     "dishes": "Món ăn",
     "accounts": "Nhân viên"
+  },
+  "DashboardPage": {
+    "title": "Bảng điều khiển",
+    "description": "Xem và phân tích dữ liệu bán hàng",
+    "cardTitle": "Dashboard",
+    "cardDescription": "Phân tích các chỉ số"
+  },
+  "AccountsPage": {
+    "title": "Quản lý tài khoản",
+    "description": "Quản lý tài khoản nhân viên",
+    "cardTitle": "Tài khoản",
+    "cardDescription": "Quản lý tài khoản nhân viên"
+  },
+  "DishesPage": {
+    "title": "Món ăn",
+    "description": "Quản lý món ăn",
+    "cardTitle": "Món ăn",
+    "cardDescription": "Quản lý món ăn"
+  },
+  "OrdersPage": {
+    "title": "Đơn hàng",
+    "description": "Quản lý đơn hàng",
+    "cardTitle": "Đơn hàng",
+    "cardDescription": "Quản lý đơn hàng"
+  },
+  "SettingPage": {
+    "title": "Cài đặt",
+    "description": "Quản lý cài đặt tài khoản của bạn",
+    "pageTitle": "Cài đặt",
+    "ownerBadge": "Owner"
+  },
+  "TablesPage": {
+    "title": "Bàn ăn",
+    "description": "Quản lý bàn ăn",
+    "cardTitle": "Bàn ăn",
+    "cardDescription": "Quản lý bàn ăn"
   }
 }

@@ -10,11 +10,11 @@ type Props = {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 };
 
-export async function generateMetadata({ params, searchParams }: Props): Promise<Metadata> {
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const resolvedParams = await params;
   const t = await getTranslations({
     locale: resolvedParams.locale,
-    namespace: "Setting",
+    namespace: "SettingPage",
   });
 
   const url = envConfig.NEXT_PUBLIC_URL + `/${resolvedParams.locale}/manage/setting`;
@@ -31,14 +31,22 @@ export async function generateMetadata({ params, searchParams }: Props): Promise
   };
 }
 
-export default function Setting() {
+export default async function Setting({ params }: { params: Promise<{ locale: Locale }> }) {
+  const resolvedParams = await params;
+  const t = await getTranslations({
+    locale: resolvedParams.locale,
+    namespace: "SettingPage",
+  });
+
   return (
     <main className='grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8'>
       <div className='mx-auto grid w-full flex-1 auto-rows-max gap-4'>
         <div className='flex items-center gap-4'>
-          <h1 className='flex-1 shrink-0 text-xl font-semibold tracking-tight whitespace-nowrap sm:grow-0'>Cài đặt</h1>
+          <h1 className='flex-1 shrink-0 text-xl font-semibold tracking-tight whitespace-nowrap sm:grow-0'>
+            {t("pageTitle")}
+          </h1>
           <Badge variant='outline' className='ml-auto sm:ml-0'>
-            Owner
+            {t("ownerBadge")}
           </Badge>
         </div>
         <div className='grid gap-4 md:grid-cols-2 md:gap-8'>

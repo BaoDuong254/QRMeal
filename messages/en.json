@@ -98,5 +98,41 @@
     "tables": "Tables",
     "dishes": "Dishes",
     "accounts": "Employees"
+  },
+  "DashboardPage": {
+    "title": "Dashboard",
+    "description": "Analyze metrics",
+    "cardTitle": "Dashboard",
+    "cardDescription": "Analyze metrics"
+  },
+  "AccountsPage": {
+    "title": "Manage accounts",
+    "description": "Manage employee accounts",
+    "cardTitle": "Accounts",
+    "cardDescription": "Manage employee accounts"
+  },
+  "DishesPage": {
+    "title": "Dishes",
+    "description": "Manage dishes",
+    "cardTitle": "Dishes",
+    "cardDescription": "Manage dishes"
+  },
+  "OrdersPage": {
+    "title": "Orders",
+    "description": "Manage orders",
+    "cardTitle": "Orders",
+    "cardDescription": "Manage orders"
+  },
+  "SettingPage": {
+    "title": "Setting",
+    "description": "Manage your account settings",
+    "pageTitle": "Settings",
+    "ownerBadge": "Owner"
+  },
+  "TablesPage": {
+    "title": "Tables",
+    "description": "Manage tables",
+    "cardTitle": "Tables",
+    "cardDescription": "Manage tables"
   }
 }

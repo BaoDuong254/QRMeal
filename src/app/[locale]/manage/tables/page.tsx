@@ -10,11 +10,11 @@ type Props = {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 };
 
-export async function generateMetadata({ params, searchParams }: Props): Promise<Metadata> {
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const resolvedParams = await params;
   const t = await getTranslations({
     locale: resolvedParams.locale,
-    namespace: "Tables",
+    namespace: "TablesPage",
   });
 
   const url = envConfig.NEXT_PUBLIC_URL + `/${resolvedParams.locale}/manage/tables`;
@@ -31,14 +31,20 @@ export async function generateMetadata({ params, searchParams }: Props): Promise
   };
 }
 
-export default function TablesPage() {
+export default async function TablesPage({ params }: { params: Promise<{ locale: Locale }> }) {
+  const resolvedParams = await params;
+  const t = await getTranslations({
+    locale: resolvedParams.locale,
+    namespace: "TablesPage",
+  });
+
   return (
     <main className='grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8'>
       <div className='space-y-2'>
         <Card x-chunk='dashboard-06-chunk-0'>
           <CardHeader>
-            <CardTitle>Bàn ăn</CardTitle>
-            <CardDescription>Quản lý bàn ăn</CardDescription>
+            <CardTitle>{t("cardTitle")}</CardTitle>
+            <CardDescription>{t("cardDescription")}</CardDescription>
           </CardHeader>
           <CardContent>
             <Suspense>

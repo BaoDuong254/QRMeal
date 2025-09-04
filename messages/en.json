@@ -279,7 +279,7 @@
     "actions": "Actions",
     "edit": "Edit",
     "delete": "Delete",
-    "filterName": "Filter name",
+    "filterName": "Filter dish",
     "noResults": "No results.",
     "showing": "Showing",
     "of": "of",
@@ -355,7 +355,8 @@
     "paid": "Paid",
     "orders": "orders",
     "table": "Table",
-    "guest": "Guest"
+    "guest": "Guest",
+    "ready": "Ready"
   },
   "OrderGuestDetail": {
     "customerInfo": "Customer Information",

@@ -281,7 +281,7 @@
     "actions": "Actions",
     "edit": "Sửa",
     "delete": "Xóa",
-    "filterName": "Lọc tên",
+    "filterName": "Lọc món ăn",
     "noResults": "Không có kết quả.",
     "showing": "Hiển thị",
     "of": "trong",
@@ -357,7 +357,8 @@
     "paid": "Đã thanh toán",
     "orders": "đơn",
     "table": "Bàn",
-    "guest": "Khách"
+    "guest": "Khách",
+    "ready": "Sẵn sàng"
   },
   "OrderGuestDetail": {
     "customerInfo": "Thông tin khách hàng",

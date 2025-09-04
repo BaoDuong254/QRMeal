@@ -152,7 +152,7 @@ export default function OrderStatics({
                   "bg-muted-foreground": !isEmptyTable,
                 })}
               />
-              {isEmptyTable && <div className='flex items-center justify-between text-sm'>Ready</div>}
+              {isEmptyTable && <div className='flex items-center justify-between text-sm'>{t("ready")}</div>}
               {!isEmptyTable && (
                 <div className='flex flex-col gap-2'>
                   <TooltipProvider>

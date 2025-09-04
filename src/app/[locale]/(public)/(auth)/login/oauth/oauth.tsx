@@ -50,6 +50,7 @@ export default function Oauth() {
           toast(message || "Có lỗi xảy ra");
         });
         count.current++;
+        router.push("/login");
       }
     }
   }, [accessToken, refreshToken, setRole, router, setSocket, message, mutateAsync]);

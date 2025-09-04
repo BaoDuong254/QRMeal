@@ -1,36 +1,158 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# QR Meal
 
-## Getting Started
+A modern, full-stack QR code-based restaurant ordering system that enables contactless dining experiences. Customers can scan QR codes at their table to view the menu, place orders, and track their meals in real-time.
 
-First, run the development server:
+## Project Overview
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+QR Meal revolutionizes the dining experience by providing a seamless, contactless ordering system for restaurants. With multi-language support (English & Vietnamese), real-time order tracking, and comprehensive management tools, it's designed to enhance both customer satisfaction and restaurant operations.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Features
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### For Customers (Guests)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- **QR Code Scanning**: Simply scan the QR code at your table to access the menu
+- **Digital Menu**: Browse dishes with images, descriptions, and prices
+- **Easy Ordering**: Add items to cart and place orders instantly
+- **Order Tracking**: Real-time updates on order status (Pending → Processing → Delivered → Paid)
+- **Multi-language Support**: Available in English and Vietnamese
 
-## Learn More
+### For Restaurant Staff
 
-To learn more about Next.js, take a look at the following resources:
+- **Order Management**: View and manage all incoming orders with status updates
+- **Real-time Notifications**: Get instant notifications for new orders via WebSocket
+- **Table Management**: Monitor table availability and reservations
+- **Guest Management**: Track customer sessions and table assignments
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### For Restaurant Owners/Managers
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- **Dashboard Analytics**: Comprehensive insights with interactive charts
+- **Menu Management**: Add, edit, and organize dishes with images
+- **Staff Management**: Create and manage employee accounts with role-based access
+- **Table Setup**: Configure tables and generate QR codes
+- **Order Reports**: Detailed order history and analytics
 
-## Deploy on Vercel
+### Technical Features
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- **Real-time Communication**: WebSocket integration for instant updates
+- **JWT Authentication**: Secure token-based authentication system
+- **Responsive Design**: Optimized for all devices (mobile, tablet, desktop)
+- **Dark Mode**: Toggle between light and dark themes
+- **Form Validation**: Comprehensive client and server-side validation
+- **Image Upload**: Media management for dish photos
+- **SEO Optimized**: Meta tags and sitemap generation
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Installation & Configuration
+
+### Prerequisites
+
+- Node.js 18.x or higher
+- npm, yarn, pnpm, or bun package manager
+- Backend API server (separate repository)
+
+### Environment Setup
+
+1. **Clone the repository**
+
+   ```bash
+   git clone <your-repository-url>
+   cd qrmeal
+   ```
+
+2. **Install dependencies**
+
+   ```bash
+   npm install
+   # or
+   yarn install
+   # or
+   pnpm install
+   ```
+
+3. **Environment Variables**
+
+   Create a `.env.local` file in the root directory:
+
+   ```env
+   NEXT_PUBLIC_API_ENDPOINT=http://localhost:4000/api
+   NEXT_PUBLIC_URL=http://localhost:3000
+   NEXT_PUBLIC_GOOGLE_CLIENT_ID=your_google_client_id
+   NEXT_PUBLIC_GOOGLE_AUTHORIZED_REDIRECT_URI=http://localhost:3000/api/auth/login/google
+   ```
+
+4. **Start the development server**
+
+   ```bash
+   npm run dev
+   # or
+   yarn dev
+   # or
+   pnpm dev
+   # or
+   bun dev
+   ```
+
+5. **Open your browser**
+
+   Navigate to [http://localhost:3000](http://localhost:3000) to see the application.
+
+### Backend Configuration
+
+This frontend requires a backend API server. Make sure to:
+
+- Set up the backend server on the configured API endpoint
+- Ensure the backend supports the required endpoints for authentication, orders, dishes, tables, etc.
+- Configure CORS settings to allow requests from your frontend domain
+
+## Tech Stack
+
+### Frontend Framework
+
+- **Next.js 15.4.7** - React framework with App Router
+- **React 19.1.0** - UI library with latest features
+- **TypeScript 5** - Type-safe development
+
+### Styling & UI
+
+- **Tailwind CSS 4** - Utility-first CSS framework
+- **Radix UI** - Accessible, unstyled UI primitives
+- **Lucide React** - Beautiful & consistent icon library
+- **next-themes** - Dark mode support
+
+### State Management & Data Fetching
+
+- **TanStack Query (React Query)** - Server state management
+- **Zustand** - Lightweight client state management
+- **React Hook Form** - Performant form handling
+
+### Internationalization
+
+- **next-intl** - Type-safe internationalization
+- **Support for English & Vietnamese**
+
+### Development Tools
+
+- **ESLint** - Code linting with Next.js configuration
+- **Prettier** - Code formatting
+- **Husky** - Git hooks for code quality
+- **lint-staged** - Run linters on staged files
+
+### Additional Libraries
+
+- **Socket.io Client** - Real-time communication
+- **QRCode** - QR code generation
+- **JWT Decode** - JWT token handling
+- **Zod** - Schema validation
+- **React-Recharts** - Data visualization
+- **Sonner** - Toast notifications
+
+## Live Demo
+
+🔗 **Demo Link**: [http://localhost:example](http://localhost:example)
+
+## Contributing
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request

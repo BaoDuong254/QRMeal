@@ -155,7 +155,11 @@
     }
   },
   "toast": {
-    "logoutSuccess": "Logout successful"
+    "logoutSuccess": "Logout successful",
+    "somethingWentWrong": "Something went wrong",
+    "errorOccurred": "An error occurred",
+    "orderUpdated": "Dish {dishName} (Qty: {quantity}) has been updated to {status}",
+    "paymentSuccess": "You have successfully paid for {orderCount} orders"
   },
   "settings": {
     "setting": "Setting",

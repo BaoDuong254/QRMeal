@@ -157,7 +157,11 @@
     }
   },
   "toast": {
-    "logoutSuccess": "Đăng xuất thành công"
+    "logoutSuccess": "Đăng xuất thành công",
+    "somethingWentWrong": "Có lỗi xảy ra",
+    "errorOccurred": "Có lỗi xảy ra",
+    "orderUpdated": "Món {dishName} (SL: {quantity}) vừa được cập nhật sang trạng thái {status}",
+    "paymentSuccess": "Bạn đã thanh toán thành công {orderCount} đơn"
   },
   "settings": {
     "setting": "Cài đặt",

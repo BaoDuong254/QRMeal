@@ -19,6 +19,7 @@ import { useTranslations } from "next-intl";
 
 export default function DropdownAvatar() {
   const t = useTranslations("settings");
+  const toast_t = useTranslations("toast");
   const logoutMutation = useLogoutMutation();
   const setRole = useAppStore((state) => state.setRole);
   const disconnectSocket = useAppStore((state) => state.disconnectSocket);
@@ -29,13 +30,13 @@ export default function DropdownAvatar() {
     if (logoutMutation.isPending) return;
     try {
       await logoutMutation.mutateAsync();
-      toast.success("Đăng xuất thành công");
+      toast.success(toast_t("logoutSuccess"));
       setRole();
       disconnectSocket();
       router.push("/");
     } catch (error) {
       console.error("Logout failed:", error);
-      handleErrorApi({ error });
+      handleErrorApi({ error, fallbackErrorMessage: toast_t("somethingWentWrong") });
     }
   };
   return (

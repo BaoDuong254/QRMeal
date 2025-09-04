@@ -13,6 +13,7 @@ import { toast } from "sonner";
 
 export default function OrdersCart() {
   const t = useTranslations("GuestOrders");
+  const toast_t = useTranslations("toast");
   const socket = useAppStore((state) => state.socket);
   const { data, refetch } = useGuestGetOrderListQuery();
   const orders = data?.payload.data ?? [];
@@ -72,12 +73,18 @@ export default function OrdersCart() {
         dishSnapshot: { name },
         quantity,
       } = data;
-      toast(`Món ${name} (SL: ${quantity}) vừa được cập nhật sang trạng thái ${getVietnameseOrderStatus(data.status)}`);
+      toast(
+        toast_t("orderUpdated", {
+          dishName: name,
+          quantity: quantity,
+          status: getVietnameseOrderStatus(data.status),
+        })
+      );
       refetch();
     }
 
     function onPayment(data: PayGuestOrdersResType["data"]) {
-      toast(`Bạn đã thanh toán thành công ${data.length} đơn`);
+      toast(toast_t("paymentSuccess", { orderCount: data.length }));
       refetch();
     }
 
@@ -93,7 +100,7 @@ export default function OrdersCart() {
       socket?.off("update-order", onUpdateOrder);
       socket?.off("payment", onPayment);
     };
-  }, [refetch, socket]);
+  }, [refetch, socket, toast_t]);
   return (
     <>
       {orders.map((order, index) => (

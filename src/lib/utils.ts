@@ -44,20 +44,22 @@ export const normalizePath = (path: string) => {
 };
 
 /**
- * Handles API errors and sets form errors if provided.
- *
- * @param error The error object from the API response.
+ * Handles API errors by displaying them as toast notifications or setting form errors.
+ * @param error The error object from the API.
  * @param setError Optional function to set form errors.
  * @param duration Optional duration for the toast notification.
+ * @param fallbackErrorMessage Optional fallback error message when error message is not available.
  */
 export const handleErrorApi = ({
   error,
   setError,
   duration,
+  fallbackErrorMessage,
 }: {
   error: any;
   setError?: UseFormSetError<any>;
   duration?: number;
+  fallbackErrorMessage?: string;
 }) => {
   if (error instanceof EntityError && setError) {
     error.payload.errors.forEach((item) => {
@@ -67,7 +69,7 @@ export const handleErrorApi = ({
       });
     });
   } else {
-    toast.error(error?.payload?.message || "Something went wrong", {
+    toast.error(error?.payload?.message || fallbackErrorMessage || "Something went wrong", {
       duration: duration || 5000,
     });
   }

@@ -20,48 +20,56 @@ import { Input } from "@/components/ui/input";
 import { GetListGuestsResType } from "@/schemaValidations/account.schema";
 import { endOfDay, format, startOfDay } from "date-fns";
 import { useGetGuestListQuery } from "@/queries/useAccount";
+import { useTranslations } from "next-intl";
 
 type GuestItem = GetListGuestsResType["data"][0];
 
-export const columns: ColumnDef<GuestItem>[] = [
-  {
-    accessorKey: "name",
-    header: "Tên",
-    cell: ({ row }) => (
-      <div className='capitalize'>
-        {row.getValue("name")} | (#{row.original.id})
-      </div>
-    ),
-    filterFn: (row, columnId, filterValue: string) => {
-      if (filterValue === undefined) return true;
-      return simpleMatchText(row.original.name + String(row.original.id), String(filterValue));
+const useGuestColumns = (): ColumnDef<GuestItem>[] => {
+  const t = useTranslations("GuestsDialog");
+
+  return [
+    {
+      accessorKey: "name",
+      header: t("name"),
+      cell: ({ row }) => (
+        <div className='capitalize'>
+          {row.getValue("name")} | (#{row.original.id})
+        </div>
+      ),
+      filterFn: (row, columnId, filterValue: string) => {
+        if (filterValue === undefined) return true;
+        return simpleMatchText(row.original.name + String(row.original.id), String(filterValue));
+      },
     },
-  },
-  {
-    accessorKey: "tableNumber",
-    header: "Số bàn",
-    cell: ({ row }) => <div className='capitalize'>{row.getValue("tableNumber")}</div>,
-    filterFn: (row, columnId, filterValue: string) => {
-      if (filterValue === undefined) return true;
-      return simpleMatchText(String(row.original.tableNumber), String(filterValue));
+    {
+      accessorKey: "tableNumber",
+      header: t("tableNumber"),
+      cell: ({ row }) => <div className='capitalize'>{row.getValue("tableNumber")}</div>,
+      filterFn: (row, columnId, filterValue: string) => {
+        if (filterValue === undefined) return true;
+        return simpleMatchText(String(row.original.tableNumber), String(filterValue));
+      },
     },
-  },
-  {
-    accessorKey: "createdAt",
-    header: () => <div>Tạo</div>,
-    cell: ({ row }) => (
-      <div className='flex items-center space-x-4 text-sm'>
-        {formatDateTimeToLocaleString(row.getValue("createdAt"))}
-      </div>
-    ),
-  },
-];
+    {
+      accessorKey: "createdAt",
+      header: () => <div>{t("created")}</div>,
+      cell: ({ row }) => (
+        <div className='flex items-center space-x-4 text-sm'>
+          {formatDateTimeToLocaleString(row.getValue("createdAt"))}
+        </div>
+      ),
+    },
+  ];
+};
 
 const PAGE_SIZE = 10;
 const initFromDate = startOfDay(new Date());
 const initToDate = endOfDay(new Date());
 
 export default function GuestsDialog({ onChoose }: { onChoose: (guest: GuestItem) => void }) {
+  const t = useTranslations("GuestsDialog");
+  const tOrderTable = useTranslations("OrderTable");
+  const columns = useGuestColumns();
   const [open, setOpen] = useState(false);
   const [fromDate, setFromDate] = useState(initFromDate);
   const [toDate, setToDate] = useState(initToDate);
@@ -121,47 +129,47 @@ export default function GuestsDialog({ onChoose }: { onChoose: (guest: GuestItem
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant='outline'>Chọn khách</Button>
+        <Button variant='outline'>{t("selectCustomer")}</Button>
       </DialogTrigger>
       <DialogContent className='max-h-full overflow-auto sm:max-w-[700px]'>
         <DialogHeader>
-          <DialogTitle>Chọn khách hàng</DialogTitle>
+          <DialogTitle>{t("selectCustomer")}</DialogTitle>
         </DialogHeader>
         <div>
           <div className='w-full'>
             <div className='flex flex-wrap gap-2'>
               <div className='flex items-center'>
-                <span className='mr-2'>Từ</span>
+                <span className='mr-2'>{tOrderTable("from")}</span>
                 <Input
                   type='datetime-local'
-                  placeholder='Từ ngày'
+                  placeholder={tOrderTable("fromDate")}
                   className='text-sm'
                   value={format(fromDate, "yyyy-MM-dd HH:mm").replace(" ", "T")}
                   onChange={(event) => setFromDate(new Date(event.target.value))}
                 />
               </div>
               <div className='flex items-center'>
-                <span className='mr-2'>Đến</span>
+                <span className='mr-2'>{tOrderTable("to")}</span>
                 <Input
                   type='datetime-local'
-                  placeholder='Đến ngày'
+                  placeholder={tOrderTable("toDate")}
                   value={format(toDate, "yyyy-MM-dd HH:mm").replace(" ", "T")}
                   onChange={(event) => setToDate(new Date(event.target.value))}
                 />
               </div>
               <Button className='' variant={"outline"} onClick={resetDateFilter}>
-                Reset
+                {tOrderTable("reset")}
               </Button>
             </div>
             <div className='flex items-center gap-2 py-4'>
               <Input
-                placeholder='Tên hoặc Id'
+                placeholder={t("search")}
                 value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
                 onChange={(event) => table.getColumn("name")?.setFilterValue(event.target.value)}
                 className='w-[170px]'
               />
               <Input
-                placeholder='Số bàn'
+                placeholder={tOrderTable("tableNumber")}
                 value={(table.getColumn("tableNumber")?.getFilterValue() as string) ?? ""}
                 onChange={(event) => table.getColumn("tableNumber")?.setFilterValue(event.target.value)}
                 className='w-[80px]'
@@ -205,7 +213,7 @@ export default function GuestsDialog({ onChoose }: { onChoose: (guest: GuestItem
                   ) : (
                     <TableRow>
                       <TableCell colSpan={columns.length} className='h-24 text-center'>
-                        No results.
+                        {tOrderTable("noResults")}
                       </TableCell>
                     </TableRow>
                   )}
@@ -214,8 +222,8 @@ export default function GuestsDialog({ onChoose }: { onChoose: (guest: GuestItem
             </div>
             <div className='flex items-center justify-end space-x-2 py-4'>
               <div className='text-muted-foreground flex-1 py-4 text-xs'>
-                Hiển thị <strong>{table.getPaginationRowModel().rows.length}</strong> trong{" "}
-                <strong>{data.length}</strong> kết quả
+                {tOrderTable("showing")} <strong>{table.getPaginationRowModel().rows.length}</strong>{" "}
+                {tOrderTable("of")} <strong>{data.length}</strong> {tOrderTable("results")}
               </div>
               <div>
                 <AutoPagination

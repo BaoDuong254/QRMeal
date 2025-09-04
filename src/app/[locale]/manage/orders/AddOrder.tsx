@@ -22,8 +22,10 @@ import { useDishListQuery } from "@/queries/useDish";
 import { useCreateOrderMutation } from "@/queries/useOrder";
 import { useCreateGuestMutation } from "@/queries/useAccount";
 import { toast } from "sonner";
+import { useTranslations } from "next-intl";
 
 export default function AddOrder() {
+  const t = useTranslations("AddOrder");
   const [open, setOpen] = useState(false);
   const [selectedGuest, setSelectedGuest] = useState<GetListGuestsResType["data"][0] | null>(null);
   const [isNewGuest, setIsNewGuest] = useState(true);
@@ -76,7 +78,7 @@ export default function AddOrder() {
         guestId = newGuest.payload.data.id;
       }
       if (!guestId) {
-        toast("Hãy chọn một khách hàng");
+        toast(t("selectCustomer"));
         return;
       }
       await createOrdersMutation.mutateAsync({
@@ -113,15 +115,15 @@ export default function AddOrder() {
       <DialogTrigger asChild>
         <Button size='sm' className='h-7 gap-1'>
           <PlusCircle className='h-3.5 w-3.5' />
-          <span className='sr-only sm:not-sr-only sm:whitespace-nowrap'>Tạo đơn hàng</span>
+          <span className='sr-only sm:not-sr-only sm:whitespace-nowrap'>{t("createOrder")}</span>
         </Button>
       </DialogTrigger>
       <DialogContent className='max-h-screen overflow-auto sm:max-w-[600px]'>
         <DialogHeader>
-          <DialogTitle>Tạo đơn hàng</DialogTitle>
+          <DialogTitle>{t("createOrder")}</DialogTitle>
         </DialogHeader>
         <div className='grid grid-cols-4 items-center justify-items-start gap-4'>
-          <Label htmlFor='isNewGuest'>Khách hàng mới</Label>
+          <Label htmlFor='isNewGuest'>{t("newCustomer")}</Label>
           <div className='col-span-3 flex items-center'>
             <Switch id='isNewGuest' checked={isNewGuest} onCheckedChange={setIsNewGuest} />
           </div>
@@ -136,7 +138,7 @@ export default function AddOrder() {
                   render={({ field }) => (
                     <FormItem>
                       <div className='grid grid-cols-4 items-center justify-items-start gap-4'>
-                        <Label htmlFor='name'>Tên khách hàng</Label>
+                        <Label htmlFor='name'>{t("customerName")}</Label>
                         <div className='col-span-3 w-full space-y-2'>
                           <Input id='name' className='w-full' {...field} />
                           <FormMessage />
@@ -151,7 +153,7 @@ export default function AddOrder() {
                   render={({ field }) => (
                     <FormItem>
                       <div className='grid grid-cols-4 items-center justify-items-start gap-4'>
-                        <Label htmlFor='tableNumber'>Chọn bàn</Label>
+                        <Label htmlFor='tableNumber'>{t("selectTable")}</Label>
                         <div className='col-span-3 w-full space-y-2'>
                           <div className='flex items-center gap-4'>
                             <div>{field.value}</div>
@@ -179,12 +181,14 @@ export default function AddOrder() {
         )}
         {!isNewGuest && selectedGuest && (
           <div className='grid grid-cols-4 items-center justify-items-start gap-4'>
-            <Label htmlFor='selectedGuest'>Khách đã chọn</Label>
+            <Label htmlFor='selectedGuest'>{t("selectedCustomer")}</Label>
             <div className='col-span-3 flex w-full items-center gap-4'>
               <div>
                 {selectedGuest.name} (#{selectedGuest.id})
               </div>
-              <div>Bàn: {selectedGuest.tableNumber}</div>
+              <div>
+                {t("table")}: {selectedGuest.tableNumber}
+              </div>
             </div>
           </div>
         )}
@@ -199,7 +203,7 @@ export default function AddOrder() {
             >
               <div className='relative flex-shrink-0'>
                 {dish.status === DishStatus.Unavailable && (
-                  <span className='absolute inset-0 flex items-center justify-center text-sm'>Hết hàng</span>
+                  <span className='absolute inset-0 flex items-center justify-center text-sm'>{t("outOfStock")}</span>
                 )}
                 <Image
                   src={dish.image}
@@ -225,7 +229,9 @@ export default function AddOrder() {
           ))}
         <DialogFooter>
           <Button className='w-full justify-between' onClick={handleOrder} disabled={orders.length === 0}>
-            <span>Đặt hàng · {orders.length} món</span>
+            <span>
+              {t("order")} · {orders.length} {t("items")}
+            </span>
             <span>{formatCurrency(totalPrice)}</span>
           </Button>
         </DialogFooter>

@@ -20,34 +20,42 @@ import { Input } from "@/components/ui/input";
 import { TableListResType } from "@/schemaValidations/table.schema";
 import { TableStatus } from "@/constants/type";
 import { useTableListQuery } from "@/queries/useTable";
+import { useTranslations } from "next-intl";
 
 type TableItem = TableListResType["data"][0];
 
-export const columns: ColumnDef<TableItem>[] = [
-  {
-    accessorKey: "number",
-    header: "Số bàn",
-    cell: ({ row }) => <div className='capitalize'>{row.getValue("number")}</div>,
-    filterFn: (row, columnId, filterValue: string) => {
-      if (filterValue === undefined) return true;
-      return simpleMatchText(String(row.original.number), String(filterValue));
+const useTableColumns = (): ColumnDef<TableItem>[] => {
+  const t = useTranslations("TablesDialog");
+
+  return [
+    {
+      accessorKey: "number",
+      header: t("tableNumber"),
+      cell: ({ row }) => <div className='capitalize'>{row.getValue("number")}</div>,
+      filterFn: (row, columnId, filterValue: string) => {
+        if (filterValue === undefined) return true;
+        return simpleMatchText(String(row.original.number), String(filterValue));
+      },
     },
-  },
-  {
-    accessorKey: "capacity",
-    header: "Sức chứa",
-    cell: ({ row }) => <div className='capitalize'>{row.getValue("capacity")}</div>,
-  },
-  {
-    accessorKey: "status",
-    header: "Trạng thái",
-    cell: ({ row }) => <div>{getVietnameseTableStatus(row.getValue("status"))}</div>,
-  },
-];
+    {
+      accessorKey: "capacity",
+      header: t("capacity"),
+      cell: ({ row }) => <div className='capitalize'>{row.getValue("capacity")}</div>,
+    },
+    {
+      accessorKey: "status",
+      header: t("status"),
+      cell: ({ row }) => <div>{getVietnameseTableStatus(row.getValue("status"))}</div>,
+    },
+  ];
+};
 
 const PAGE_SIZE = 10;
 
 export function TablesDialog({ onChoose }: { onChoose: (table: TableItem) => void }) {
+  const t = useTranslations("TablesDialog");
+  const tOrderTable = useTranslations("OrderTable");
+  const columns = useTableColumns();
   const [open, setOpen] = useState(false);
   const tableListQuery = useTableListQuery();
   const data = tableListQuery.data?.payload.data ?? [];
@@ -97,17 +105,17 @@ export function TablesDialog({ onChoose }: { onChoose: (table: TableItem) => voi
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant='outline'>Thay đổi</Button>
+        <Button variant='outline'>{t("selectTable")}</Button>
       </DialogTrigger>
       <DialogContent className='max-h-full overflow-auto sm:max-w-[600px]'>
         <DialogHeader>
-          <DialogTitle>Chọn bàn</DialogTitle>
+          <DialogTitle>{t("selectTable")}</DialogTitle>
         </DialogHeader>
         <div>
           <div className='w-full'>
             <div className='flex items-center py-4'>
               <Input
-                placeholder='Số bàn'
+                placeholder={t("filterTableNumber")}
                 value={(table.getColumn("number")?.getFilterValue() as string) ?? ""}
                 onChange={(event) => table.getColumn("number")?.setFilterValue(event.target.value)}
                 className='w-[80px]'
@@ -161,7 +169,7 @@ export function TablesDialog({ onChoose }: { onChoose: (table: TableItem) => voi
                   ) : (
                     <TableRow>
                       <TableCell colSpan={columns.length} className='h-24 text-center'>
-                        No results.
+                        {tOrderTable("noResults")}
                       </TableCell>
                     </TableRow>
                   )}
@@ -170,8 +178,8 @@ export function TablesDialog({ onChoose }: { onChoose: (table: TableItem) => voi
             </div>
             <div className='flex items-center justify-end space-x-2 py-4'>
               <div className='text-muted-foreground flex-1 py-4 text-xs'>
-                Hiển thị <strong>{table.getPaginationRowModel().rows.length}</strong> trong{" "}
-                <strong>{data.length}</strong> kết quả
+                {tOrderTable("showing")} <strong>{table.getPaginationRowModel().rows.length}</strong>{" "}
+                {tOrderTable("of")} <strong>{data.length}</strong> {tOrderTable("results")}
               </div>
               <div>
                 <AutoPagination

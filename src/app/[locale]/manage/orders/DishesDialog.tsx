@@ -20,44 +20,52 @@ import { formatCurrency, getVietnameseDishStatus, simpleMatchText } from "@/lib/
 import { Input } from "@/components/ui/input";
 import Image from "next/image";
 import { useDishListQuery } from "@/queries/useDish";
+import { useTranslations } from "next-intl";
 
 type DishItem = DishListResType["data"][0];
 
-export const columns: ColumnDef<DishItem>[] = [
-  {
-    id: "dishName",
-    header: "Món ăn",
-    cell: ({ row }) => (
-      <div className='flex items-center space-x-4'>
-        <Image
-          src={row.original.image}
-          alt={row.original.name}
-          width={50}
-          height={50}
-          className='h-[50px] w-[50px] rounded-md object-cover'
-        />
-        <span>{row.original.name}</span>
-      </div>
-    ),
-    filterFn: (row, columnId, filterValue: string) => {
-      if (filterValue === undefined) return true;
-      return simpleMatchText(String(row.original.name), String(filterValue));
+const useDishColumns = (): ColumnDef<DishItem>[] => {
+  const t = useTranslations("DishesDialog");
+
+  return [
+    {
+      id: "dishName",
+      header: t("dish"),
+      cell: ({ row }) => (
+        <div className='flex items-center space-x-4'>
+          <Image
+            src={row.original.image}
+            alt={row.original.name}
+            width={50}
+            height={50}
+            className='h-[50px] w-[50px] rounded-md object-cover'
+          />
+          <span>{row.original.name}</span>
+        </div>
+      ),
+      filterFn: (row, columnId, filterValue: string) => {
+        if (filterValue === undefined) return true;
+        return simpleMatchText(String(row.original.name), String(filterValue));
+      },
     },
-  },
-  {
-    accessorKey: "price",
-    header: "Giá cả",
-    cell: ({ row }) => <div className='capitalize'>{formatCurrency(row.getValue("price"))}</div>,
-  },
-  {
-    accessorKey: "status",
-    header: "Trạng thái",
-    cell: ({ row }) => <div>{getVietnameseDishStatus(row.getValue("status"))}</div>,
-  },
-];
+    {
+      accessorKey: "price",
+      header: t("price"),
+      cell: ({ row }) => <div className='capitalize'>{formatCurrency(row.getValue("price"))}</div>,
+    },
+    {
+      accessorKey: "status",
+      header: t("status"),
+      cell: ({ row }) => <div>{getVietnameseDishStatus(row.getValue("status"))}</div>,
+    },
+  ];
+};
 
 const PAGE_SIZE = 10;
 export function DishesDialog({ onChoose }: { onChoose: (dish: DishItem) => void }) {
+  const t = useTranslations("DishesDialog");
+  const tOrderTable = useTranslations("OrderTable");
+  const columns = useDishColumns();
   const [open, setOpen] = useState(false);
   const dishListQuery = useDishListQuery();
   const data = dishListQuery.data?.payload.data ?? [];
@@ -107,17 +115,17 @@ export function DishesDialog({ onChoose }: { onChoose: (dish: DishItem) => void 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant='outline'>Thay đổi</Button>
+        <Button variant='outline'>{t("change")}</Button>
       </DialogTrigger>
       <DialogContent className='max-h-full overflow-auto sm:max-w-[600px]'>
         <DialogHeader>
-          <DialogTitle>Chọn món ăn</DialogTitle>
+          <DialogTitle>{t("selectDish")}</DialogTitle>
         </DialogHeader>
         <div>
           <div className='w-full'>
             <div className='flex items-center py-4'>
               <Input
-                placeholder='Lọc tên'
+                placeholder={t("filterName")}
                 value={(table.getColumn("dishName")?.getFilterValue() as string) ?? ""}
                 onChange={(event) => table.getColumn("dishName")?.setFilterValue(event.target.value)}
                 className='max-w-sm'
@@ -159,7 +167,7 @@ export function DishesDialog({ onChoose }: { onChoose: (dish: DishItem) => void 
                   ) : (
                     <TableRow>
                       <TableCell colSpan={columns.length} className='h-24 text-center'>
-                        No results.
+                        {tOrderTable("noResults")}
                       </TableCell>
                     </TableRow>
                   )}
@@ -168,8 +176,8 @@ export function DishesDialog({ onChoose }: { onChoose: (dish: DishItem) => void 
             </div>
             <div className='flex items-center justify-end space-x-2 py-4'>
               <div className='text-muted-foreground flex-1 py-4 text-xs'>
-                Hiển thị <strong>{table.getPaginationRowModel().rows.length}</strong> trong{" "}
-                <strong>{data.length}</strong> kết quả
+                {tOrderTable("showing")} <strong>{table.getPaginationRowModel().rows.length}</strong>{" "}
+                {tOrderTable("of")} <strong>{data.length}</strong> {tOrderTable("results")}
               </div>
               <div>
                 <AutoPagination

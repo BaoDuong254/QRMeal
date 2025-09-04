@@ -9,6 +9,7 @@ import { Badge } from "@/components/ui/badge";
 import { ServingGuestByTableNumber, Statics, StatusCountObject } from "@/app/[locale]/manage/orders/OrderTable";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import OrderGuestDetail from "@/app/[locale]/manage/orders/OrderGuestDetail";
+import { useTranslations } from "next-intl";
 
 // Ví dụ:
 // const statics: Statics = {
@@ -47,6 +48,7 @@ export default function OrderStatics({
   tableList: TableListResType["data"];
   servingGuestByTableNumber: ServingGuestByTableNumber;
 }) {
+  const t = useTranslations("OrderStatics");
   const [selectedTableNumber, setSelectedTableNumber] = useState<number>(0);
   const selectedServingGuest = servingGuestByTableNumber[selectedTableNumber];
   return (
@@ -62,7 +64,9 @@ export default function OrderStatics({
         <DialogContent className='max-h-full overflow-auto'>
           {selectedServingGuest && (
             <DialogHeader>
-              <DialogTitle>Khách đang ngồi tại bàn {selectedTableNumber}</DialogTitle>
+              <DialogTitle>
+                {t("guest")} đang ngồi tại {t("table").toLowerCase()} {selectedTableNumber}
+              </DialogTitle>
             </DialogHeader>
           )}
           <div>
@@ -136,7 +140,9 @@ export default function OrderStatics({
                         <span>{servingGuestCount}</span>
                       </div>
                     </TooltipTrigger>
-                    <TooltipContent>Đang phục vụ: {servingGuestCount} khách</TooltipContent>
+                    <TooltipContent>
+                      Đang phục vụ: {servingGuestCount} {t("guest").toLowerCase()}
+                    </TooltipContent>
                   </Tooltip>
                 </TooltipProvider>
               </div>
@@ -158,7 +164,8 @@ export default function OrderStatics({
                         </div>
                       </TooltipTrigger>
                       <TooltipContent>
-                        {getVietnameseOrderStatus(OrderStatus.Pending)}: {countObject[OrderStatus.Pending] ?? 0} đơn
+                        {getVietnameseOrderStatus(OrderStatus.Pending)}: {countObject[OrderStatus.Pending] ?? 0}{" "}
+                        {t("orders")}
                       </TooltipContent>
                     </Tooltip>
 
@@ -171,7 +178,7 @@ export default function OrderStatics({
                       </TooltipTrigger>
                       <TooltipContent>
                         {getVietnameseOrderStatus(OrderStatus.Processing)}: {countObject[OrderStatus.Processing] ?? 0}{" "}
-                        đơn
+                        {t("orders")}
                       </TooltipContent>
                     </Tooltip>
                     <Tooltip>
@@ -182,7 +189,8 @@ export default function OrderStatics({
                         </div>
                       </TooltipTrigger>
                       <TooltipContent>
-                        {getVietnameseOrderStatus(OrderStatus.Delivered)}: {countObject[OrderStatus.Delivered] ?? 0} đơn
+                        {getVietnameseOrderStatus(OrderStatus.Delivered)}: {countObject[OrderStatus.Delivered] ?? 0}{" "}
+                        {t("orders")}
                       </TooltipContent>
                     </Tooltip>
                   </TooltipProvider>

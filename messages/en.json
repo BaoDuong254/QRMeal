@@ -54,7 +54,14 @@
     "reset": "Reset",
     "guestName": "Guest name",
     "tableNumber": "Table number",
-    "status": "Status"
+    "status": "Status",
+    "showing": "Showing",
+    "of": "of",
+    "results": "results",
+    "noResults": "No results.",
+    "orderUpdated": "Order {dishName} (Qty: {quantity}) has been updated to {status}",
+    "newOrderPlaced": "{guestName} at table {tableNumber} just placed {orderCount} orders",
+    "paymentSuccessful": "{guestName} at table {tableNumber} successfully paid for {orderCount} orders"
   },
   "ChangePasswordForm": {
     "changePassword": "Change password",
@@ -308,5 +315,89 @@
     "selectStatus": "Select status",
     "upload": "Upload",
     "update": "Update"
+  },
+  "OrderTableColumns": {
+    "table": "Table",
+    "customer": "Customer",
+    "deleted": "Deleted",
+    "dish": "Dish",
+    "status": "Status",
+    "orderHandler": "Order Handler",
+    "createdUpdated": "Created/Updated",
+    "actions": "Actions",
+    "edit": "Edit",
+    "noResults": "No results.",
+    "showing": "Showing",
+    "of": "of",
+    "results": "results"
+  },
+  "AddOrder": {
+    "createOrder": "Create order",
+    "newCustomer": "New customer",
+    "customerName": "Customer name",
+    "selectTable": "Select table",
+    "selectedCustomer": "Selected customer",
+    "table": "Table",
+    "outOfStock": "Out of stock",
+    "order": "Order",
+    "items": "items",
+    "selectCustomer": "Please select a customer"
+  },
+  "OrderStatics": {
+    "pending": "Pending",
+    "preparing": "Preparing",
+    "served": "Served",
+    "rejected": "Rejected",
+    "paid": "Paid",
+    "orders": "orders",
+    "table": "Table",
+    "guest": "Guest"
+  },
+  "OrderGuestDetail": {
+    "customerInfo": "Customer Information",
+    "orders": "Orders",
+    "total": "Total",
+    "name": "Name",
+    "table": "Table",
+    "registrationDate": "Registration date",
+    "unpaid": "Unpaid",
+    "paid": "Paid",
+    "payAll": "Pay all",
+    "quantity": "Quantity",
+    "created": "Created",
+    "updated": "Updated"
+  },
+  "EditOrder": {
+    "updateOrder": "Update order",
+    "orderInfo": "Order Information",
+    "customer": "Customer",
+    "table": "Table",
+    "dish": "Dish",
+    "quantity": "Quantity",
+    "status": "Status",
+    "orderHandler": "Order Handler",
+    "update": "Update"
+  },
+  "GuestsDialog": {
+    "selectCustomer": "Select Customer",
+    "search": "Name or Id",
+    "name": "Name",
+    "tableNumber": "Table Number",
+    "created": "Created"
+  },
+  "TablesDialog": {
+    "selectTable": "Select Table",
+    "tableNumber": "Table Number",
+    "capacity": "Capacity",
+    "status": "Status",
+    "filterTableNumber": "Filter table number"
+  },
+  "DishesDialog": {
+    "selectDish": "Select Dish",
+    "change": "Change",
+    "dish": "Dish",
+    "price": "Price",
+    "status": "Status",
+    "filterName": "Filter name"
   }
 }

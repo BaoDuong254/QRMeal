@@ -21,7 +21,7 @@ import AutoPagination from "@/components/AutoPagination";
 import { getVietnameseOrderStatus, handleErrorApi } from "@/lib/utils";
 import { OrderStatusValues } from "@/constants/type";
 import OrderStatics from "@/app/[locale]/manage/orders/OrderStatics";
-import orderTableColumns from "@/app/[locale]/manage/orders/orderTableColumns";
+import useOrderTableColumns from "@/app/[locale]/manage/orders/orderTableColumns";
 import { useOrderService } from "@/app/[locale]/manage/orders/useOrderService";
 import { Check, ChevronsUpDown } from "lucide-react";
 
@@ -63,6 +63,7 @@ const initFromDate = startOfDay(new Date());
 const initToDate = endOfDay(new Date());
 export default function OrderTable() {
   const t = useTranslations("OrderTable");
+  const orderTableColumns = useOrderTableColumns();
   const socket = useAppStore((state) => state.socket);
   const searchParam = useSearchParams();
   const [openStatusFilter, setOpenStatusFilter] = useState(false);
@@ -165,19 +166,37 @@ export default function OrderTable() {
         dishSnapshot: { name },
         quantity,
       } = data;
-      toast(`Món ${name} (SL: ${quantity}) vừa được cập nhật sang trạng thái ${getVietnameseOrderStatus(data.status)}`);
+      toast(
+        t("orderUpdated", {
+          dishName: name,
+          quantity: quantity,
+          status: getVietnameseOrderStatus(data.status),
+        })
+      );
       refetch();
     }
 
     function onNewOrder(data: GuestCreateOrdersResType["data"]) {
       const { guest } = data[0];
-      toast(`${guest?.name} tại bàn ${guest?.tableNumber} vừa đặt ${data.length} đơn`);
+      toast(
+        t("newOrderPlaced", {
+          guestName: guest?.name || "",
+          tableNumber: guest?.tableNumber || 0,
+          orderCount: data.length,
+        })
+      );
       refetch();
     }
 
     function onPayment(data: PayGuestOrdersResType["data"]) {
       const { guest } = data[0];
-      toast(`${guest?.name} tại bàn ${guest?.tableNumber} thanh toán thành công ${data.length} đơn`);
+      toast(
+        t("paymentSuccessful", {
+          guestName: guest?.name || "",
+          tableNumber: guest?.tableNumber || 0,
+          orderCount: data.length,
+        })
+      );
       refetch();
     }
 
@@ -195,7 +214,7 @@ export default function OrderTable() {
       socket?.off("new-order", onNewOrder);
       socket?.off("payment", onPayment);
     };
-  }, [refetchOrderList, fromDate, toDate, socket]);
+  }, [refetchOrderList, fromDate, toDate, socket, t]);
 
   return (
     <OrderTableContext.Provider
@@ -334,7 +353,7 @@ export default function OrderTable() {
                 ) : (
                   <TableRow>
                     <TableCell colSpan={orderTableColumns.length} className='h-24 text-center'>
-                      No results.
+                      {t("noResults")}
                     </TableCell>
                   </TableRow>
                 )}
@@ -344,8 +363,8 @@ export default function OrderTable() {
         )}
         <div className='flex items-center justify-end space-x-2 py-4'>
           <div className='text-muted-foreground flex-1 py-4 text-xs'>
-            Hiển thị <strong>{table.getPaginationRowModel().rows.length}</strong> trong{" "}
-            <strong>{orderList.length}</strong> kết quả
+            {t("showing")} <strong>{table.getPaginationRowModel().rows.length}</strong> {t("of")}{" "}
+            <strong>{orderList.length}</strong> {t("results")}
           </div>
           <div>
             <AutoPagination

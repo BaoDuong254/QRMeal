@@ -16,7 +16,14 @@
     "reset": "Reset",
     "guestName": "Tên khách",
     "tableNumber": "Số bàn",
-    "status": "Trạng thái"
+    "status": "Trạng thái",
+    "showing": "Hiển thị",
+    "of": "trong",
+    "results": "kết quả",
+    "noResults": "Không có kết quả.",
+    "orderUpdated": "Món {dishName} (SL: {quantity}) vừa được cập nhật sang trạng thái {status}",
+    "newOrderPlaced": "{guestName} tại bàn {tableNumber} vừa đặt {orderCount} đơn",
+    "paymentSuccessful": "{guestName} tại bàn {tableNumber} thanh toán thành công {orderCount} đơn"
   },
   "ChangePasswordForm": {
     "changePassword": "Đổi mật khẩu",
@@ -310,5 +317,89 @@
     "selectStatus": "Chọn trạng thái",
     "upload": "Upload",
     "update": "Cập nhật"
+  },
+  "OrderTableColumns": {
+    "table": "Bàn",
+    "customer": "Khách hàng",
+    "deleted": "Đã bị xóa",
+    "dish": "Món ăn",
+    "status": "Trạng thái",
+    "orderHandler": "Người xử lý",
+    "createdUpdated": "Tạo/Cập nhật",
+    "actions": "Actions",
+    "edit": "Sửa",
+    "noResults": "Không có kết quả.",
+    "showing": "Hiển thị",
+    "of": "trong",
+    "results": "kết quả"
+  },
+  "AddOrder": {
+    "createOrder": "Tạo đơn hàng",
+    "newCustomer": "Khách hàng mới",
+    "customerName": "Tên khách hàng",
+    "selectTable": "Chọn bàn",
+    "selectedCustomer": "Khách đã chọn",
+    "table": "Bàn",
+    "outOfStock": "Hết hàng",
+    "order": "Đặt hàng",
+    "items": "món",
+    "selectCustomer": "Hãy chọn một khách hàng"
+  },
+  "OrderStatics": {
+    "pending": "Đang chờ",
+    "preparing": "Đang chuẩn bị",
+    "served": "Đã phục vụ",
+    "rejected": "Đã từ chối",
+    "paid": "Đã thanh toán",
+    "orders": "đơn",
+    "table": "Bàn",
+    "guest": "Khách"
+  },
+  "OrderGuestDetail": {
+    "customerInfo": "Thông tin khách hàng",
+    "orders": "Đơn hàng",
+    "total": "Tổng cộng",
+    "name": "Tên",
+    "table": "Bàn",
+    "registrationDate": "Ngày đăng ký",
+    "unpaid": "Chưa thanh toán",
+    "paid": "Đã thanh toán",
+    "payAll": "Thanh toán tất cả",
+    "quantity": "Tổng",
+    "created": "Tạo",
+    "updated": "Cập nhật"
+  },
+  "EditOrder": {
+    "updateOrder": "Cập nhật đơn hàng",
+    "orderInfo": "Thông tin đơn hàng",
+    "customer": "Khách hàng",
+    "table": "Bàn",
+    "dish": "Món ăn",
+    "quantity": "Số lượng",
+    "status": "Trạng thái",
+    "orderHandler": "Người xử lý",
+    "update": "Cập nhật"
+  },
+  "GuestsDialog": {
+    "selectCustomer": "Chọn khách hàng",
+    "search": "Tên hoặc Id",
+    "name": "Tên",
+    "tableNumber": "Số bàn",
+    "created": "Tạo"
+  },
+  "TablesDialog": {
+    "selectTable": "Chọn bàn",
+    "tableNumber": "Số bàn",
+    "capacity": "Sức chứa",
+    "status": "Trạng thái",
+    "filterTableNumber": "Lọc số bàn"
+  },
+  "DishesDialog": {
+    "selectDish": "Chọn món ăn",
+    "change": "Thay đổi",
+    "dish": "Món ăn",
+    "price": "Giá cả",
+    "status": "Trạng thái",
+    "filterName": "Lọc tên"
   }
 }

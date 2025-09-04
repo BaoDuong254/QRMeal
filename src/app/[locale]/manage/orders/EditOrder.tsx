@@ -16,6 +16,7 @@ import { useEffect, useState } from "react";
 import { DishListResType } from "@/schemaValidations/dish.schema";
 import { useGetOrderDetailQuery, useUpdateOrderMutation } from "@/queries/useOrder";
 import { toast } from "sonner";
+import { useTranslations } from "next-intl";
 
 export default function EditOrder({
   id,
@@ -26,6 +27,7 @@ export default function EditOrder({
   setId: (value: number | undefined) => void;
   onSubmitSuccess?: () => void;
 }) {
+  const t = useTranslations("EditOrder");
   const [selectedDish, setSelectedDish] = useState<DishListResType["data"][0] | null>(null);
   const updateOrderMutation = useUpdateOrderMutation();
   const { data } = useGetOrderDetailQuery({ id: id as number, enabled: Boolean(id) });
@@ -88,7 +90,7 @@ export default function EditOrder({
     >
       <DialogContent className='max-h-screen overflow-auto sm:max-w-[600px]'>
         <DialogHeader>
-          <DialogTitle>Cập nhật đơn hàng</DialogTitle>
+          <DialogTitle>{t("updateOrder")}</DialogTitle>
         </DialogHeader>
         <Form {...form}>
           <form
@@ -105,7 +107,7 @@ export default function EditOrder({
                 name='dishId'
                 render={({ field }) => (
                   <FormItem className='grid grid-cols-4 items-center justify-items-start gap-4'>
-                    <FormLabel>Món ăn</FormLabel>
+                    <FormLabel>{t("dish")}</FormLabel>
                     <div className='col-span-2 flex items-center space-x-4'>
                       <Avatar className='aspect-square h-[50px] w-[50px] rounded-md object-cover'>
                         <AvatarImage src={selectedDish?.image} />
@@ -130,7 +132,7 @@ export default function EditOrder({
                 render={({ field }) => (
                   <FormItem>
                     <div className='grid grid-cols-4 items-center justify-items-start gap-4'>
-                      <Label htmlFor='quantity'>Số lượng</Label>
+                      <Label htmlFor='quantity'>{t("quantity")}</Label>
                       <div className='col-span-3 w-full space-y-2'>
                         <Input
                           id='quantity'
@@ -160,11 +162,11 @@ export default function EditOrder({
                 render={({ field }) => (
                   <FormItem>
                     <div className='grid grid-cols-4 items-center justify-items-start gap-4'>
-                      <FormLabel>Trạng thái</FormLabel>
+                      <FormLabel>{t("status")}</FormLabel>
                       <Select onValueChange={field.onChange} value={field.value}>
                         <FormControl className='col-span-3'>
                           <SelectTrigger className='w-[200px]'>
-                            <SelectValue placeholder='Trạng thái' />
+                            <SelectValue placeholder={t("status")} />
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
@@ -185,7 +187,7 @@ export default function EditOrder({
         </Form>
         <DialogFooter>
           <Button type='submit' form='edit-order-form'>
-            Lưu
+            {t("update")}
           </Button>
         </DialogFooter>
       </DialogContent>

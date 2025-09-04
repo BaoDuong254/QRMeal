@@ -13,6 +13,7 @@ import { usePayForGuestMutation } from "@/queries/useOrder";
 import { GetOrdersResType, PayGuestOrdersResType } from "@/schemaValidations/order.schema";
 import Image from "next/image";
 import { Fragment } from "react";
+import { useTranslations } from "next-intl";
 
 type Guest = GetOrdersResType["data"][0]["guest"];
 type Orders = GetOrdersResType["data"];
@@ -25,6 +26,7 @@ export default function OrderGuestDetail({
   orders: Orders;
   onPaySuccess?: (data: PayGuestOrdersResType) => void;
 }) {
+  const t = useTranslations("OrderGuestDetail");
   const ordersFilterToPurchase = guest
     ? orders.filter((order) => order.status !== OrderStatus.Paid && order.status !== OrderStatus.Rejected)
     : [];
@@ -48,22 +50,22 @@ export default function OrderGuestDetail({
       {guest && (
         <Fragment>
           <div className='space-x-1'>
-            <span className='font-semibold'>Tên:</span>
+            <span className='font-semibold'>{t("name")}:</span>
             <span>{guest.name}</span>
             <span className='font-semibold'>(#{guest.id})</span>
             <span>|</span>
-            <span className='font-semibold'>Bàn:</span>
+            <span className='font-semibold'>{t("table")}:</span>
             <span>{guest.tableNumber}</span>
           </div>
           <div className='space-x-1'>
-            <span className='font-semibold'>Ngày đăng ký:</span>
+            <span className='font-semibold'>{t("registrationDate")}:</span>
             <span>{formatDateTimeToLocaleString(guest.createdAt)}</span>
           </div>
         </Fragment>
       )}
 
       <div className='space-y-1'>
-        <div className='font-semibold'>Đơn hàng:</div>
+        <div className='font-semibold'>{t("orders")}:</div>
         {orders.map((order, index) => {
           return (
             <div key={order.id} className='flex items-center gap-2 text-xs'>
@@ -86,24 +88,24 @@ export default function OrderGuestDetail({
               <span className='w-[70px] truncate sm:w-[100px]' title={order.dishSnapshot.name}>
                 {order.dishSnapshot.name}
               </span>
-              <span className='font-semibold' title={`Tổng: ${order.quantity}`}>
+              <span className='font-semibold' title={`${t("quantity")}: ${order.quantity}`}>
                 x{order.quantity}
               </span>
               <span className='italic'>{formatCurrency(order.quantity * order.dishSnapshot.price)}</span>
               <span
                 className='hidden sm:inline'
-                title={`Tạo: ${formatDateTimeToLocaleString(
+                title={`${t("created")}: ${formatDateTimeToLocaleString(
                   order.createdAt
-                )} | Cập nhật: ${formatDateTimeToLocaleString(order.updatedAt)}
+                )} | ${t("updated")}: ${formatDateTimeToLocaleString(order.updatedAt)}
           `}
               >
                 {formatDateTimeToLocaleString(order.createdAt)}
               </span>
               <span
                 className='sm:hidden'
-                title={`Tạo: ${formatDateTimeToLocaleString(
+                title={`${t("created")}: ${formatDateTimeToLocaleString(
                   order.createdAt
-                )} | Cập nhật: ${formatDateTimeToLocaleString(order.updatedAt)}
+                )} | ${t("updated")}: ${formatDateTimeToLocaleString(order.updatedAt)}
           `}
               >
                 {formatDateTimeToTimeString(order.createdAt)}
@@ -114,7 +116,7 @@ export default function OrderGuestDetail({
       </div>
 
       <div className='space-x-1'>
-        <span className='font-semibold'>Chưa thanh toán:</span>
+        <span className='font-semibold'>{t("unpaid")}:</span>
         <Badge>
           <span>
             {formatCurrency(
@@ -126,7 +128,7 @@ export default function OrderGuestDetail({
         </Badge>
       </div>
       <div className='space-x-1'>
-        <span className='font-semibold'>Đã thanh toán:</span>
+        <span className='font-semibold'>{t("paid")}:</span>
         <Badge variant={"outline"}>
           <span>
             {formatCurrency(
@@ -146,7 +148,7 @@ export default function OrderGuestDetail({
           disabled={ordersFilterToPurchase.length === 0}
           onClick={pay}
         >
-          Thanh toán tất cả ({ordersFilterToPurchase.length} đơn)
+          {t("payAll")} ({ordersFilterToPurchase.length} đơn)
         </Button>
       </div>
     </div>

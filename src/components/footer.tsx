@@ -1,7 +1,10 @@
 import { Link } from "@/i18n/navigation";
 import { Beef } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 export default function Footer() {
+  const t = useTranslations("Footer");
+
   return (
     <footer className='text-muted-foreground w-full border-t p-4 md:p-8'>
       <div className='flex flex-col items-center justify-between gap-4 md:flex-row md:gap-0'>
@@ -12,13 +15,13 @@ export default function Footer() {
           </Link>
           <div className='flex flex-col items-center gap-4 text-sm sm:flex-row'>
             <Link href='/term-of-service' className='hover:underline' prefetch={false}>
-              Điều khoản dịch vụ
+              {t("termOfService")}
             </Link>
             <Link href='/privacy-policy' className='hover:underline' prefetch={false}>
-              Chính sách bảo mật
+              {t("privacyPolicy")}
             </Link>
             <Link href='/about' className='hover:underline' prefetch={false}>
-              Về chúng tôi
+              {t("about")}
             </Link>
           </div>
         </div>

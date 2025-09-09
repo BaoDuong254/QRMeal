@@ -6,6 +6,10 @@ A modern, full-stack QR code-based restaurant ordering system that enables conta
 
 QR Meal revolutionizes the dining experience by providing a seamless, contactless ordering system for restaurants. With multi-language support (English & Vietnamese), real-time order tracking, and comprehensive management tools, it's designed to enhance both customer satisfaction and restaurant operations.
 
+## Live Demo
+
+🔗 **Demo Link**: [qrmeal_demo.mp4](https://drive.google.com/file/d/12OPtU1yrKCkcswaL9aj47UcuUR1b93-I/view?usp=sharing)
+
 ## Features
 
 ### For Customers (Guests)
@@ -144,10 +148,6 @@ This frontend requires a backend API server. Make sure to:
 - **Zod** - Schema validation
 - **React-Recharts** - Data visualization
 - **Sonner** - Toast notifications
-
-## Live Demo
-
-🔗 **Demo Link**: [qrmeal_demo.mp4](https://drive.google.com/file/d/12OPtU1yrKCkcswaL9aj47UcuUR1b93-I/view?usp=sharing)
 
 ## Contributing
 

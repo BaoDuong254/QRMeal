@@ -6,10 +6,6 @@ A modern, full-stack QR code-based restaurant ordering system that enables conta
 
 QR Meal revolutionizes the dining experience by providing a seamless, contactless ordering system for restaurants. With multi-language support (English & Vietnamese), real-time order tracking, and comprehensive management tools, it's designed to enhance both customer satisfaction and restaurant operations.
 
-## Live Demo
-
-🔗 **Demo Link**: [qrmeal_demo.mp4](https://drive.google.com/file/d/12OPtU1yrKCkcswaL9aj47UcuUR1b93-I/view?usp=sharing)
-
 ## Features
 
 ### For Customers (Guests)
@@ -77,10 +73,10 @@ QR Meal revolutionizes the dining experience by providing a seamless, contactles
    Create a `.env.local` file in the root directory:
 
    ```env
-   NEXT_PUBLIC_API_ENDPOINT=http://localhost:4000/api
+   NEXT_PUBLIC_API_ENDPOINT=http://localhost:4000
    NEXT_PUBLIC_URL=http://localhost:3000
    NEXT_PUBLIC_GOOGLE_CLIENT_ID=your_google_client_id
-   NEXT_PUBLIC_GOOGLE_AUTHORIZED_REDIRECT_URI=http://localhost:3000/api/auth/login/google
+   NEXT_PUBLIC_GOOGLE_AUTHORIZED_REDIRECT_URI=http://localhost:4000/auth/login/google
    ```
 
 4. **Start the development server**

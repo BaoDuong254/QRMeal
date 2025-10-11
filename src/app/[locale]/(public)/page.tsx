@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic";
 import dishApiRequest from "@/apiRequests/dish";
 import { formatCurrency, generateSlugUrl } from "@/lib/utils";
 import { DishListResType } from "@/schemaValidations/dish.schema";

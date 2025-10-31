@@ -4,7 +4,7 @@ import type { NextRequest } from "next/server";
 import jwt from "jsonwebtoken";
 import { TokenPayload } from "@/types/jwt.types";
 import createMiddleware from "next-intl/middleware";
-import { locales, defaultLocale } from "@/config";
+import { defaultLocale } from "@/config";
 import { routing } from "@/i18n/routing";
 const decodeToken = (token: string) => {
   return jwt.decode(token) as TokenPayload;
@@ -17,7 +17,7 @@ const privatePaths = [...managePaths, ...guestPaths];
 const unAuthPaths = ["/vi/login", "/en/login"];
 const loginPaths = ["/vi/login", "/en/login"];
 
-export function middleware(request: NextRequest) {
+export function proxy(request: NextRequest) {
   const handleI18nRouting = createMiddleware(routing);
   const response = handleI18nRouting(request);
   const { pathname, searchParams } = request.nextUrl;

@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Upload } from "lucide-react";
-import { useForm } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 import { UpdateMeBody, UpdateMeBodyType } from "@/schemaValidations/account.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormField, FormItem, FormMessage } from "@/components/ui/form";
@@ -30,8 +30,11 @@ export default function UpdateProfileForm() {
       avatar: undefined,
     },
   });
-  const avatar = form.watch("avatar");
-  const name = form.watch("name");
+  const watchedValues = useWatch({
+    control: form.control,
+    name: ["avatar", "name"],
+  });
+  const [avatar, name] = watchedValues;
   const previewAvatar = file ? URL.createObjectURL(file) : avatar;
   useEffect(() => {
     if (!data) return;

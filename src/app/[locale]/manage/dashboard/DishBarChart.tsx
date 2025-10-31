@@ -80,7 +80,7 @@ export function DishBarChart({
             />
             <XAxis dataKey='successOrders' type='number' hide />
             <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
-            <Bar dataKey='successOrders' name={t("paidOrders")} layout='vertical' radius={5} />
+            <Bar dataKey='successOrders' name={t("paidOrders")} radius={5} />
           </BarChart>
         </ChartContainer>
       </CardContent>

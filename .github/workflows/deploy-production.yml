@@ -18,7 +18,11 @@ jobs:
           cache: "npm"
       - name: Create .env file
         run: echo "${{ secrets.ENV_PRODUCTION }}" > .env
-      - run: npm i --force
+      - name: Clean node_modules & lockfile
+        run: |
+          rm -rf node_modules package-lock.json .next
+      - name: Install deps (clean)
+        run: npm install --force
       - run: npm run build
       - name: send telegram message after build success
         if: success()
@@ -62,6 +66,7 @@ jobs:
             git fetch --all
             git reset --hard origin/main
             echo "${{ secrets.ENV_PRODUCTION }}" > .env
+            rm -rf node_modules package-lock.json .next
             npm install --force
             npm run build
             pm2 restart qrmeal-client

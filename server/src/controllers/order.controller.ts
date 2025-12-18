@@ -1,6 +1,7 @@
 import { DishStatus, OrderStatus, TableStatus } from "@/constants/type";
 import prisma from "@/database";
 import { CreateOrdersBodyType, UpdateOrderBodyType } from "@/schemaValidations/order.schema";
+import type { Prisma } from "@generated/prisma/client";
 
 export const createOrdersController = async (orderHandlerId: number, body: CreateOrdersBodyType) => {
   const { guestId, orders } = body;
@@ -22,7 +23,7 @@ export const createOrdersController = async (orderHandlerId: number, body: Creat
   }
 
   const [ordersRecord, socketRecord] = await Promise.all([
-    prisma.$transaction(async (tx) => {
+    prisma.$transaction(async (tx: Prisma.TransactionClient) => {
       const ordersRecord = await Promise.all(
         orders.map(async (order) => {
           const dish = await tx.dish.findUniqueOrThrow({
@@ -117,7 +118,7 @@ export const payOrdersController = async ({ guestId, orderHandlerId }: { guestId
   if (orders.length === 0) {
     throw new Error("Không có hóa đơn nào cần thanh toán");
   }
-  await prisma.$transaction(async (tx) => {
+  await prisma.$transaction(async (tx: Prisma.TransactionClient) => {
     const orderIds = orders.map((order) => order.id);
     const updatedOrders = await tx.order.updateMany({
       where: {
@@ -179,7 +180,7 @@ export const updateOrderController = async (
   body: UpdateOrderBodyType & { orderHandlerId: number }
 ) => {
   const { status, dishId, quantity, orderHandlerId } = body;
-  const result = await prisma.$transaction(async (tx) => {
+  const result = await prisma.$transaction(async (tx: Prisma.TransactionClient) => {
     const order = await prisma.order.findUniqueOrThrow({
       where: {
         id: orderId,

@@ -2,6 +2,7 @@ import envConfig from "@/config";
 import { OrderStatus } from "@/constants/type";
 import prisma from "@/database";
 import { formatInTimeZone } from "date-fns-tz";
+import type { Prisma } from "@generated/prisma/client";
 
 export const dashboardIndicatorController = async ({ fromDate, toDate }: { fromDate: Date; toDate: Date }) => {
   const [orders, guests, dishes] = await Promise.all([
@@ -57,7 +58,23 @@ export const dashboardIndicatorController = async ({ fromDate, toDate }: { fromD
       successOrders: number; // Số lượng đã đặt thành công
     }
   > = dishes.reduce(
-    (acc, dish) => {
+    (
+      acc: Record<
+        number,
+        {
+          id: number;
+          name: string;
+          price: number;
+          image: string;
+          description: string;
+          status: string;
+          createdAt: Date;
+          updatedAt: Date;
+          successOrders: number;
+        }
+      >,
+      dish: Prisma.DishGetPayload<Record<string, never>>
+    ) => {
       acc[dish.id] = { ...dish, successOrders: 0 };
       return acc;
     },
@@ -87,7 +104,7 @@ export const dashboardIndicatorController = async ({ fromDate, toDate }: { fromD
 
   // Số lượng bàn đang được sử dụng
   const tableNumberObj: { [key: number]: boolean } = {};
-  orders.forEach((order) => {
+  orders.forEach((order: Prisma.OrderGetPayload<{ include: { dishSnapshot: true; table: true } }>) => {
     if (order.status === OrderStatus.Paid) {
       revenue += order.dishSnapshot.price * order.quantity;
       if (order.dishSnapshot.dishId && dishIndicatorObj[order.dishSnapshot.dishId]) {

@@ -2,6 +2,7 @@ import envConfig from "@/config";
 import { DishStatus, OrderStatus, Role, TableStatus } from "@/constants/type";
 import prisma from "@/database";
 import { GuestCreateOrdersBodyType, GuestLoginBodyType } from "@/schemaValidations/guest.schema";
+import type { Prisma } from "@generated/prisma/client";
 import { TokenPayload } from "@/types/jwt.types";
 import { AuthError } from "@/utils/errors";
 import { signAccessToken, signRefreshToken, verifyRefreshToken } from "@/utils/jwt";
@@ -120,7 +121,7 @@ export const guestRefreshTokenController = async (refreshToken: string) => {
 };
 
 export const guestCreateOrdersController = async (guestId: number, body: GuestCreateOrdersBodyType) => {
-  const result = await prisma.$transaction(async (tx) => {
+  const result = await prisma.$transaction(async (tx: Prisma.TransactionClient) => {
     const guest = await tx.guest.findUniqueOrThrow({
       where: {
         id: guestId,

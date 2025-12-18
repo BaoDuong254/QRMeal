@@ -1,6 +1,7 @@
 import prisma from "@/database";
 import { CreateTableBodyType, UpdateTableBodyType } from "@/schemaValidations/table.schema";
 import { EntityError, isPrismaClientKnownRequestError } from "@/utils/errors";
+import type { Prisma } from "@generated/prisma/client";
 import { randomId } from "@/utils/helpers";
 
 export const getTableList = () => {
@@ -46,7 +47,7 @@ export const updateTable = (number: number, data: UpdateTableBodyType) => {
   if (data.changeToken) {
     const token = randomId();
     // Xóa hết các refresh token của guest theo table
-    return prisma.$transaction(async (tx) => {
+    return prisma.$transaction(async (tx: Prisma.TransactionClient) => {
       const [table] = await Promise.all([
         tx.table.update({
           where: {

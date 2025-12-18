@@ -1,0 +1,15 @@
+packages:
+  - client
+  - server
+
+onlyBuiltDependencies:
+  - '@nestjs/core'
+  - '@prisma/client'
+  - '@prisma/engines'
+  - '@scarf/scarf'
+  - '@swc/core'
+  - bcrypt
+  - esbuild
+  - prisma
+  - sharp
+  - unrs-resolver

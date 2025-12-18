@@ -1,0 +1,1986 @@
+{
+	"info": {
+		"_postman_id": "33b000a4-e005-4e93-b195-2b90df4db09b",
+		"name": "NestCommerce",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "41961051"
+	},
+	"item": [
+		{
+			"name": "module auth",
+			"item": [
+				{
+					"name": "register",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Seller 3\",\r\n    \"email\": \"seller3@gmail.com\",\r\n    \"password\": \"123456789\",\r\n    \"confirmPassword\": \"123456789\",\r\n    \"phoneNumber\": \"0945188342\",\r\n    \"code\": \"458632\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/auth/register",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Body is correct\", function () {\r",
+									"    pm.response.to.be.success\r",
+									"    const {accessToken, refreshToken} = pm.response.json()\r",
+									"    pm.environment.set(\"accessToken\", accessToken);\r",
+									"    pm.environment.set(\"refreshToken\", refreshToken);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"duonggiabao254@gmail.com\",\r\n    \"password\": \"123456789\"\r\n    // \"code\": \"375242\"\r\n    // \"totpCode\": \"123123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/auth/login",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "logout",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Body is correct\", function () {\r",
+									"    pm.response.to.be.success\r",
+									"    const {accessToken, refreshToken} = pm.response.json()\r",
+									"    pm.environment.set(\"accessToken\", \"\");\r",
+									"    pm.environment.set(\"refreshToken\", \"\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"refreshToken\": \"{{refreshToken}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/auth/logout",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"auth",
+								"logout"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "refresh token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Body is correct\", function () {\r",
+									"    pm.response.to.be.success\r",
+									"    const {accessToken, refreshToken} = pm.response.json()\r",
+									"    pm.environment.set(\"accessToken\", accessToken);\r",
+									"    pm.environment.set(\"refreshToken\", refreshToken);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"refreshToken\": \"{{refreshToken}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/auth/refresh-token",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"auth",
+								"refresh-token"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Send OTP",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"seller3@gmail.com\",\r\n    \"type\": \"REGISTER\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/auth/otp",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"auth",
+								"otp"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Authorized Url",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/auth/google-link",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"auth",
+								"google-link"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Forgot password",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"duonggiabao254@gmail.com\",\r\n    \"code\": \"431234\",\r\n    \"newPassword\": \"123456789\",\r\n    \"confirmNewPassword\": \"123456789\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/auth/forgot-password",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"auth",
+								"forgot-password"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Setup 2FA",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/auth/2fa/setup",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"auth",
+								"2fa",
+								"setup"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Disable 2FA",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"totpCode\": \"242627\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/auth/2fa/disable",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"auth",
+								"2fa",
+								"disable"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "module language",
+			"item": [
+				{
+					"name": "Update language name",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"English\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/languages/en",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"languages",
+								"en"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create a language",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": \"en\",\r\n    \"name\": \"English\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/languages",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"languages"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete a language",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/languages/en",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"languages",
+								"en"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Fetch all languages",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/languages",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"languages"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get a detail language",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/languages/en",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"languages",
+								"en"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "module permission",
+			"item": [
+				{
+					"name": "Update permission",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"List permissions\",\r\n    \"path\": \"/permissions\",\r\n    \"method\": \"GET\",\r\n    \"module\": \"ABC\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/permissions/1",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"permissions",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create a permission",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"List permissions\",\r\n    \"path\": \"/permissions\",\r\n    \"method\": \"GET\",\r\n    \"module\": \"ABC\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/permissions",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"permissions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete a permission",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/permissions/1",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"permissions",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Fetch all permissions",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/permissions?page=1&limit=10",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"permissions"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get a detail permission",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/permissions/1",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"permissions",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "module role",
+			"item": [
+				{
+					"name": "Update role",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Client 2\",\r\n    \"description\": \"\",\r\n    \"isActive\": true,\r\n    \"permissionIds\": [50]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/roles/1",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"roles",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create a role",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Client 3\",\r\n    \"description\": \"\",\r\n    \"isActive\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/roles",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"roles"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete a role",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/roles/1",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"roles",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Fetch all roles",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/roles?page=1&limit=10",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"roles"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get a detail role",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/roles/1",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"roles",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "module profile",
+			"item": [
+				{
+					"name": "Read profile",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/profile",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"profile"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update profile",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Bao Duong\",\r\n    \"phoneNumber\": \"0945188349\",\r\n    \"avatar\": \"hello\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/profile",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"profile"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Change password",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"\", function() {\r",
+									"    pm.response.to.be.success;\r",
+									"    const {newPassword} = JSON.parse(pm.request.body);\r",
+									"    pm.environment.set(\"password\", newPassword);\r",
+									"})"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"password\": \"{{password}}\",\r\n    \"newPassword\": \"123456789\",\r\n    \"confirmNewPassword\": \"123456789\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/profile/change-password",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"profile",
+								"change-password"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "module user",
+			"item": [
+				{
+					"name": "Fetch all users",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/users?page=1&limit=10",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"users"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create a user",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"seller2@gmail.com\",\r\n    \"name\": \"John Sell\",\r\n    \"phoneNumber\": \"1234393231\",\r\n    \"roleId\": 3,\r\n    \"avatar\": \"google.com\",\r\n    \"password\": \"123456789\",\r\n    \"status\": \"ACTIVE\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/users",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update a user",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"duonggiabao2541@gmail.com\",\r\n    \"name\": \"Duonggiabao123\",\r\n    \"phoneNumber\": \"1234393231\",\r\n    \"roleId\": 2,\r\n    \"avatar\": \"google.com\",\r\n    \"password\": \"123456789\",\r\n    \"status\": \"ACTIVE\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/users/3",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"users",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete a user",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/users/1",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"users",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get detail user",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/users/3",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"users",
+								"3"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "module media",
+			"item": [
+				{
+					"name": "Upload image",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "files",
+									"type": "file",
+									"src": []
+								}
+							]
+						},
+						"url": {
+							"raw": "{{host}}/media/images/upload",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"media",
+								"images",
+								"upload"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get static filename",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/media/static/example.png",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"media",
+								"static",
+								"example.png"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get presigned url",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"\", function(){\r",
+									"    pm.response.to.be.success;\r",
+									"    const {presignedUrl} = pm.response.json();\r",
+									"    pm.environment.set(\"presignedUrl\", presignedUrl);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"filename\": \"test.png\",\r\n    \"filesize\": 4194304\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/media/images/upload/presigned-url",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"media",
+								"images",
+								"upload",
+								"presigned-url"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Upload image with presignedUrl",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "file",
+							"file": {
+								"src": "/C:/Users/Admin/Downloads/component.png"
+							}
+						},
+						"url": {
+							"raw": "{{presignedUrl}}",
+							"host": [
+								"{{presignedUrl}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "module brand",
+			"item": [
+				{
+					"name": "module brand-translation",
+					"item": [
+						{
+							"name": "Brand-translation detail",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/brand-translations/1",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"brand-translations",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create a brand-translation",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"brandId\": 1,\r\n    \"languageId\": \"en\",\r\n    \"name\": \"\",\r\n    \"description\": \"\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/brand-translations/1",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"brand-translations",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create a brand-translation",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"brandId\": 1,\r\n    \"languageId\": \"en\",\r\n    \"name\": \"\",\r\n    \"description\": \"\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/brand-translations/1",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"brand-translations",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete a brand-translation",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/brand-translations/1",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"brand-translations",
+										"1"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "List brands",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/brands?page=1&limit=10&lang=all",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"brands"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "10"
+								},
+								{
+									"key": "lang",
+									"value": "all"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Brand detail",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/brands/1",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"brands",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create a brand",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"\",\r\n    \"logo\": \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/brands/1",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"brands",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update a brand Copy",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"\",\r\n    \"logo\": \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/brands/1",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"brands",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete a brand",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/brands/1",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"brands",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "module category",
+			"item": [
+				{
+					"name": "module category-translation",
+					"item": [
+						{
+							"name": "Category-translation detail",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/category-translations/1",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"category-translations",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create a category-translation",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"categoryId\": 27,\r\n    \"languageId\": \"en\",\r\n    \"name\": \"\",\r\n    \"description\": \"\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/category-translations",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"category-translations"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create a category-translation",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"categoryId\": 27,\r\n    \"languageId\": \"en\",\r\n    \"name\": \"\",\r\n    \"description\": \"\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/category-translations/54",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"category-translations",
+										"54"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete a category-translation",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/category-translations/54",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"category-translations",
+										"54"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Get all categories",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/categories?parentCategoryId=1",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"categories"
+							],
+							"query": [
+								{
+									"key": "parentCategoryId",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create a category",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"parentCategoryId\": 1,\r\n    \"name\": \"Quần bò\",\r\n    \"logo\": \"https://example.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/categories",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"categories"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Category detail",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/categories/1?lang=all",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"categories",
+								"1"
+							],
+							"query": [
+								{
+									"key": "lang",
+									"value": "all"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update a category",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"parentCategoryId\": null,\r\n    \"name\": \"Quần bò\",\r\n    \"logo\": \"https://example.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/categories/1",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"categories",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete a category",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/categories/1",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"categories",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "module product",
+			"item": [
+				{
+					"name": "module product-translation",
+					"item": [
+						{
+							"name": "Product-translation detail",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/product-translations/1",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"product-translations",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create a product-translation",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"productId\": 1,\r\n    \"languageId\": \"en\",\r\n    \"name\": \"\",\r\n    \"description\": \"\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/product-translations/1",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"product-translations",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update a product-translation",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"productId\": 1,\r\n    \"languageId\": \"en\",\r\n    \"name\": \"\",\r\n    \"description\": \"\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/product-translations/1",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"product-translations",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete a product-translation",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/product-translations/1",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"product-translations",
+										"1"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Create product",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Giày Nike\",\r\n    \"publishedAt\": null,\r\n    \"basePrice\": 12000,\r\n    \"virtualPrice\": 15000,\r\n    \"brandId\": 1,\r\n    \"images\": [],\r\n    \"categories\": [\r\n        1,\r\n        2,\r\n        3\r\n    ],\r\n    \"variants\": [\r\n        {\r\n            \"value\": \"Màu sắc\",\r\n            \"options\": [\r\n                \"Đen\",\r\n                \"Trắng\",\r\n                \"Xanh\",\r\n                \"Đỏ\"\r\n            ]\r\n        },\r\n        {\r\n            \"value\": \"Kích thước\",\r\n            \"options\": [\r\n                \"S\",\r\n                \"M\",\r\n                \"L\",\r\n                \"XL\"\r\n            ]\r\n        }\r\n    ],\r\n    \"skus\": [\r\n        {\r\n            \"value\": \"Đen-S\",\r\n            \"price\": 0,\r\n            \"stock\": 100,\r\n            \"image\": \"\"\r\n        },\r\n        {\r\n            \"value\": \"Đen-M\",\r\n            \"price\": 0,\r\n            \"stock\": 100,\r\n            \"image\": \"\"\r\n        },\r\n        {\r\n            \"value\": \"Đen-L\",\r\n            \"price\": 0,\r\n            \"stock\": 100,\r\n            \"image\": \"\"\r\n        },\r\n        {\r\n            \"value\": \"Đen-XL\",\r\n            \"price\": 0,\r\n            \"stock\": 100,\r\n            \"image\": \"\"\r\n        },\r\n        {\r\n            \"value\": \"Trắng-S\",\r\n            \"price\": 0,\r\n            \"stock\": 100,\r\n            \"image\": \"\"\r\n        },\r\n        {\r\n            \"value\": \"Trắng-M\",\r\n            \"price\": 0,\r\n            \"stock\": 100,\r\n            \"image\": \"\"\r\n        },\r\n        {\r\n            \"value\": \"Trắng-L\",\r\n            \"price\": 0,\r\n            \"stock\": 100,\r\n            \"image\": \"\"\r\n        },\r\n        {\r\n            \"value\": \"Trắng-XL\",\r\n            \"price\": 0,\r\n            \"stock\": 100,\r\n            \"image\": \"\"\r\n        },\r\n        {\r\n            \"value\": \"Xanh-S\",\r\n            \"price\": 0,\r\n            \"stock\": 100,\r\n            \"image\": \"\"\r\n        },\r\n        {\r\n            \"value\": \"Xanh-M\",\r\n            \"price\": 0,\r\n            \"stock\": 100,\r\n            \"image\": \"\"\r\n        },\r\n        {\r\n            \"value\": \"Xanh-L\",\r\n            \"price\": 0,\r\n            \"stock\": 100,\r\n            \"image\": \"\"\r\n        },\r\n        {\r\n            \"value\": \"Xanh-XL\",\r\n            \"price\": 0,\r\n            \"stock\": 100,\r\n            \"image\": \"\"\r\n        },\r\n        {\r\n            \"value\": \"Đỏ-S\",\r\n            \"price\": 0,\r\n            \"stock\": 100,\r\n            \"image\": \"\"\r\n        },\r\n        {\r\n            \"value\": \"Đỏ-M\",\r\n            \"price\": 0,\r\n            \"stock\": 100,\r\n            \"image\": \"\"\r\n        },\r\n        {\r\n            \"value\": \"Đỏ-L\",\r\n            \"price\": 0,\r\n            \"stock\": 100,\r\n            \"image\": \"\"\r\n        },\r\n        {\r\n            \"value\": \"Đỏ-XL\",\r\n            \"price\": 0,\r\n            \"stock\": 100,\r\n            \"image\": \"\"\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/manage-product/products",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"manage-product",
+								"products"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update product",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Giày Nike\",\r\n    \"publishedAt\": \"2025-12-12T16:58:30.677Z\",\r\n    \"basePrice\": 12000,\r\n    \"virtualPrice\": 15000,\r\n    \"brandId\": 1,\r\n    \"images\": [],\r\n    \"categories\": [\r\n        1,\r\n        2,\r\n        3\r\n    ],\r\n    \"variants\": [\r\n        {\r\n            \"value\": \"Màu sắc\",\r\n            \"options\": [\r\n                \"Đen\",\r\n                \"Trắng\",\r\n                \"Xanh\",\r\n                \"Đỏ\"\r\n            ]\r\n        },\r\n        {\r\n            \"value\": \"Kích thước\",\r\n            \"options\": [\r\n                \"S\",\r\n                \"M\",\r\n                \"L\",\r\n                \"XL\"\r\n            ]\r\n        }\r\n    ],\r\n    \"skus\":\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/manage-product/products/1",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"manage-product",
+								"products",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get list products",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/manage-product/products?createdById=5&orderBy=asc&sortBy=price",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"manage-product",
+								"products"
+							],
+							"query": [
+								{
+									"key": "createdById",
+									"value": "5"
+								},
+								{
+									"key": "isPublic",
+									"value": "true",
+									"disabled": true
+								},
+								{
+									"key": "brandIds",
+									"value": "1",
+									"disabled": true
+								},
+								{
+									"key": "minPrice",
+									"value": "13000",
+									"disabled": true
+								},
+								{
+									"key": "maxPrice",
+									"value": "14000",
+									"disabled": true
+								},
+								{
+									"key": "categories",
+									"value": "1",
+									"disabled": true
+								},
+								{
+									"key": "name",
+									"value": "nike",
+									"disabled": true
+								},
+								{
+									"key": "orderBy",
+									"value": "asc"
+								},
+								{
+									"key": "sortBy",
+									"value": "price"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get list product detail",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/manage-product/products/1",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"manage-product",
+								"products",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete product",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/manage-product/products/1",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"manage-product",
+								"products",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get list products for guest",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/products",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"products"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get list products detail for guest",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/products/4",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"products",
+								"4"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "module cart",
+			"item": [
+				{
+					"name": "Get cart",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/cart?page=1&limit=10",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"cart"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete cart",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"cartItemIds\": [1]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/cart/delete",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"cart",
+								"delete"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create cart",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"skuId\": 49,\r\n    \"quantity\": 2\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/cart",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"cart"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update cart",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"skuId\": 49,\r\n    \"quantity\": 22\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/cart/1",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"cart",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "module order",
+			"item": [
+				{
+					"name": "Get order",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/orders?page=1&limit=10&status=PENDING_PAYMENT",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"orders"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "10"
+								},
+								{
+									"key": "status",
+									"value": "PENDING_PAYMENT"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create order",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "[\r\n    {\r\n        \"shopId\": 5,\r\n        \"receiver\": {\r\n            \"name\": \"test\",\r\n            \"phone\": \"09451883439\",\r\n            \"address\": \"KTX Khu A\"\r\n        },\r\n        \"cartItemIds\": [\r\n            2\r\n        ]\r\n    }\r\n]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/orders",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"orders"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Cancel order",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/orders/1",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"orders",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get detail order",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/orders/1",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"orders",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{accessToken}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}

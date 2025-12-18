@@ -46,6 +46,15 @@ jobs:
       - name: Create dummy .env for Prisma generation
         run: echo "DATABASE_URL=file:./prisma/dev.db" > server/.env
 
+      - name: Create dummy .env for client build
+        run: |
+          cat > client/.env <<EOF
+          NEXT_PUBLIC_API_ENDPOINT=http://localhost:4000
+          NEXT_PUBLIC_URL=http://localhost:3000
+          NEXT_PUBLIC_GOOGLE_CLIENT_ID=dummy-client-id
+          NEXT_PUBLIC_GOOGLE_AUTHORIZED_REDIRECT_URI=http://localhost:3000
+          EOF
+
       - name: Generate Prisma Client
         run: pnpm --filter server exec prisma generate
 

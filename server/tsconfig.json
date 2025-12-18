@@ -14,5 +14,6 @@
     }
   },
   "files": ["./src/type.d.ts"],
-  "include": ["./src/**/*"]
+  "include": ["./src/**/*", "./generated/**/*", "./prisma.config.ts"],
+  "exclude": ["node_modules", "dist"]
 }

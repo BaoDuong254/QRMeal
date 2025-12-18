@@ -7,7 +7,7 @@
   "scripts": {
     "dev": "pnpm exec nodemon",
     "clean": "rimraf dist/",
-    "copy-files": "copyfiles -u 1 generated/**/*  dist/",
+    "copy-files": "copyfiles generated/**/* dist/",
     "build": "pnpm clean && tsc && pnpm copy-files && tsc-alias",
     "start": "node dist/index.js",
     "lint": "eslint . ",
@@ -48,9 +48,11 @@
     "ms": "^2.1.3",
     "query-string": "^9.3.1",
     "socket.io": "^4.8.1",
-    "zod": "^4.2.1"
+    "zod": "^4.2.1",
+    "@prisma/client-runtime-utils": "7.1.0"
   },
   "devDependencies": {
+    "copyfiles": "^2.4.1",
     "@eslint/js": "^9.39.2",
     "@types/bcrypt": "^6.0.0",
     "@types/better-sqlite3": "7.6.13",

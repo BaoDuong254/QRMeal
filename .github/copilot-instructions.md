@@ -71,6 +71,5 @@ ecommerce/
 - Do not ignore TypeScript errors
 
 ## Related Instructions
-- See `.github/instructions/nestjs.instructions.md` for NestJS patterns
-- See `.github/instructions/reactjs.instructions.md` for React patterns
+- See `.github/instructions/nextjs-tailwind.instructions.md` for NextJS patterns
 - See `.github/instructions/typescript-5-es2022.instructions.md` for TypeScript rules

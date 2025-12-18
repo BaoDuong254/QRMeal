@@ -2,8 +2,8 @@
   "$schema": "https://turbo.build/schema.json",
   "ui": "tui",
   "tasks": {
-    "start:dev": {
-      "dependsOn": ["^start:dev"],
+    "dev": {
+      "dependsOn": ["^dev"],
       "cache": false,
       "persistent": true
     },
@@ -18,8 +18,14 @@
     "format": {
       "dependsOn": ["^format"]
     },
-    "start:prod": {
-      "dependsOn": ["^start:prod"],
+    "lint:fix": {
+      "dependsOn": ["^lint:fix"]
+    },
+    "format:fix": {
+      "dependsOn": ["^format:fix"]
+    },
+    "start": {
+      "dependsOn": ["^build"],
       "cache": false,
       "persistent": true
     },

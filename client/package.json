@@ -1,6 +1,7 @@
 {
-  "name": "qrmeal",
-  "version": "0.1.0",
+  "name": "client",
+  "version": "1.0.0",
+  "packageManager": "pnpm@10.26.0",
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
@@ -8,9 +9,14 @@
     "start": "next start",
     "lint": "eslint .",
     "lint:fix": "eslint --fix .",
+    "prettier:fix": "prettier --check .",
     "prettier": "prettier . --write",
-    "lint:staged": "lint-staged",
-    "prepare": "husky"
+    "preinstall": "pnpm dlx only-allow pnpm",
+    "clean": "rimraf dist/"
+  },
+  "engines": {
+    "node": "24.11.1",
+    "pnpm": "10.26.0"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
@@ -62,6 +68,7 @@
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
+    "rimraf": "^5.0.7",
     "@eslint/js": "^9.38.0",
     "@next/eslint-plugin-next": "^16.0.1",
     "@tailwindcss/postcss": "^4",

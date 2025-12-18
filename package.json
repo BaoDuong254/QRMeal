@@ -1,8 +1,7 @@
 {
-  "name": "nest-commerce",
+  "name": "qrmeal",
   "private": true,
   "packageManager": "pnpm@10.26.0",
-  "license": "MIT",
   "devDependencies": {
     "@commitlint/cli": "^20.2.0",
     "@commitlint/config-conventional": "^20.2.0",
@@ -13,11 +12,13 @@
   "scripts": {
     "prepare": "husky",
     "preinstall": "pnpm dlx only-allow pnpm",
-    "start:dev": "turbo run start:dev --parallel",
+    "dev": "turbo run dev --parallel",
     "build": "turbo run build",
     "lint": "turbo run lint",
+    "lint:fix": "turbo run lint:fix",
     "format": "turbo run format",
-    "start:prod": "turbo run start:prod --parallel",
+    "format:fix": "turbo run format:fix",
+    "start": "turbo run start --parallel",
     "clean": "turbo run clean"
   },
   "engines": {

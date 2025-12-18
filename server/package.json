@@ -2,15 +2,23 @@
   "name": "server",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "packageManager": "pnpm@10.26.0",
+  "main": "dist/index.js",
   "scripts": {
-    "dev": "npx nodemon",
-    "build": "rimraf ./dist && tsc && tsc-alias",
+    "dev": "pnpm exec nodemon",
+    "clean": "rimraf dist/",
+    "build": "pnpm clean && tsc && tsc-alias",
     "start": "node dist/index.js",
-    "lint": "eslint .",
+    "lint": "eslint . ",
     "lint:fix": "eslint . --fix",
-    "prettier": "prettier --check .",
-    "prettier:fix": "prettier --write ."
+    "format": "prettier --check .",
+    "format:fix": "prettier --write .",
+    "debug": "nodemon --inspect=9229 -e ts,tsx --exec node -r ts-node/register -r tsconfig-paths/register ./src/index.ts",
+    "preinstall": "pnpm dlx only-allow pnpm"
+  },
+  "engines": {
+    "node": "24.11.1",
+    "pnpm": "10.26.0"
   },
   "keywords": [],
   "author": "",

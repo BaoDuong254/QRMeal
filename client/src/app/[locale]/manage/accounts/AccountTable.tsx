@@ -1,4 +1,5 @@
 "use client";
+"use no memo";
 
 import { CaretSortIcon, DotsHorizontalIcon } from "@radix-ui/react-icons";
 import {
@@ -56,10 +57,10 @@ const AccountTableContext = createContext<{
   employeeDelete: AccountItem | null;
   setEmployeeDelete: (value: AccountItem | null) => void;
 }>({
-  setEmployeeIdEdit: (value: number | undefined) => {},
+  setEmployeeIdEdit: (_value: number | undefined) => {},
   employeeIdEdit: undefined,
   employeeDelete: null,
-  setEmployeeDelete: (value: AccountItem | null) => {},
+  setEmployeeDelete: (_value: AccountItem | null) => {},
 });
 
 function useAccountColumns() {

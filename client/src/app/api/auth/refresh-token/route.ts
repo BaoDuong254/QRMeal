@@ -3,7 +3,7 @@ import { cookies } from "next/headers";
 import jwt from "jsonwebtoken";
 import { HttpError } from "@/lib/http";
 
-export async function POST(request: Request) {
+export async function POST(_request: Request) {
   const cookieStore = await cookies();
   const refreshToken = cookieStore.get("refreshToken")?.value;
   if (!refreshToken) {

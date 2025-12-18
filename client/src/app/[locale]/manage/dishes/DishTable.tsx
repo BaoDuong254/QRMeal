@@ -1,4 +1,5 @@
 "use client";
+"use no memo";
 
 import { DotsHorizontalIcon } from "@radix-ui/react-icons";
 import {

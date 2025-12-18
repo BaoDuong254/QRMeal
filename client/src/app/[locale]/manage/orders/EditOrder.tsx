@@ -12,7 +12,7 @@ import { OrderStatus, OrderStatusValues } from "@/constants/type";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { DishesDialog } from "@/app/[locale]/manage/orders/DishesDialog";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { DishListResType } from "@/schemaValidations/dish.schema";
 import { useGetOrderDetailQuery, useUpdateOrderMutation } from "@/queries/useOrder";
 import { toast } from "sonner";
@@ -40,6 +40,12 @@ export default function EditOrder({
     },
   });
 
+  // Derive selectedDish from data instead of storing in state during effect
+  const dishSnapshot = useMemo(() => {
+    return data?.payload.data.dishSnapshot ?? selectedDish;
+  }, [data, selectedDish]);
+
+  // Update form when data changes
   useEffect(() => {
     if (data) {
       const {
@@ -52,7 +58,6 @@ export default function EditOrder({
         dishId: dishId ?? 0,
         quantity,
       });
-      setSelectedDish(data.payload.data.dishSnapshot);
     }
   }, [data, form]);
 
@@ -110,10 +115,10 @@ export default function EditOrder({
                     <FormLabel>{t("dish")}</FormLabel>
                     <div className='col-span-2 flex items-center space-x-4'>
                       <Avatar className='aspect-square h-[50px] w-[50px] rounded-md object-cover'>
-                        <AvatarImage src={selectedDish?.image} />
-                        <AvatarFallback className='rounded-none'>{selectedDish?.name}</AvatarFallback>
+                        <AvatarImage src={dishSnapshot?.image} />
+                        <AvatarFallback className='rounded-none'>{dishSnapshot?.name}</AvatarFallback>
                       </Avatar>
-                      <div>{selectedDish?.name}</div>
+                      <div>{dishSnapshot?.name}</div>
                     </div>
 
                     <DishesDialog

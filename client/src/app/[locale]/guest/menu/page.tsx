@@ -9,7 +9,7 @@ type Props = {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 };
 
-export async function generateMetadata({ params, searchParams }: Props): Promise<Metadata> {
+export async function generateMetadata({ params, searchParams: _searchParams }: Props): Promise<Metadata> {
   const resolvedParams = await params;
   const t = await getTranslations({
     locale: resolvedParams.locale,

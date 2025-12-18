@@ -45,12 +45,12 @@ export default function AutoPagination({
   pageSize,
   pathname = "/",
   isLink = true,
-  onClick = (pageNumber) => {},
+  onClick = (_pageNumber) => {},
 }: Props) {
   const renderPagination = () => {
     let dotAfter = false;
     let dotBefore = false;
-    const renderDotBefore = (index: number) => {
+    const renderDotBefore = (_index: number) => {
       if (!dotBefore) {
         dotBefore = true;
         return (
@@ -61,7 +61,7 @@ export default function AutoPagination({
       }
       return null;
     };
-    const renderDotAfter = (index: number) => {
+    const renderDotAfter = (_index: number) => {
       if (!dotAfter) {
         dotAfter = true;
         return (

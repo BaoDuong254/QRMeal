@@ -52,10 +52,16 @@ const eslintConfig = [
       ...tanstackQueryPlugin.configs.recommended.rules,
       "react/react-in-jsx-scope": "off",
       "react/prop-types": "off",
-      "@typescript-eslint/no-unused-vars": "warn",
+      "@typescript-eslint/no-unused-vars": [
+        "warn",
+        {
+          argsIgnorePattern: "^_",
+          varsIgnorePattern: "^_",
+          caughtErrorsIgnorePattern: "^_",
+        },
+      ],
       "@typescript-eslint/no-explicit-any": "warn",
-      "react-hooks/incompatible-library": "warn",
-      "react-hooks/set-state-in-effect": "warn",
+      "react-hooks/incompatible-library": "off",
       "prettier/prettier": [
         "warn",
         {
@@ -63,7 +69,7 @@ const eslintConfig = [
           semi: true,
           trailingComma: "es5",
           tabWidth: 2,
-          endOfLine: "auto",
+          endOfLine: "lf",
           useTabs: false,
           singleQuote: false,
           printWidth: 120,

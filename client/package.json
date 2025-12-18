@@ -9,8 +9,8 @@
     "start": "next start",
     "lint": "eslint .",
     "lint:fix": "eslint --fix .",
-    "prettier:fix": "prettier --check .",
-    "prettier": "prettier . --write",
+    "format": "prettier --check .",
+    "format:fix": "prettier . --write",
     "preinstall": "pnpm dlx only-allow pnpm",
     "clean": "rimraf dist/"
   },

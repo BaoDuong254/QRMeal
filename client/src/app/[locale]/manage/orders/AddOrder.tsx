@@ -1,4 +1,5 @@
 "use client";
+"use no memo";
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { PlusCircle } from "lucide-react";
 import { useState } from "react";

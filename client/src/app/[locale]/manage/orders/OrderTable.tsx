@@ -1,4 +1,5 @@
 "use client";
+"use no memo";
 import {
   ColumnFiltersState,
   SortingState,
@@ -39,9 +40,9 @@ import { useAppStore } from "@/components/AppProvider";
 import { useTranslations } from "next-intl";
 
 export const OrderTableContext = createContext({
-  setOrderIdEdit: (value: number | undefined) => {},
+  setOrderIdEdit: (_value: number | undefined) => {},
   orderIdEdit: undefined as number | undefined,
-  changeStatus: (payload: {
+  changeStatus: (_payload: {
     orderId: number;
     dishId: number;
     status: (typeof OrderStatusValues)[number];

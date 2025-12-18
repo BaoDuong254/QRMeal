@@ -24,7 +24,7 @@ function LogoutComponent() {
         (accessTokenFromUrl && accessTokenFromUrl === getAccessTokenFromLocalStorage()))
     ) {
       ref.current = mutateAsync;
-      mutateAsync().then((res) => {
+      mutateAsync().then((_res) => {
         setTimeout(() => {
           ref.current = null;
         }, 1000);

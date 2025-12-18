@@ -7,7 +7,8 @@
   "scripts": {
     "dev": "pnpm exec nodemon",
     "clean": "rimraf dist/",
-    "build": "pnpm clean && tsc && tsc-alias",
+    "copy-files": "copyfiles -u 1 generated/**/*  dist/",
+    "build": "pnpm clean && tsc && pnpm copy-files && tsc-alias",
     "start": "node dist/index.js",
     "lint": "eslint . ",
     "lint:fix": "eslint . --fix",
@@ -30,6 +31,7 @@
     "@fastify/helmet": "^13.0.2",
     "@fastify/multipart": "^9.3.0",
     "@fastify/static": "^8.3.0",
+    "@prisma/adapter-better-sqlite3": "7.2.0",
     "@prisma/client": "^7.2.0",
     "axios": "^1.13.2",
     "bcrypt": "^6.0.0",
@@ -49,7 +51,9 @@
     "zod": "^4.2.1"
   },
   "devDependencies": {
+    "@eslint/js": "^9.39.2",
     "@types/bcrypt": "^6.0.0",
+    "@types/better-sqlite3": "7.6.13",
     "@types/ms": "^2.1.0",
     "@types/node": "^25.0.3",
     "@typescript-eslint/eslint-plugin": "^8.50.0",
@@ -57,6 +61,7 @@
     "eslint": "^9.39.2",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-prettier": "^5.5.4",
+    "globals": "^16.5.0",
     "nodemon": "^3.1.11",
     "prettier": "^3.7.4",
     "prisma": "^7.2.0",
@@ -66,7 +71,8 @@
     "tsc-alias": "^1.8.16",
     "tsconfig-paths": "^4.2.0",
     "tsx": "^4.21.0",
-    "typescript": "^5.9.3"
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.50.0"
   },
   "optionalDependencies": {
     "bufferutil": "^4.0.9",

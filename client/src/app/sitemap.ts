@@ -17,9 +17,15 @@ const staticRoutes: MetadataRoute.Sitemap = [
 ];
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const result = await dishApiRequest.list();
+  let dishList: Array<{ id: number; name: string; updatedAt: Date }> = [];
 
-  const dishList = result.payload.data;
+  try {
+    const result = await dishApiRequest.list();
+    dishList = result.payload.data;
+  } catch (error) {
+    console.log("Warning: Could not fetch dishes for sitemap generation:", error);
+  }
+
   const localizeStaticSiteMap = locales.reduce((acc, locale) => {
     return [
       ...acc,

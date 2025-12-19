@@ -46,6 +46,12 @@ COPY src ./src
 # Build the application
 RUN pnpm run build
 
+# Ensure generated Prisma client is fully copied to dist
+RUN rm -rf ./dist/generated && cp -r ./generated ./dist/
+
+# Verify the runtime exists
+RUN ls -la ./dist/generated/prisma/runtime/ || echo "Runtime not found"
+
 # Copy existing uploads folder with files
 COPY uploads ./uploads
 

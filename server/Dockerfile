@@ -22,7 +22,7 @@ COPY prisma ./prisma
 # Enable build scripts for native modules
 RUN pnpm config set enable-pre-post-scripts true
 
-# Install dependencies (generate lockfile in CI)
+# Install ALL dependencies (including devDependencies for build)
 RUN pnpm install --no-frozen-lockfile
 
 # Set dummy DATABASE_URL for Prisma generate (doesn't need real DB)
@@ -37,12 +37,15 @@ COPY src ./src
 # Build the application
 RUN pnpm run build
 
+# Rebuild better-sqlite3 to ensure native bindings are compiled for this platform
+RUN pnpm rebuild better-sqlite3
+
 # Production stage
 FROM node:24.11.1-alpine
 
 WORKDIR /app
 
-# Install runtime dependencies for native modules and healthcheck
+# Install build tools required for native modules compilation
 RUN apk add --no-cache \
         wget \
         openssl \
@@ -50,7 +53,9 @@ RUN apk add --no-cache \
         libstdc++ \
         python3 \
         make \
-        g++
+        g++ \
+        gcc \
+        libc-dev
 
 # Install pnpm
 RUN corepack enable && corepack prepare pnpm@10.26.0 --activate
@@ -63,8 +68,11 @@ COPY prisma ./prisma
 # Enable build scripts for native modules
 RUN pnpm config set enable-pre-post-scripts true
 
-# Install production dependencies INCLUDING better-sqlite3 with build
+# Install production dependencies
 RUN pnpm install --no-frozen-lockfile --prod
+
+# Force rebuild better-sqlite3 native bindings for this platform
+RUN pnpm rebuild better-sqlite3
 
 # Copy built application from builder FIRST (without generated/)
 COPY --from=builder /app/dist ./dist

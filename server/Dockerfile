@@ -2,9 +2,12 @@ FROM node:24.11.1-slim
 
 WORKDIR /app
 
-# Install OpenSSL for Prisma
+# Install build dependencies for better-sqlite3 and OpenSSL for Prisma
 RUN apt-get update && apt-get install -y \
         openssl \
+        python3 \
+        make \
+        g++ \
     && rm -rf /var/lib/apt/lists/*
 
 # Enable pnpm
@@ -18,6 +21,9 @@ COPY prisma ./prisma
 
 # Install ALL dependencies (including devDependencies for build)
 RUN pnpm install --no-frozen-lockfile
+
+# Rebuild better-sqlite3 for Linux platform
+RUN pnpm rebuild better-sqlite3
 
 # Set DATABASE_URL for Prisma generate
 ENV DATABASE_URL="file:/app/prisma/dev.db"

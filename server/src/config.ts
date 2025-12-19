@@ -8,7 +8,7 @@ const envPath = path.resolve(__dirname, "../../.env");
 
 if (fs.existsSync(envPath)) {
   config({ path: envPath });
-} else if (process.env.PRODUCTION !== true) {
+} else if (process.env.NODE_ENV !== "production") {
   console.log("Can not find .env file!");
   process.exit(1);
 }

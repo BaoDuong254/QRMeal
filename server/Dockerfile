@@ -19,6 +19,9 @@ RUN pnpm config set enable-pre-post-scripts true
 # Install dependencies (generate lockfile in CI)
 RUN pnpm install --no-frozen-lockfile
 
+# Set dummy DATABASE_URL for Prisma generate (doesn't need real DB)
+ENV DATABASE_URL="file:/app/prisma/dev.db"
+
 # Generate Prisma Client
 RUN pnpm prisma generate
 

@@ -21,15 +21,10 @@ jobs:
 
       - name: Create .env file for client
         run: echo "${{ secrets.CLIENT_ENV }}" > client/.env
-        # Note: For production with Nginx proxy, CLIENT_ENV should NOT include VITE_BACKEND_URL
-        # or it should be empty/commented out. Images are served via Nginx proxy at /images
 
       - name: Create root .env file for docker-compose
         run: |
-          echo "DB_PASS=${{ secrets.DB_PASS }}" > .env
-          echo "DB_USER=${{ secrets.DB_USER }}" >> .env
-          echo "DB_NAME=${{ secrets.DB_NAME }}" >> .env
-          echo "DOCKERHUB_USERNAME=${{ secrets.DOCKERHUB_USERNAME }}" >> .env
+          echo "DOCKERHUB_USERNAME=${{ secrets.DOCKERHUB_USERNAME }}" > .env
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
@@ -46,9 +41,9 @@ jobs:
           context: ./server
           file: ./server/Dockerfile
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/mentoria-server:latest
-          cache-from: type=registry,ref=${{ secrets.DOCKERHUB_USERNAME }}/mentoria-server:buildcache
-          cache-to: type=registry,ref=${{ secrets.DOCKERHUB_USERNAME }}/mentoria-server:buildcache,mode=max
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/qrmeal-server:latest
+          cache-from: type=registry,ref=${{ secrets.DOCKERHUB_USERNAME }}/qrmeal-server:buildcache
+          cache-to: type=registry,ref=${{ secrets.DOCKERHUB_USERNAME }}/qrmeal-server:buildcache,mode=max
 
       - name: Build and push client image
         uses: docker/build-push-action@v5
@@ -56,9 +51,9 @@ jobs:
           context: ./client
           file: ./client/Dockerfile
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/mentoria-client:latest
-          cache-from: type=registry,ref=${{ secrets.DOCKERHUB_USERNAME }}/mentoria-client:buildcache
-          cache-to: type=registry,ref=${{ secrets.DOCKERHUB_USERNAME }}/mentoria-client:buildcache,mode=max
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/qrmeal-client:latest
+          cache-from: type=registry,ref=${{ secrets.DOCKERHUB_USERNAME }}/qrmeal-client:buildcache
+          cache-to: type=registry,ref=${{ secrets.DOCKERHUB_USERNAME }}/qrmeal-client:buildcache,mode=max
 
       - name: Send telegram message after build success
         if: success()
@@ -72,8 +67,8 @@ jobs:
             🧑‍💻 Commit message: ${{ github.event.workflow_run.head_commit.message }}
             📦 Repository: ${{ github.repository }}
             🐳 Images:
-            - ${{ secrets.DOCKERHUB_USERNAME }}/mentoria-server:latest
-            - ${{ secrets.DOCKERHUB_USERNAME }}/mentoria-client:latest
+            - ${{ secrets.DOCKERHUB_USERNAME }}/qrmeal-server:latest
+            - ${{ secrets.DOCKERHUB_USERNAME }}/qrmeal-client:latest
             👀 See changes: https://github.com/${{ github.repository }}/commit/${{github.event.workflow_run.head_sha}}
 
       - name: Send telegram message after build failure
@@ -104,10 +99,7 @@ jobs:
 
       - name: Create root .env file for docker-compose
         run: |
-          echo "DB_PASS=${{ secrets.DB_PASS }}" > .env
-          echo "DB_USER=${{ secrets.DB_USER }}" >> .env
-          echo "DB_NAME=${{ secrets.DB_NAME }}" >> .env
-          echo "DOCKERHUB_USERNAME=${{ secrets.DOCKERHUB_USERNAME }}" >> .env
+          echo "DOCKERHUB_USERNAME=${{ secrets.DOCKERHUB_USERNAME }}" > .env
 
       - name: Copy files to LXC
         uses: appleboy/scp-action@v0.1.7
@@ -116,8 +108,8 @@ jobs:
           username: ${{ secrets.USERNAME_VPS }}
           key: ${{ secrets.KEY_VPS }}
           port: ${{ secrets.PORT_VPS }}
-          source: "server/.env,client/.env,.env,docker-compose.yml,server/scripts/init-db.sh,server/scripts/wait-for-db.sh,server/src/database"
-          target: "~/mentoria"
+          source: "server/.env,client/.env,.env,docker-compose.yml,server/prisma"
+          target: "~/qrmeal"
 
       - name: Deploy to LXC via SSH
         uses: appleboy/ssh-action@v1.2.2
@@ -127,16 +119,13 @@ jobs:
           key: ${{ secrets.KEY_VPS }}
           port: ${{ secrets.PORT_VPS }}
           script: |
-            cd ~/mentoria
+            cd ~/qrmeal
 
             # Login to Docker Hub
             echo "${{ secrets.DOCKERHUB_PASSWORD }}" | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
 
             # Set environment variables for docker-compose
             export DOCKERHUB_USERNAME=${{ secrets.DOCKERHUB_USERNAME }}
-            export DB_PASS=${{ secrets.DB_PASS }}
-            export DB_USER=${{ secrets.DB_USER }}
-            export DB_NAME=${{ secrets.DB_NAME }}
 
             # Stop and remove old containers first
             docker compose down

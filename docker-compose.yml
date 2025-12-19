@@ -1,0 +1,68 @@
+services:
+  server:
+    image: ${DOCKERHUB_USERNAME}/qrmeal-server:latest
+    container_name: qrmeal-server
+    restart: unless-stopped
+    ports:
+      - "4008:4008"
+      - "5555:5555" # Prisma Studio
+    env_file:
+      - ./server/.env
+    volumes:
+      - ./server/uploads:/app/uploads
+      - sqlite-data:/app/data # SQLite database volume
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "wget",
+          "--quiet",
+          "--tries=1",
+          "--spider",
+          "http://localhost:4008/",
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 40s
+    networks:
+      - qrmeal-network
+
+  client:
+    image: ${DOCKERHUB_USERNAME}/qrmeal-client:latest
+    container_name: qrmeal-client
+    restart: unless-stopped
+    ports:
+      - "4007:4007"
+    env_file:
+      - ./client/.env
+    depends_on:
+      server:
+        condition: service_healthy
+    networks:
+      - qrmeal-network
+
+  # Prisma Studio - for database management
+  prisma-studio:
+    image: ${DOCKERHUB_USERNAME}/qrmeal-server:latest
+    container_name: qrmeal-prisma-studio
+    restart: unless-stopped
+    ports:
+      - "5556:5555"
+    env_file:
+      - ./server/.env
+    volumes:
+      - sqlite-data:/app/data
+    command: ["pnpm", "prisma", "studio", "--port", "5555", "--browser", "none"]
+    depends_on:
+      - server
+    networks:
+      - qrmeal-network
+
+networks:
+  qrmeal-network:
+    driver: bridge
+
+volumes:
+  sqlite-data:
+    driver: local

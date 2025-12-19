@@ -4,12 +4,13 @@ import NextBundleAnalyzer from "@next/bundle-analyzer";
 const withNextIntl = createNextIntlPlugin();
 const nextConfig: NextConfig = {
   /* config options here */
+  output: "standalone", // Enable standalone output for Docker
   images: {
     remotePatterns: [
       {
         protocol: "http",
         hostname: "localhost",
-        port: "4000",
+        port: "4008",
         pathname: "/**",
       },
       {

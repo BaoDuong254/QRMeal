@@ -12,6 +12,9 @@ COPY package.json ./
 COPY tsconfig.json ./
 COPY prisma ./prisma
 
+# Enable build scripts for native modules
+RUN pnpm config set enable-pre-post-scripts true
+
 # Install dependencies (generate lockfile in CI)
 RUN pnpm install --no-frozen-lockfile
 
@@ -39,11 +42,11 @@ RUN corepack enable && corepack prepare pnpm@10.25.0 --activate
 COPY package.json ./
 COPY prisma ./prisma
 
+# Enable build scripts for native modules
+RUN pnpm config set enable-pre-post-scripts true
+
 # Install production dependencies
 RUN pnpm install --no-frozen-lockfile --prod
-
-# Generate Prisma Client in production
-RUN pnpm prisma generate
 
 # Copy built application from builder
 COPY --from=builder /app/dist ./dist

@@ -3,9 +3,15 @@ FROM node:24.11.1-alpine AS builder
 
 WORKDIR /app
 
-# Install pnpm and openssl for Prisma
+# Install build dependencies for native modules (better-sqlite3)
 RUN corepack enable && corepack prepare pnpm@10.26.0 --activate \
-    && apk add --no-cache openssl
+    && apk add --no-cache \
+        openssl \
+        python3 \
+        make \
+        g++ \
+        gcc \
+        libc-dev
 
 # Copy package files and prisma schema
 COPY package.json ./
@@ -36,8 +42,15 @@ FROM node:24.11.1-alpine
 
 WORKDIR /app
 
-# Install wget for healthcheck and openssl for Prisma
-RUN apk add --no-cache wget openssl
+# Install runtime dependencies for native modules and healthcheck
+RUN apk add --no-cache \
+        wget \
+        openssl \
+        libc6-compat \
+        libstdc++ \
+        python3 \
+        make \
+        g++
 
 # Install pnpm
 RUN corepack enable && corepack prepare pnpm@10.26.0 --activate
@@ -50,7 +63,7 @@ COPY prisma ./prisma
 # Enable build scripts for native modules
 RUN pnpm config set enable-pre-post-scripts true
 
-# Install production dependencies
+# Install production dependencies INCLUDING better-sqlite3 with build
 RUN pnpm install --no-frozen-lockfile --prod
 
 # Copy built application from builder FIRST (without generated/)

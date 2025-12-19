@@ -53,11 +53,14 @@ RUN pnpm config set enable-pre-post-scripts true
 # Install production dependencies
 RUN pnpm install --no-frozen-lockfile --prod
 
+# Set DATABASE_URL for Prisma (will be overridden by actual .env at runtime)
+ENV DATABASE_URL="file:/app/prisma/dev.db"
+
+# Generate Prisma Client again in production stage
+RUN pnpm prisma generate
+
 # Copy built application from builder
 COPY --from=builder /app/dist ./dist
-
-# Copy generated Prisma Client from builder
-COPY --from=builder /app/generated ./generated
 
 # Copy existing uploads folder with files
 COPY uploads ./uploads

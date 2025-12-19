@@ -56,8 +56,8 @@ RUN pnpm install --no-frozen-lockfile --prod
 # Set DATABASE_URL for Prisma (will be overridden by actual .env at runtime)
 ENV DATABASE_URL="file:/app/prisma/dev.db"
 
-# Generate Prisma Client again in production stage
-RUN pnpm prisma generate
+# Generate only Prisma Client (skip dbml generator which requires devDependency)
+RUN pnpm prisma generate --generator client
 
 # Copy built application from builder
 COPY --from=builder /app/dist ./dist

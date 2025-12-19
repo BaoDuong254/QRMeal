@@ -13,7 +13,7 @@ services:
       - ./server/.env
     volumes:
       - ./server/uploads:/app/uploads
-      - sqlite-data:/app/data # SQLite database volume
+      - ./server/prisma:/app/prisma # SQLite database in prisma folder
     healthcheck:
       test:
         [
@@ -58,8 +58,13 @@ services:
     env_file:
       - ./server/.env
     volumes:
-      - sqlite-data:/app/data
-    command: ["pnpm", "prisma", "studio", "--port", "5555", "--browser", "none"]
+      - ./server/prisma:/app/prisma
+    command:
+      [
+        "sh",
+        "-c",
+        "pnpm prisma migrate deploy && pnpm prisma studio --port 5555 --browser none",
+      ]
     depends_on:
       - server
     networks:
@@ -68,7 +73,3 @@ services:
 networks:
   qrmeal-network:
     driver: bridge
-
-volumes:
-  sqlite-data:
-    driver: local

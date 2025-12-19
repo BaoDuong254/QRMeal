@@ -54,11 +54,11 @@ COPY --from=builder /app/dist ./dist
 # Copy generated Prisma Client from builder
 COPY --from=builder /app/generated ./generated
 
-# Create data directory for SQLite database
-RUN mkdir -p /app/data
+# Copy existing uploads folder with files
+COPY uploads ./uploads
 
 # Expose port 4008 for Fastify server and 5555 for Prisma Studio
 EXPOSE 4008 5555
 
-# Start the application
-CMD ["pnpm", "run", "start"]
+# Start the application with migration
+CMD ["sh", "-c", "pnpm prisma migrate deploy && pnpm run start"]

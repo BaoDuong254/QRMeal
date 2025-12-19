@@ -108,7 +108,7 @@ jobs:
           username: ${{ secrets.USERNAME_VPS }}
           key: ${{ secrets.KEY_VPS }}
           port: ${{ secrets.PORT_VPS }}
-          source: "server/.env,client/.env,.env,docker-compose.yml,server/prisma"
+          source: "server/.env,client/.env,.env,docker-compose.yml,server/prisma,server/uploads"
           target: "~/qrmeal"
 
       - name: Deploy to LXC via SSH

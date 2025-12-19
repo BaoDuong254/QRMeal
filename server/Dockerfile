@@ -13,7 +13,6 @@ RUN corepack enable && corepack prepare pnpm@10.26.0 --activate
 # Copy package files and prisma schema
 COPY package.json ./
 COPY tsconfig.json ./
-COPY prisma.config.ts ./
 COPY prisma ./prisma
 
 # Set DATABASE_URL for Prisma generate

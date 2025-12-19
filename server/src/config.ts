@@ -3,14 +3,17 @@ import path from "path";
 import z from "zod";
 import { config } from "dotenv";
 
+// Use absolute path to .env file for Docker compatibility
+const envPath = path.resolve(process.cwd(), ".env");
+
 config({
-  path: ".env",
+  path: envPath,
 });
 
 const checkEnv = async () => {
   const chalk = (await import("chalk")).default;
-  if (!fs.existsSync(path.resolve(".env"))) {
-    console.log(chalk.red(`Không tìm thấy file môi trường .env`));
+  if (!fs.existsSync(envPath)) {
+    console.log(chalk.red(`Không tìm thấy file môi trường .env tại ${envPath}`));
     process.exit(1);
   }
 };

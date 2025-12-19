@@ -2,7 +2,7 @@ import envConfig from "@/config";
 import { OrderStatus } from "@/constants/type";
 import prisma from "@/database";
 import { formatInTimeZone } from "date-fns-tz";
-import type { Prisma } from "@generated/prisma/client";
+import { Prisma } from "@prisma/client";
 
 export const dashboardIndicatorController = async ({ fromDate, toDate }: { fromDate: Date; toDate: Date }) => {
   const [orders, guests, dishes] = await Promise.all([

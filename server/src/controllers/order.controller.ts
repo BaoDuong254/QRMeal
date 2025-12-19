@@ -1,7 +1,7 @@
 import { DishStatus, OrderStatus, TableStatus } from "@/constants/type";
 import prisma from "@/database";
 import { CreateOrdersBodyType, UpdateOrderBodyType } from "@/schemaValidations/order.schema";
-import type { Prisma } from "@generated/prisma/client";
+import { Prisma } from "@prisma/client";
 
 export const createOrdersController = async (orderHandlerId: number, body: CreateOrdersBodyType) => {
   const { guestId, orders } = body;

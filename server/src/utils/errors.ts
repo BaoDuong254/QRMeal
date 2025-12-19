@@ -1,4 +1,4 @@
-import { Prisma } from "@generated/prisma";
+import { Prisma } from "@prisma/client";
 
 export class EntityError extends Error {
   fields: { message: string; field: string }[];

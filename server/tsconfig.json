@@ -9,11 +9,10 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "paths": {
-      "@/*": ["./src/*"],
-      "@generated/*": ["./generated/*"]
+      "@/*": ["./src/*"]
     }
   },
   "files": ["./src/type.d.ts"],
-  "include": ["./src/**/*", "./generated/**/*", "./prisma.config.ts"],
+  "include": ["./src/**/*", "./generated/**/*"],
   "exclude": ["node_modules", "dist"]
 }

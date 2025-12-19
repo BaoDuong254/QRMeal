@@ -6,18 +6,13 @@ import { config } from "dotenv";
 // Use absolute path to .env file for Docker compatibility
 const envPath = path.resolve(__dirname, "../../.env");
 
-config({
-  path: envPath,
-});
-
-const checkEnv = async () => {
-  const chalk = (await import("chalk")).default;
-  if (!fs.existsSync(envPath)) {
-    console.log(chalk.red(`Không tìm thấy file môi trường .env tại ${envPath}`));
-    process.exit(1);
-  }
-};
-checkEnv();
+if (fs.existsSync(envPath)) {
+  config({
+    path: envPath,
+  });
+} else {
+  console.log(`No .env file found at ${envPath}, using environment variables from container runtime`);
+}
 
 const configSchema = z.object({
   PORT: z.coerce.number().default(4000),

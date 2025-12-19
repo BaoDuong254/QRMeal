@@ -8,6 +8,9 @@ import { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
 import { cache } from "react";
 
+// Force dynamic rendering to avoid build-time data fetching issues
+export const dynamic = "force-dynamic";
+
 const getDetail = cache((id: number) => wrapServerApi(() => dishApiRequest.getDish(id)));
 
 type Props = {

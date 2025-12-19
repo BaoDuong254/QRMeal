@@ -19,11 +19,15 @@ const staticRoutes: MetadataRoute.Sitemap = [
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   let dishList: Array<{ id: number; name: string; updatedAt: Date }> = [];
 
-  try {
-    const result = await dishApiRequest.list();
-    dishList = result.payload.data;
-  } catch (error) {
-    console.log("Warning: Could not fetch dishes for sitemap generation:", error);
+  // Skip fetching dishes during build time when backend is not available
+  const isBuildTime = !envConfig.BACKEND_URL || process.env.NODE_ENV === "production";
+  if (!isBuildTime) {
+    try {
+      const result = await dishApiRequest.list();
+      dishList = result.payload.data;
+    } catch (error) {
+      console.log("Warning: Could not fetch dishes for sitemap generation:", error);
+    }
   }
 
   const localizeStaticSiteMap = locales.reduce((acc, locale) => {

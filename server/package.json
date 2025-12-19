@@ -49,7 +49,8 @@
     "query-string": "^9.3.1",
     "socket.io": "^4.8.1",
     "zod": "^4.2.1",
-    "@prisma/client-runtime-utils": "7.1.0"
+    "@prisma/client-runtime-utils": "7.1.0",
+    "prisma": "^7.2.0"
   },
   "devDependencies": {
     "copyfiles": "^2.4.1",
@@ -66,7 +67,6 @@
     "globals": "^16.5.0",
     "nodemon": "^3.1.11",
     "prettier": "^3.7.4",
-    "prisma": "^7.2.0",
     "prisma-dbml-generator": "^0.12.0",
     "rimraf": "^6.1.2",
     "ts-node": "^10.9.2",

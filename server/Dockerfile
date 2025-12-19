@@ -45,11 +45,8 @@ COPY prisma ./prisma
 # Enable build scripts for native modules
 RUN pnpm config set enable-pre-post-scripts true
 
-# Install production dependencies (including prisma CLI for studio)
+# Install production dependencies
 RUN pnpm install --no-frozen-lockfile --prod
-
-# Install Prisma CLI for Prisma Studio
-RUN pnpm add -g prisma@7.2.0
 
 # Copy built application from builder
 COPY --from=builder /app/dist ./dist

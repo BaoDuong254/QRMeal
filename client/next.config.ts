@@ -25,6 +25,16 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  async rewrites() {
+    // Rewrite /api/proxy/* to backend server (only for server-side)
+    // This provides an alternative to the catch-all route for better performance
+    return [
+      {
+        source: "/api/proxy/:path*",
+        destination: `${process.env.BACKEND_URL || "http://localhost:4008"}/:path*`,
+      },
+    ];
+  },
 };
 
 const withBundleAnalyzer = NextBundleAnalyzer({

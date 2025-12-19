@@ -1,5 +1,5 @@
 # Single stage build with Debian for better native module compatibility
-FROM node:20-slim
+FROM node:24.11.1-slim
 
 WORKDIR /app
 

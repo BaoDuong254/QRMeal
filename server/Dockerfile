@@ -68,11 +68,14 @@ COPY prisma ./prisma
 # Enable build scripts for native modules
 RUN pnpm config set enable-pre-post-scripts true
 
-# Install production dependencies
-RUN pnpm install --no-frozen-lockfile --prod
+# Install ALL dependencies first (needed for native module compilation)
+RUN pnpm install --no-frozen-lockfile
 
 # Force rebuild better-sqlite3 native bindings for this platform
 RUN pnpm rebuild better-sqlite3
+
+# Now prune devDependencies after native modules are compiled
+RUN pnpm prune --prod
 
 # Copy built application from builder FIRST (without generated/)
 COPY --from=builder /app/dist ./dist
@@ -82,6 +85,9 @@ RUN rm -rf ./dist/generated
 
 # Set DATABASE_URL for Prisma (will be overridden by actual .env at runtime)
 ENV DATABASE_URL="file:/app/prisma/dev.db"
+
+# Re-install prisma CLI temporarily for generate (it's a devDep)
+RUN pnpm add prisma --save-dev
 
 # Generate Prisma Client AFTER copying dist (skip dbml generator)
 # This creates fresh /app/generated/ that matches production runtime

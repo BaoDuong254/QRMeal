@@ -25,7 +25,9 @@ import indicatorRoutes from "@/routes/indicator.route";
 import autoRemoveRefreshTokenJob from "@/jobs/autoRemoveRefreshToken.job";
 
 const fastify = Fastify({
-  logger: false,
+  logger: {
+    level: envConfig.PRODUCTION ? "info" : "debug",
+  },
 });
 
 // Run the server!
@@ -96,8 +98,15 @@ const start = async () => {
       console.log(`Đang ở mode production với domain: ${envConfig.PRODUCTION_URL}`);
     }
   } catch (err) {
+    console.error("\n❌ Server startup failed:");
+    console.error(err);
     fastify.log.error(err);
     process.exit(1);
   }
 };
-start();
+
+start().catch((err) => {
+  console.error("\n❌ Unhandled error during startup:");
+  console.error(err);
+  process.exit(1);
+});

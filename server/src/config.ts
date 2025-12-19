@@ -3,14 +3,27 @@ import path from "path";
 import z from "zod";
 import { config } from "dotenv";
 
-// Use absolute path to .env file for Docker compatibility
-const envPath = path.resolve(__dirname, "../../.env");
+// Try multiple paths for .env file to support different environments
+const possibleEnvPaths = [
+  path.resolve(__dirname, "../../.env"), // From dist/src to project root
+  path.resolve(process.cwd(), ".env"), // From current working directory
+  "/app/.env", // Docker/LXC absolute path
+];
 
-if (fs.existsSync(envPath)) {
-  config({ path: envPath });
-} else if (process.env.NODE_ENV !== "production") {
-  console.log("Can not find .env file!");
-  process.exit(1);
+let envLoaded = false;
+for (const envPath of possibleEnvPaths) {
+  if (fs.existsSync(envPath)) {
+    console.log(`✓ Loading .env from: ${envPath}`);
+    config({ path: envPath });
+    envLoaded = true;
+    break;
+  }
+}
+
+if (!envLoaded) {
+  console.log("⚠ No .env file found at any of these paths:");
+  possibleEnvPaths.forEach((p) => console.log(`  - ${p}`));
+  console.log("⚠ Using system environment variables only");
 }
 
 const configSchema = z.object({
@@ -40,7 +53,16 @@ const configSchema = z.object({
 const configServer = configSchema.safeParse(process.env);
 
 if (!configServer.success) {
-  console.error(configServer.error.issues);
+  console.error("\n❌ Environment variables validation failed:");
+  console.error("=".repeat(60));
+  configServer.error.issues.forEach((issue) => {
+    console.error(`  • ${issue.path.join(".")}: ${issue.message}`);
+    if (issue.code === "invalid_type" && issue.received === "undefined") {
+      console.error(`    (Missing required variable: ${issue.path.join(".")})`);
+    }
+  });
+  console.error("=".repeat(60));
+  console.error("\n💡 Tip: Make sure .env file exists and all required variables are set");
   throw new Error("Các giá trị khai báo trong file .env không hợp lệ");
 }
 const envConfig = configServer.data;

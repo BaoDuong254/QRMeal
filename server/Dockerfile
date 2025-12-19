@@ -1,10 +1,10 @@
 # Build stage
-FROM node:20-alpine AS builder
+FROM node:24.11.1-alpine AS builder
 
 WORKDIR /app
 
 # Install pnpm and openssl for Prisma
-RUN corepack enable && corepack prepare pnpm@10.25.0 --activate \
+RUN corepack enable && corepack prepare pnpm@10.26.0 --activate \
     && apk add --no-cache openssl
 
 # Copy package files and prisma schema
@@ -28,7 +28,7 @@ COPY src ./src
 RUN pnpm run build
 
 # Production stage
-FROM node:20-alpine
+FROM node:24.11.1-alpine
 
 WORKDIR /app
 
@@ -36,7 +36,7 @@ WORKDIR /app
 RUN apk add --no-cache wget openssl
 
 # Install pnpm
-RUN corepack enable && corepack prepare pnpm@10.25.0 --activate
+RUN corepack enable && corepack prepare pnpm@10.26.0 --activate
 
 # Copy package files and prisma schema
 COPY package.json ./
@@ -45,8 +45,11 @@ COPY prisma ./prisma
 # Enable build scripts for native modules
 RUN pnpm config set enable-pre-post-scripts true
 
-# Install production dependencies
+# Install production dependencies (including prisma CLI for studio)
 RUN pnpm install --no-frozen-lockfile --prod
+
+# Install Prisma CLI for Prisma Studio
+RUN pnpm add -g prisma@7.2.0
 
 # Copy built application from builder
 COPY --from=builder /app/dist ./dist

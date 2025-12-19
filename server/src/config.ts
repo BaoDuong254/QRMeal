@@ -7,11 +7,10 @@ import { config } from "dotenv";
 const envPath = path.resolve(__dirname, "../../.env");
 
 if (fs.existsSync(envPath)) {
-  config({
-    path: envPath,
-  });
-} else {
-  console.log(`No .env file found at ${envPath}, using environment variables from container runtime`);
+  config({ path: envPath });
+} else if (process.env.PRODUCTION !== true) {
+  console.log("Can not find .env file!");
+  process.exit(1);
 }
 
 const configSchema = z.object({

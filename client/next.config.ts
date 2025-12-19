@@ -4,7 +4,8 @@ import NextBundleAnalyzer from "@next/bundle-analyzer";
 const withNextIntl = createNextIntlPlugin();
 const nextConfig: NextConfig = {
   /* config options here */
-  output: "standalone", // Enable standalone output for Docker
+  // Only enable standalone for Docker builds (causes EPERM on Windows)
+  ...(process.env.DOCKER_BUILD === "true" && { output: "standalone" }),
   images: {
     remotePatterns: [
       {

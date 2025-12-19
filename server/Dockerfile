@@ -53,14 +53,21 @@ RUN pnpm config set enable-pre-post-scripts true
 # Install production dependencies
 RUN pnpm install --no-frozen-lockfile --prod
 
+# Copy built application from builder FIRST (without generated/)
+COPY --from=builder /app/dist ./dist
+
+# Remove old generated from dist if exists (to avoid conflicts)
+RUN rm -rf ./dist/generated
+
 # Set DATABASE_URL for Prisma (will be overridden by actual .env at runtime)
 ENV DATABASE_URL="file:/app/prisma/dev.db"
 
-# Generate only Prisma Client (skip dbml generator which requires devDependency)
+# Generate Prisma Client AFTER copying dist (skip dbml generator)
+# This creates fresh /app/generated/ that matches production runtime
 RUN pnpm prisma generate --generator client
 
-# Copy built application from builder
-COPY --from=builder /app/dist ./dist
+# Copy generated into dist where the compiled code expects it
+RUN cp -r ./generated ./dist/
 
 # Copy existing uploads folder with files
 COPY uploads ./uploads

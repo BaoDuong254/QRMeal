@@ -1,16 +1,10 @@
-# Single stage build with Debian for better native module compatibility
 FROM node:24.11.1-slim
 
 WORKDIR /app
 
-# Install build dependencies for native modules (better-sqlite3)
+# Install OpenSSL for Prisma
 RUN apt-get update && apt-get install -y \
         openssl \
-        python3 \
-        make \
-        g++ \
-        gcc \
-        build-essential \
     && rm -rf /var/lib/apt/lists/*
 
 # Enable pnpm
@@ -22,17 +16,8 @@ COPY tsconfig.json ./
 COPY prisma.config.ts ./
 COPY prisma ./prisma
 
-# Enable build scripts for native modules
-RUN pnpm config set enable-pre-post-scripts true
-
 # Install ALL dependencies (including devDependencies for build)
 RUN pnpm install --no-frozen-lockfile
-
-# Force rebuild better-sqlite3 native bindings for this platform
-RUN pnpm rebuild better-sqlite3
-
-# Verify the native binding exists
-RUN find /app/node_modules -name "better_sqlite3.node" -type f 2>/dev/null || echo "No binding found"
 
 # Set DATABASE_URL for Prisma generate
 ENV DATABASE_URL="file:/app/prisma/dev.db"

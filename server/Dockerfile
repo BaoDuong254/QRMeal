@@ -28,6 +28,12 @@ RUN pnpm config set enable-pre-post-scripts true
 # Install ALL dependencies (including devDependencies for build)
 RUN pnpm install --no-frozen-lockfile
 
+# Force rebuild better-sqlite3 native bindings for this platform
+RUN pnpm rebuild better-sqlite3
+
+# Verify the native binding exists
+RUN find /app/node_modules -name "better_sqlite3.node" -type f 2>/dev/null || echo "No binding found"
+
 # Set DATABASE_URL for Prisma generate
 ENV DATABASE_URL="file:/app/prisma/dev.db"
 
@@ -39,18 +45,6 @@ COPY src ./src
 
 # Build the application
 RUN pnpm run build
-
-# Ensure generated Prisma client is fully copied to dist (with runtime folder)
-RUN rm -rf ./dist/generated && cp -r ./generated ./dist/
-
-# Verify the runtime exists
-RUN ls -la ./dist/generated/prisma/runtime/ || echo "Runtime not found"
-
-# Force rebuild better-sqlite3 native bindings AFTER all file operations
-RUN pnpm rebuild better-sqlite3
-
-# Verify the native binding exists
-RUN find /app/node_modules -name "better_sqlite3.node" -type f 2>/dev/null || echo "No binding found"
 
 # Copy existing uploads folder with files
 COPY uploads ./uploads

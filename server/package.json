@@ -7,7 +7,7 @@
   "scripts": {
     "dev": "pnpm exec nodemon",
     "clean": "rimraf dist/",
-    "copy-files": "copyfiles generated/**/* dist/",
+    "copy-files": "copyfiles \"generated/**/*\" dist/",
     "build": "pnpm clean && tsc && pnpm copy-files && tsc-alias",
     "start": "node dist/src/index.js",
     "lint": "eslint . ",

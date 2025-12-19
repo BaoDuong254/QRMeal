@@ -16,6 +16,9 @@ COPY components.json ./
 # Install dependencies (generate lockfile in CI)
 RUN pnpm install --no-frozen-lockfile
 
+# Copy environment file
+COPY .env ./
+
 # Copy source code and assets
 COPY public ./public
 COPY src ./src

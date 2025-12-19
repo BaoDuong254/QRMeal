@@ -57,7 +57,7 @@ if (!configServer.success) {
   console.error("=".repeat(60));
   configServer.error.issues.forEach((issue) => {
     console.error(`  • ${issue.path.join(".")}: ${issue.message}`);
-    if (issue.code === "invalid_type" && issue.received === "undefined") {
+    if (issue.code === "invalid_type" && "received" in issue && issue.received === "undefined") {
       console.error(`    (Missing required variable: ${issue.path.join(".")})`);
     }
   });

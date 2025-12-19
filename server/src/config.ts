@@ -4,7 +4,7 @@ import z from "zod";
 import { config } from "dotenv";
 
 // Use absolute path to .env file for Docker compatibility
-const envPath = path.resolve(process.cwd(), ".env");
+const envPath = path.resolve(__dirname, "../../.env");
 
 config({
   path: envPath,

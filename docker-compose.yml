@@ -63,7 +63,7 @@ services:
       [
         "sh",
         "-c",
-        "pnpm prisma migrate deploy && pnpm prisma studio --port 5555 --browser none",
+        "pnpm prisma db push --accept-data-loss && pnpm prisma studio --port 5555 --browser none",
       ]
     depends_on:
       - server

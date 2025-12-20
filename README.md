@@ -41,11 +41,10 @@ A modern restaurant management system with QR code-based ordering for guests. Bu
     - [Server](#server)
     - [Prisma](#prisma)
 
-
 ## 🛠 System Requirements
 
 - Node.js >= 24.11.1
-- pnpm >= 10.26.0
+- pnpm >= 10.26.1
 - Git
 
 If you don't have pnpm installed, you can install it using one of the following methods:

@@ -6,7 +6,7 @@ WORKDIR /app
 RUN apk add --no-cache openssl curl wget gnupg
 
 # Enable pnpm
-RUN corepack enable && corepack prepare pnpm@10.26.0 --activate
+RUN corepack enable && corepack prepare pnpm@10.26.1 --activate
 
 # Copy package files and prisma schema
 COPY package.json ./

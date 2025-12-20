@@ -14,6 +14,7 @@ import NextTopLoader from "nextjs-toploader";
 import Footer from "@/components/footer";
 import { baseOpenGraph } from "@/shared-metadata";
 import GoogleTag from "@/components/GoogleTag";
+import { GoogleTagManager } from "@next/third-parties/google";
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -55,6 +56,7 @@ export default async function RootLayout({
   setRequestLocale(locale);
   return (
     <html lang={locale} suppressHydrationWarning>
+      <GoogleTagManager gtmId='GTM-NMCBBL57' />
       <body className={cn("bg-background min-h-screen font-sans antialiased", fontSans.variable)}>
         <NextTopLoader showSpinner={false} color='var(--foreground)' />
         <NextIntlClientProvider>

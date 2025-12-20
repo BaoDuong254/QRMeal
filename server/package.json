@@ -2,7 +2,7 @@
   "name": "server",
   "version": "1.0.0",
   "description": "",
-  "packageManager": "pnpm@10.26.0",
+  "packageManager": "pnpm@10.26.1",
   "main": "dist/index.js",
   "scripts": {
     "dev": "pnpm exec nodemon",
@@ -19,7 +19,7 @@
   },
   "engines": {
     "node": "24.11.1",
-    "pnpm": "10.26.0"
+    "pnpm": "10.26.1"
   },
   "keywords": [],
   "author": "",
@@ -74,7 +74,7 @@
     "typescript-eslint": "^8.50.0"
   },
   "optionalDependencies": {
-    "bufferutil": "^4.0.9",
-    "utf-8-validate": "^6.0.5"
+    "bufferutil": "^4.1.0",
+    "utf-8-validate": "^6.0.6"
   }
 }

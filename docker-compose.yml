@@ -35,8 +35,8 @@ services:
     image: ${DOCKERHUB_USERNAME}/qrmeal-client:latest
     container_name: qrmeal-client
     restart: unless-stopped
-    ports:
-      - "4007:4007"
+    expose:
+      - "4007"
     env_file:
       - ./client/.env
     environment:
@@ -47,6 +47,26 @@ services:
     depends_on:
       server:
         condition: service_healthy
+    networks:
+      - qrmeal-network
+
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    container_name: qrmeal-nginx
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    depends_on:
+      - server
+      - client
+    volumes:
+      # Mount SSL certificates if available
+      # - ./nginx/ssl:/etc/nginx/ssl:ro
+      # - /etc/letsencrypt:/etc/letsencrypt:ro
+      - ./nginx/logs:/var/log/nginx
     networks:
       - qrmeal-network
 

@@ -10,7 +10,11 @@ export const socketPlugin = fastifyPlugin(async (fastify) => {
   const chalk = await getChalk();
 
   console.log(chalk.magentaBright("🔌 Socket.IO plugin initializing..."));
+  console.log(chalk.magentaBright("   Path:"), fastify.io.path || "/socket.io/");
   console.log(chalk.magentaBright("   Transports:"), fastify.io.engine.opts.transports);
+  const corsOrigin =
+    typeof fastify.io.engine.opts.cors === "object" ? fastify.io.engine.opts.cors?.origin || "*" : "function";
+  console.log(chalk.magentaBright("   CORS Origin:"), corsOrigin);
 
   // Connection error handler
   fastify.io.engine.on("connection_error", (err: any) => {

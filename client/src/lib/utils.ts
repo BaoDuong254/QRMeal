@@ -315,7 +315,7 @@ export const OrderStatusIcon = {
  * @returns A Socket.IO client instance connected to the server with the provided access token.
  */
 export const generateSocketInstance = (accessToken: string) => {
-  return io(envConfig.NEXT_PUBLIC_API_ENDPOINT, {
+  return io(envConfig.NEXT_PUBLIC_SOCKET_URL, {
     auth: {
       Authorization: `Bearer ${accessToken}`,
     },

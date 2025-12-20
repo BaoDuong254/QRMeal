@@ -28,8 +28,7 @@ COPY messages ./messages
 ENV NEXT_TELEMETRY_DISABLED=1
 ENV NODE_ENV=production
 ENV DOCKER_BUILD=true
-# Set a dummy BACKEND_URL for build time (won't be used as we skip fetching during build)
-ENV BACKEND_URL=http://dummy-backend:4008
+ENV BACKEND_URL=http://qrmeal-server:4008
 RUN pnpm run build
 
 # Production stage

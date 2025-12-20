@@ -54,8 +54,10 @@ const start = async () => {
     fastify.register(errorHandlerPlugin);
     fastify.register(fastifySocketIO, {
       cors: {
-        origin: envConfig.CLIENT_URL,
+        origin: "*", // Allow all origins (already behind Nginx Proxy Manager + Cloudflare)
+        credentials: true,
       },
+      transports: ["websocket", "polling"], // Support both transports
     });
     fastify.register(socketPlugin);
     fastify.register(authRoutes, {

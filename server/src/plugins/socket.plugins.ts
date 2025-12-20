@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { ManagerRoom, Role } from "@/constants/type";
 import prisma from "@/database";
 import { AuthError } from "@/utils/errors";
@@ -7,16 +8,26 @@ import fastifyPlugin from "fastify-plugin";
 
 export const socketPlugin = fastifyPlugin(async (fastify) => {
   const chalk = await getChalk();
+
+  // Connection error handler
+  fastify.io.engine.on("connection_error", (err: any) => {
+    console.error(chalk.redBright("❌ Socket.IO connection error:"), err);
+  });
+
   fastify.io.use(async (socket, next) => {
+    console.log(chalk.yellowBright("🔑 Socket authentication attempt:"), socket.id);
     const { Authorization } = socket.handshake.auth;
 
     if (!Authorization) {
+      console.error(chalk.redBright("❌ No Authorization header"));
       return next(new AuthError("Authorization không hợp lệ"));
     }
     const accessToken = Authorization.split(" ")[1];
     try {
       const decodedAccessToken = verifyAccessToken(accessToken);
       const { userId, role } = decodedAccessToken;
+      console.log(chalk.greenBright("✅ Token verified:"), { userId, role });
+
       if (role === Role.Guest) {
         await prisma.socket.upsert({
           where: {
@@ -47,6 +58,7 @@ export const socketPlugin = fastifyPlugin(async (fastify) => {
       }
       socket.handshake.auth.decodedAccessToken = decodedAccessToken;
     } catch (error: unknown) {
+      console.error(chalk.redBright("❌ Socket auth error:"), error);
       return next(error as Error);
     }
     next();

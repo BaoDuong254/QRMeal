@@ -88,6 +88,12 @@ const start = async () => {
     fastify.register(indicatorRoutes, {
       prefix: "/indicators",
     });
+
+    // Health check endpoint for Docker
+    fastify.get("/", async () => {
+      return { status: "ok", message: "QRMeal API is running" };
+    });
+
     await initOwnerAccount();
     await fastify.listen({
       port: envConfig.PORT,

@@ -83,7 +83,11 @@ const request = async <Response>(
 
   const baseUrl = options?.baseUrl === undefined ? envConfig.NEXT_PUBLIC_API_ENDPOINT : options.baseUrl;
 
-  const fullUrl = `${baseUrl}/${normalizePath(url)}`;
+  // On server-side (SSR), convert relative URLs to absolute URLs
+  const fullUrl =
+    isClient || baseUrl.startsWith("http")
+      ? `${baseUrl}/${normalizePath(url)}`
+      : `${envConfig.NEXT_PUBLIC_URL}${baseUrl}/${normalizePath(url)}`;
 
   const res = await fetch(fullUrl, {
     ...options,

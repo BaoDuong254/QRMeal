@@ -2,10 +2,8 @@ FROM node:20-alpine
 
 WORKDIR /app
 
-# Install OpenSSL for Prisma
-RUN apt-get update && apt-get install -y \
-        openssl \
-    && rm -rf /var/lib/apt/lists/*
+# Install OpenSSL for Prisma (Alpine uses apk)
+RUN apk add --no-cache openssl
 
 # Enable pnpm
 RUN corepack enable && corepack prepare pnpm@10.26.0 --activate

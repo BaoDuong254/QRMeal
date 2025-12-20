@@ -112,12 +112,13 @@ jobs:
           target: "~/qrmeal"
 
       - name: Deploy to LXC via SSH
-        uses: appleboy/ssh-action@v1.2.2
+        uses: appleboy/ssh-action@v1.2.4
         with:
           host: ${{ secrets.HOST_VPS }}
           username: ${{ secrets.USERNAME_VPS }}
           key: ${{ secrets.KEY_VPS }}
           port: ${{ secrets.PORT_VPS }}
+          command_timeout: 30m
           script: |
             cd ~/qrmeal
 

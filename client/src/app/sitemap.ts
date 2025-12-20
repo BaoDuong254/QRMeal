@@ -19,9 +19,8 @@ const staticRoutes: MetadataRoute.Sitemap = [
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   let dishList: Array<{ id: number; name: string; updatedAt: Date }> = [];
 
-  // Skip fetching dishes during build time when backend is not available
-  const isBuildTime = !envConfig.BACKEND_URL || process.env.NODE_ENV === "production";
-  if (!isBuildTime) {
+  // Fetch dishes if backend URL is available
+  if (envConfig.BACKEND_URL) {
     try {
       const result = await dishApiRequest.list();
       dishList = result.payload.data;

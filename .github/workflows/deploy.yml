@@ -55,6 +55,16 @@ jobs:
           cache-from: type=registry,ref=${{ secrets.DOCKERHUB_USERNAME }}/qrmeal-client:buildcache
           cache-to: type=registry,ref=${{ secrets.DOCKERHUB_USERNAME }}/qrmeal-client:buildcache,mode=max
 
+      - name: Build and push nginx image
+        uses: docker/build-push-action@v5
+        with:
+          context: ./nginx
+          file: ./nginx/Dockerfile
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/qrmeal-nginx:latest
+          cache-from: type=registry,ref=${{ secrets.DOCKERHUB_USERNAME }}/qrmeal-nginx:buildcache
+          cache-to: type=registry,ref=${{ secrets.DOCKERHUB_USERNAME }}/qrmeal-nginx:buildcache,mode=max
+
       - name: Send telegram message after build success
         if: success()
         uses: appleboy/telegram-action@master
@@ -69,6 +79,7 @@ jobs:
             🐳 Images:
             - ${{ secrets.DOCKERHUB_USERNAME }}/qrmeal-server:latest
             - ${{ secrets.DOCKERHUB_USERNAME }}/qrmeal-client:latest
+            - ${{ secrets.DOCKERHUB_USERNAME }}/qrmeal-nginx:latest
             👀 See changes: https://github.com/${{ github.repository }}/commit/${{github.event.workflow_run.head_sha}}
 
       - name: Send telegram message after build failure

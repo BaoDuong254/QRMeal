@@ -51,9 +51,7 @@ services:
       - qrmeal-network
 
   nginx:
-    build:
-      context: ./nginx
-      dockerfile: Dockerfile
+    image: ${DOCKERHUB_USERNAME}/qrmeal-nginx:latest
     container_name: qrmeal-nginx
     restart: unless-stopped
     ports:

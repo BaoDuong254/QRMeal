@@ -40,6 +40,8 @@ services:
     env_file:
       - ./client/.env
     environment:
+      # Next.js standalone server port
+      - PORT=4007
       # Backend URL for proxy (only accessible server-side)
       - BACKEND_URL=http://qrmeal-server:4008
     depends_on:

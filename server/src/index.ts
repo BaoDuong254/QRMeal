@@ -97,7 +97,7 @@ const start = async () => {
     await initOwnerAccount();
     await fastify.listen({
       port: envConfig.PORT,
-      host: envConfig.PRODUCTION ? "0.0.0.0" : "localhost",
+      host: "0.0.0.0", // Always use 0.0.0.0 in production/container environment
     });
     console.log(`Server đang chạy dưới local tại: ${API_URL}`);
     if (envConfig.PRODUCTION) {

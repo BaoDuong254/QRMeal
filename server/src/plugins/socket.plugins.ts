@@ -9,13 +9,23 @@ import fastifyPlugin from "fastify-plugin";
 export const socketPlugin = fastifyPlugin(async (fastify) => {
   const chalk = await getChalk();
 
+  console.log(chalk.magentaBright("🔌 Socket.IO plugin initializing..."));
+  console.log(chalk.magentaBright("   Transports:"), fastify.io.engine.opts.transports);
+
   // Connection error handler
   fastify.io.engine.on("connection_error", (err: any) => {
-    console.error(chalk.redBright("❌ Socket.IO connection error:"), err);
+    console.error(chalk.redBright("❌ Socket.IO connection error:"));
+    console.error(chalk.redBright("   Message:"), err.message);
+    console.error(chalk.redBright("   Context:"), err.context);
+    console.error(chalk.redBright("   Stack:"), err.stack);
   });
 
   fastify.io.use(async (socket, next) => {
     console.log(chalk.yellowBright("🔑 Socket authentication attempt:"), socket.id);
+    console.log(chalk.yellowBright("   Transport:"), socket.conn.transport.name);
+    console.log(chalk.yellowBright("   Headers:"), JSON.stringify(socket.handshake.headers, null, 2));
+    console.log(chalk.yellowBright("   Query:"), socket.handshake.query);
+    console.log(chalk.yellowBright("   Auth:"), socket.handshake.auth);
     const { Authorization } = socket.handshake.auth;
 
     if (!Authorization) {

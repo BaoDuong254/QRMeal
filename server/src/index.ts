@@ -53,11 +53,19 @@ const start = async () => {
     fastify.register(validatorCompilerPlugin);
     fastify.register(errorHandlerPlugin);
     fastify.register(fastifySocketIO, {
+      path: "/socket.io/",
       cors: {
-        origin: "*", // Allow all origins (already behind Nginx Proxy Manager + Cloudflare)
+        origin: "*",
         credentials: true,
+        methods: ["GET", "POST"],
       },
-      transports: ["websocket", "polling"], // Support both transports
+      transports: ["websocket", "polling"],
+      allowEIO3: true, // Backward compatibility
+      pingTimeout: 60000,
+      pingInterval: 25000,
+      upgradeTimeout: 30000,
+      maxHttpBufferSize: 1e6,
+      connectTimeout: 45000,
     });
     fastify.register(socketPlugin);
     fastify.register(authRoutes, {

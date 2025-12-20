@@ -1,7 +1,7 @@
 import envConfig from "@/config";
 import prisma from "@/database";
 import { LoginBodyType } from "@/schemaValidations/auth.schema";
-import { RoleType, TokenPayload } from "@/types/jwt.types";
+import { RoleType } from "@/types/jwt.types";
 import { comparePassword } from "@/utils/crypto";
 import { AuthError, EntityError, StatusError } from "@/utils/errors";
 import { signAccessToken, signRefreshToken, verifyRefreshToken } from "@/utils/jwt";
@@ -55,9 +55,8 @@ export const loginController = async (body: LoginBodyType) => {
 };
 
 export const refreshTokenController = async (refreshToken: string) => {
-  let decodedRefreshToken: TokenPayload;
   try {
-    decodedRefreshToken = verifyRefreshToken(refreshToken);
+    verifyRefreshToken(refreshToken);
   } catch (_error) {
     throw new AuthError("Refresh token không hợp lệ");
   }
@@ -77,8 +76,10 @@ export const refreshTokenController = async (refreshToken: string) => {
   const newRefreshToken = signRefreshToken({
     userId: account.id,
     role: account.role as RoleType,
-    exp: decodedRefreshToken.exp,
   });
+  const newDecodedRefreshToken = verifyRefreshToken(newRefreshToken);
+  const newRefreshTokenExpiresAt = new Date(newDecodedRefreshToken.exp * 1000);
+
   await prisma.refreshToken.delete({
     where: {
       token: refreshToken,
@@ -88,7 +89,7 @@ export const refreshTokenController = async (refreshToken: string) => {
     data: {
       accountId: account.id,
       token: newRefreshToken,
-      expiresAt: refreshTokenDoc.expiresAt,
+      expiresAt: newRefreshTokenExpiresAt,
     },
   });
   return {
@@ -182,6 +183,16 @@ export const loginGoogleController = async (code: string) => {
   const refreshToken = signRefreshToken({
     userId: account.id,
     role: account.role as RoleType,
+  });
+  const decodedRefreshToken = verifyRefreshToken(refreshToken);
+  const refreshTokenExpiresAt = new Date(decodedRefreshToken.exp * 1000);
+
+  await prisma.refreshToken.create({
+    data: {
+      accountId: account.id,
+      token: refreshToken,
+      expiresAt: refreshTokenExpiresAt,
+    },
   });
 
   return {

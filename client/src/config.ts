@@ -6,7 +6,6 @@ const configSchema = z.object({
   NEXT_PUBLIC_URL: z.string(),
   NEXT_PUBLIC_GOOGLE_CLIENT_ID: z.string(),
   NEXT_PUBLIC_GOOGLE_AUTHORIZED_REDIRECT_URI: z.string(),
-  BACKEND_URL: z.string().optional(),
 });
 
 const configProject = configSchema.safeParse({
@@ -15,7 +14,6 @@ const configProject = configSchema.safeParse({
   NEXT_PUBLIC_URL: process.env.NEXT_PUBLIC_URL,
   NEXT_PUBLIC_GOOGLE_CLIENT_ID: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID,
   NEXT_PUBLIC_GOOGLE_AUTHORIZED_REDIRECT_URI: process.env.NEXT_PUBLIC_GOOGLE_AUTHORIZED_REDIRECT_URI,
-  BACKEND_URL: process.env.BACKEND_URL,
 });
 
 if (!configProject.success) {

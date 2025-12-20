@@ -21,14 +21,11 @@ export const revalidate = 3600; // Revalidate every 1 hour
 export async function GET() {
   let dishList: Array<{ id: number; name: string; updatedAt: Date }> = [];
 
-  // Fetch dishes from backend at request time
-  if (envConfig.BACKEND_URL) {
-    try {
-      const result = await dishApiRequest.list();
-      dishList = result.payload.data;
-    } catch (error) {
-      console.log("Warning: Could not fetch dishes for sitemap generation:", error);
-    }
+  try {
+    const result = await dishApiRequest.list();
+    dishList = result.payload.data;
+  } catch (error) {
+    console.log("Warning: Could not fetch dishes for sitemap generation:", error);
   }
 
   const localizeStaticSiteMap = locales.flatMap((locale) =>

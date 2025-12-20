@@ -3,12 +3,8 @@ services:
     image: ${DOCKERHUB_USERNAME}/qrmeal-server:latest
     container_name: qrmeal-server
     restart: unless-stopped
-    # Remove external port mapping - only accessible within Docker network
-    # This hides the backend from external access
     expose:
       - "4008"
-    ports:
-      - "5555:5555" # Prisma Studio - keep for database management
     env_file:
       - ./server/.env
     volumes:
@@ -42,8 +38,6 @@ services:
     environment:
       # Next.js standalone server port
       - PORT=4007
-      # Backend URL for proxy (only accessible server-side)
-      - BACKEND_URL=http://qrmeal-server:4008
     depends_on:
       server:
         condition: service_healthy
@@ -68,7 +62,6 @@ services:
     networks:
       - qrmeal-network
 
-  # Prisma Studio - for database management
   prisma-studio:
     image: ${DOCKERHUB_USERNAME}/qrmeal-server:latest
     container_name: qrmeal-prisma-studio

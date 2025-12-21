@@ -37,8 +37,8 @@ const start = async () => {
     autoRemoveRefreshTokenJob();
     const whitelist = ["*"];
     fastify.register(cors, {
-      origin: whitelist, // Cho phép tất cả các domain gọi API
-      credentials: true, // Cho phép trình duyệt gửi cookie đến server
+      origin: whitelist, // Allow all origins for simplicity, adjust in production
+      credentials: true,
     });
 
     fastify.register(fastifyAuth, {
@@ -114,7 +114,7 @@ const start = async () => {
       console.log(`Đang ở mode production với domain: ${envConfig.PRODUCTION_URL}`);
     }
   } catch (err) {
-    console.error("\n❌ Server startup failed:");
+    console.error("\nServer startup failed:");
     console.error(err);
     fastify.log.error(err);
     process.exit(1);
@@ -122,7 +122,7 @@ const start = async () => {
 };
 
 start().catch((err) => {
-  console.error("\n❌ Unhandled error during startup:");
+  console.error("\nUnhandled error during startup:");
   console.error(err);
   process.exit(1);
 });

@@ -34,5 +34,5 @@ COPY uploads ./uploads
 # Expose port 4008 for Fastify server and 5555 for Prisma Studio
 EXPOSE 4008 5555
 
-# Start the application with migration (use migrate deploy for production)
+# Start the application with migration
 CMD ["sh", "-c", "pnpm prisma db push --accept-data-loss && pnpm run start"]

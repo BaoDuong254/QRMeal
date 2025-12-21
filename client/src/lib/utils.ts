@@ -238,7 +238,7 @@ export const getVietnameseTableStatus = (status: (typeof TableStatus)[keyof type
  * @returns The generated table link as a string.
  */
 export const getTableLink = ({ token, tableNumber }: { token: string; tableNumber: number }) => {
-  const locale = isBrowser ? Cookies.get("NEXT_LOCALE") : defaultLocale;
+  const locale = isBrowser ? Cookies.get("NEXT_LOCALE") || defaultLocale : defaultLocale;
   return envConfig.NEXT_PUBLIC_URL + `/${locale}/tables/` + tableNumber + "?token=" + token;
 };
 

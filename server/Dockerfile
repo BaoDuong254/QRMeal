@@ -35,4 +35,4 @@ COPY uploads ./uploads
 EXPOSE 4008 5555
 
 # Start the application with migration (use migrate deploy for production)
-CMD ["sh", "-c", "pnpm prisma migrate deploy && pnpm run start"]
+CMD ["sh", "-c", "pnpm prisma db push --accept-data-loss && pnpm run start"]

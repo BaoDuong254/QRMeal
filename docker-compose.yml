@@ -35,9 +35,6 @@ services:
       - "4007"
     env_file:
       - ./client/.env
-    environment:
-      # Next.js standalone server port
-      - PORT=4007
     depends_on:
       server:
         condition: service_healthy

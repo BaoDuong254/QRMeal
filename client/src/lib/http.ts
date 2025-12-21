@@ -81,13 +81,16 @@ const request = async <Response>(
     }
   }
 
-  const baseUrl = options?.baseUrl === undefined ? envConfig.NEXT_PUBLIC_API_ENDPOINT : options.baseUrl;
+  // Server-side: use SERVER_API_ENDPOINT (not exposed to client)
+  // Client-side: use NEXT_PUBLIC_API_ENDPOINT (can be empty for nginx proxy)
+  const defaultBaseUrl = isClient
+    ? envConfig.NEXT_PUBLIC_API_ENDPOINT
+    : envConfig.SERVER_API_ENDPOINT || envConfig.NEXT_PUBLIC_API_ENDPOINT;
 
-  // On server-side (SSR), convert relative URLs to absolute URLs
-  const fullUrl =
-    isClient || baseUrl.startsWith("http")
-      ? `${baseUrl}/${normalizePath(url)}`
-      : `${envConfig.NEXT_PUBLIC_URL}${baseUrl}/${normalizePath(url)}`;
+  const baseUrl = options?.baseUrl === undefined ? defaultBaseUrl : options.baseUrl;
+
+  // If baseUrl is empty (nginx proxy mode), use relative URL
+  const fullUrl = baseUrl ? `${baseUrl}/${normalizePath(url)}` : `/${normalizePath(url)}`;
 
   const res = await fetch(fullUrl, {
     ...options,

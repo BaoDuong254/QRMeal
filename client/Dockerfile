@@ -26,9 +26,7 @@ COPY messages ./messages
 
 # Build the Next.js application (standalone output)
 ENV NEXT_TELEMETRY_DISABLED=1
-ENV NODE_ENV=production
 ENV DOCKER_BUILD=true
-ENV BACKEND_URL=http://qrmeal-server:4008
 RUN pnpm run build
 
 # Production stage

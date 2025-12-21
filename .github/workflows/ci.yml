@@ -43,18 +43,11 @@ jobs:
             - name: Install dependencies
               run: pnpm install --frozen-lockfile
 
-            - name: Create dummy .env for Prisma generation
-              run: echo "DATABASE_URL=file:./prisma/dev.db" > server/.env
+            - name: Create .env for server build
+              run: echo "${{ secrets.SERVER_ENV }}" > server/.env
 
-            - name: Create dummy .env for client build
-              run: |
-                  cat > client/.env <<EOF
-                  NEXT_PUBLIC_API_ENDPOINT=http://localhost:4000
-                  NEXT_PUBLIC_SOCKET_URL=http://localhost:3000
-                  NEXT_PUBLIC_URL=http://localhost:3000
-                  NEXT_PUBLIC_GOOGLE_CLIENT_ID=dummy-client-id
-                  NEXT_PUBLIC_GOOGLE_AUTHORIZED_REDIRECT_URI=http://localhost:3000
-                  EOF
+            - name: Create .env for client build
+              run: echo "${{ secrets.CLIENT_ENV }}" > client/.env
 
             - name: Generate Prisma Client
               run: pnpm --filter server exec prisma generate

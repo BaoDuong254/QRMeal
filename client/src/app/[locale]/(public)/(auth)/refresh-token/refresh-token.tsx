@@ -8,18 +8,29 @@ import { useEffect } from "react";
 export default function RefreshToken() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const refreshTokenFromUrl = searchParams.get("refreshToken");
   const redirectPathname = searchParams.get("redirect");
   useEffect(() => {
-    if (refreshTokenFromUrl && refreshTokenFromUrl === getRefreshTokenFromLocalStorage()) {
+    const currentRefreshToken = getRefreshTokenFromLocalStorage();
+
+    // If no refresh token in localStorage or URL, redirect to home
+    if (!currentRefreshToken) {
+      router.push("/");
+      return;
+    }
+
+    try {
       checkAndRefreshToken({
         onSuccess: () => {
           router.push(redirectPathname || "/");
         },
+        onError: () => {
+          router.push("/");
+        },
       });
-    } else {
+    } catch (error) {
+      console.error("Error decoding refresh token:", error);
       router.push("/");
     }
-  }, [router, refreshTokenFromUrl, redirectPathname]);
+  }, [router, redirectPathname]);
   return <div>Refresh token....</div>;
 }

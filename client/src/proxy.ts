@@ -44,7 +44,6 @@ export function proxy(request: NextRequest) {
     // accessToken expired, redirect to refresh token
     if (privatePaths.some((path) => pathname.startsWith(path)) && !accessToken) {
       const url = new URL(`/${locale}/refresh-token`, request.url);
-      url.searchParams.set("refreshToken", refreshToken);
       url.searchParams.set("redirect", pathname);
       return NextResponse.redirect(url);
     }

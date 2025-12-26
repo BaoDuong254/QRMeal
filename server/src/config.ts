@@ -3,7 +3,7 @@ import path from "path";
 import z from "zod";
 import { config } from "dotenv";
 
-const envPath = path.resolve(__dirname, "../../.env");
+const envPath = path.resolve(__dirname, "../.env");
 
 // Only load .env file if it exists (development mode)
 // In production, Docker Compose injects env vars directly
